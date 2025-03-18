@@ -69,28 +69,28 @@ export const jobs = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     title: varchar("title", { length: 255 }).notNull(),
-    employerId: varchar("employer_id", { length: 255 })
-      .notNull()
-      .references(() => employers.id),
+    // employerId: varchar("employer_id", { length: 255 })
+    //   .notNull()
+    //   .references(() => employers.id),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),
-    createdBy: varchar("created_by", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    updatedBy: varchar("updated_by", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    status: jobStatusEnum("status").default("open").notNull(),
+    // createdBy: varchar("created_by", { length: 255 })
+    //   .notNull()
+    //   .references(() => users.id),
+    // updatedBy: varchar("updated_by", { length: 255 })
+    //   .notNull()
+    //   .references(() => users.id),
+    // status: jobStatusEnum("status").default("open").notNull(),
   },
   (job) => ({
-    employerIdIdx: index("job_employer_id_idx").on(job.employerId),
-    createdByIdx: index("job_created_by_idx").on(job.createdBy),
-    updatedByIdx: index("job_updated_by_idx").on(job.updatedBy),
-    statusIdx: index("job_status_idx").on(job.status),
+    // employerIdIdx: index("job_employer_id_idx").on(job.employerId),
+    // createdByIdx: index("job_created_by_idx").on(job.createdBy),
+    // updatedByIdx: index("job_updated_by_idx").on(job.updatedBy),
+    // statusIdx: index("job_status_idx").on(job.status),
   }),
 );
 

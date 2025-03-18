@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Use this script to start a docker container for a local development database
+# Use this script to start a podman container for a local development database
 
 # TO RUN ON WINDOWS:
 # 1. Install WSL (Windows Subsystem for Linux) - https://learn.microsoft.com/en-us/windows/wsl/install
-# 2. Install Docker Desktop for Windows - https://docs.docker.com/docker-for-windows/install/
+# 2. Install podman Desktop for Windows - https://docs.podman.com/podman-for-windows/install/
 # 3. Open WSL - `wsl`
 # 4. Run this script - `./start-database.sh`
 
@@ -11,23 +11,23 @@
 
 DB_CONTAINER_NAME="job-tracking-postgres"
 
-if ! [ -x "$(command -v docker)" ]; then
-  echo -e "Docker is not installed. Please install docker and try again.\nDocker install guide: https://docs.docker.com/engine/install/"
+if ! [ -x "$(command -v podman)" ]; then
+  echo -e "podman is not installed. Please install podman and try again.\npodman install guide: https://docs.podman.com/engine/install/"
   exit 1
 fi
 
-if ! docker info > /dev/null 2>&1; then
-  echo "Docker daemon is not running. Please start Docker and try again."
+if ! podman info > /dev/null 2>&1; then
+  echo "podman daemon is not running. Please start podman and try again."
   exit 1
 fi
 
-if [ "$(docker ps -q -f name=$DB_CONTAINER_NAME)" ]; then
+if [ "$(podman ps -q -f name=$DB_CONTAINER_NAME)" ]; then
   echo "Database container '$DB_CONTAINER_NAME' already running"
   exit 0
 fi
 
-if [ "$(docker ps -q -a -f name=$DB_CONTAINER_NAME)" ]; then
-  docker start "$DB_CONTAINER_NAME"
+if [ "$(podman ps -q -a -f name=$DB_CONTAINER_NAME)" ]; then
+  podman start "$DB_CONTAINER_NAME"
   echo "Existing database container '$DB_CONTAINER_NAME' started"
   exit 0
 fi
@@ -51,7 +51,7 @@ if [ "$DB_PASSWORD" = "password" ]; then
   sed -i -e "s#:password@#:$DB_PASSWORD@#" .env
 fi
 
-docker run -d \
+podman run -d \
   --name $DB_CONTAINER_NAME \
   -e POSTGRES_USER="postgres" \
   -e POSTGRES_PASSWORD="$DB_PASSWORD" \
