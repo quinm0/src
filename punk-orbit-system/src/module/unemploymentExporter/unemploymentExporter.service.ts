@@ -57,6 +57,11 @@ export class UnemploymentExporterService implements OnModuleInit {
       const email = await this.gmail.getEmailById('me', emailId);
       const response = await this.ollama.extractJobApplicationInformation(email.body);
       console.log('processed email:', emailId);
+
+      console.log('email subject:', email.subject);
+      console.log('email body:', !!email.body);
+      console.log('isRelatedToJobApplication:', response.isJobApplicationUpdate);
+      console.log('certainty:', response.certainty);
       
       // Mark the email as processed
       await this.prismaService.results.create({
@@ -64,9 +69,9 @@ export class UnemploymentExporterService implements OnModuleInit {
           emailId,
           runId: run.id,
 
-          jobRelated: response.isRelatedToJobApplication,
-          jobTitle: response.jobTitle,
-          employer: response.companyNamesMentioned.concat().join(', '),
+          jobRelated: response.isJobApplicationUpdate,
+          jobTitle: '',
+          employer: '',
         },
       });
     }

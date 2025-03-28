@@ -3,51 +3,56 @@ import ollama from 'ollama'
 import { z, ZodType } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
 
+// 2. Provide explicit examples (few-shot) in the system prompt
+//    along with strict definitions of what "job application update" means.
+const examples = `
+TRUE EXAMPLE:
+Email body: <<<Hello John, we are following up on your recent application for the Software Engineer position.>>>
+Output: {"isJobApplicationUpdate": true, "certainty": 0.95}
+
+FALSE EXAMPLE:
+Email body: <<<We saw your LinkedIn profile and wanted to send you information about open roles at our company.>>>
+Output: {"isJobApplicationUpdate": false, "certainty": 0.4}
+
+FALSE EXAMPLE:
+Email body: <<<Buy one get one free on all electronics this weekend only!>>>
+Output: {"isJobApplicationUpdate": false, "certainty": 0.1}
+`
+
+
 @Injectable()
 export class OllamaService {
 
 
   async extractJobApplicationInformation<T>(body: string) {
     const schema = z.object({
-      isRelatedToJobApplication: z.boolean(),
-      jobTitle: z.string(),
-      companyNamesMentioned: z.string().array(),
-      emailDate: z.string(),
+      isJobApplicationUpdate: z.boolean(),
+      certainty: z.number()
     })
 
-    // Strip out all HTML tags from the email body
-    const strippedBody = body.replace(/<[^>]*>/g, '');
-    
-    // Strip out any banned phrases from the email body (make sure to match all cases and variations)
-    const bannedPhrases = [
-      'Indeed',
-      'LinkedIn',
-    ];
-    const regex = new RegExp(bannedPhrases.join('|'), 'gi');
-    const sanitizedBody = strippedBody.replace(regex, '');
+    const systemPrompt = `
+      You are an email classification model. 
+      - Respond true ONLY if the email specifically references an existing job application that the user has already submitted, 
+        including mentions of application status, next steps, interviews, or an offer.
+      - If the email does not clearly reference a previously submitted application, respond false.
+      - Provide a certainty score from 0 to 1. If you are even slightly unsure, use a lower certainty (<0.5).
 
+      Here are some examples for guidance:
+      ${examples}
+
+      Now classify the next email:
+    `
 
     const resp = await ollama.chat({
       model: 'llama3.2',
-      options: {
-        temperature: 0,
-      },
       messages: [
         {
-          role: 'system', 
-          content: `
-            GIVEN THE FOLLOWING DATA PLEASE DETERMINE IF AN EMAIL IS RELATED TO A JOB APPLICATION OR NOT.
-            ACCURATELY EXTRACT THE JOB TITLE, ALL COMPANY NAMES, AND DATE OF THE EMAIL (IN DD-MM-YYYY FORMAT).
-            RETURN THE RESULT IN JSON FORMAT.
-            "INDEED" AND "LINKEDIN" ARE NOT CONSIDERED COMPANIES. 
-            SEARCH THROUGHLY FOR THE JOB TITLE AND COMPANY NAMES.
-          `, 
+          role: 'system',
+          content: systemPrompt,
         },
-        { 
-          role: 'user', 
-          content: `
-            Email body: <<<${sanitizedBody}>>>
-          `, 
+        {
+          role: 'user',
+          content: `Email body: <<<${body}>>>`
         }
       ],
       format: zodToJsonSchema(schema),

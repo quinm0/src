@@ -16,6 +16,9 @@ datasource db {
 
 model Email {
   id        String @id
+  subject   String
+  body      String @db.VarChar(10000)
+  
   results   Results[]
 }
 
