@@ -12,23 +12,9 @@ export class GoogleMailService {
 
   constructor(
     private authService: GoogleAuthService,
-  ){
-    
-    this.getAllMessages('me').then((data) => {
-      console.log('All messages fetched');
-      this.getEmailById('me', data[0].id).then((email) => {
-        // log the email body (decode from base64)
-        console.log('Email body:', email.subject);
+  ){}
 
-      }).catch((err) => {
-        console.error('Error fetching email:', err);
-      });
-    }).catch((err) => {
-      console.error('Error fetching messages:', err);
-    });
-  }
-
-  private async getAllMessages(userId: string) {
+  async getAllMessages(userId: string) {
     const auth = await this.authService.getAuth(userId);
     const gmail = google.gmail({ version: 'v1', auth });
     let messages: GoogleMailMessage[] = [];

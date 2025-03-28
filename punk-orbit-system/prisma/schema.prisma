@@ -13,8 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+
+model Email {
+  id        String @id
+  results   Results[]
+}
+
+model Run {
+  id        String @id @default(uuid())
+  startedAt DateTime @default(now())
+  finishedAt DateTime?
+  numberProcessed Int?
+
+  results   Results[]
+}
+
+model Results {
+  id        String @id @default(uuid())
+  emailId   String
+  runId     String
+
+  jobRelated Boolean
+  employer String
+  jobTitle String
+
+  email     Email @relation(fields: [emailId], references: [id])
+  run       Run   @relation(fields: [runId], references: [id])
 }
