@@ -21,6 +21,9 @@ next-env.d.ts
 # production
 build
 
+credentials.json
+tokens/
+
 # misc
 .DS_Store
 *.pem
@@ -48,3 +51,5 @@ yarn-error.log*
 .flaskenv*
 !.env.project
 !.env.vault
+
+dist/
