@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Auth, google } from 'googleapis';
 import { authenticate } from '@google-cloud/local-auth';
