@@ -1,33 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { google } from 'googleapis';
+import { gmail_v1, google } from 'googleapis';
 import { GoogleAuthService } from './auth.service';
 import { PrismaService } from 'src/prisma.service';
-
-export type GoogleMailMessage = {
-  id: string;
-  threadId: string;
-};
+import { GaxiosResponse } from 'gaxios';
 
 @Injectable()
 export class GoogleMailService {
-
   constructor(
     private authService: GoogleAuthService,
     private prismaService: PrismaService,
-  ){}
+  ) {}
 
   async getAllMessages(userId: string) {
     const auth = await this.authService.getAuth(userId);
     const gmail = google.gmail({ version: 'v1', auth });
-    let messages: GoogleMailMessage[] = [];
-    let nextPageToken: string | undefined = undefined;
+    let messages: gmail_v1.Schema$Message[] = [];
+    let nextPageToken: string | undefined | null = undefined;
 
-    do { 
-      const res = await gmail.users.messages.list({
-        userId: 'me',
-        maxResults: 500,
-        pageToken: nextPageToken,
-      });
+    do {
+      const res: GaxiosResponse<gmail_v1.Schema$ListMessagesResponse> =
+        await gmail.users.messages.list({
+          userId: 'me',
+          maxResults: 500,
+          pageToken: nextPageToken,
+        });
 
       if (res.data.messages) {
         messages = messages.concat(res.data.messages);
@@ -36,7 +32,7 @@ export class GoogleMailService {
       nextPageToken = res.data.nextPageToken;
     } while (nextPageToken);
 
-    return messages
+    return messages;
   }
 
   // method to get email by id for a specific user
@@ -58,9 +54,10 @@ export class GoogleMailService {
     return {
       id: res.data.id,
       threadId: res.data.threadId,
-      subject: res.data.payload?.headers?.find((header) => header.name === 'Subject')?.value,
+      subject: res.data.payload?.headers?.find(
+        (header) => header.name === 'Subject',
+      )?.value,
       body: decodedBody,
-    }
+    };
   }
-
 }

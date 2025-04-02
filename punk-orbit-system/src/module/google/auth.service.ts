@@ -8,8 +8,7 @@ import { promises as fs } from 'fs';
 export type Auth = Awaited<ReturnType<typeof authenticate>>;
 
 @Injectable()
-export class GoogleAuthService implements OnModuleInit{
-
+export class GoogleAuthService implements OnModuleInit {
   private clients: Map<string, Auth> = new Map();
   private CREDENTIALS_PATH = 'credentials.json';
   private TOKEN_PATH = 'tokens';
@@ -35,7 +34,7 @@ export class GoogleAuthService implements OnModuleInit{
 
     console.log('GoogleAuthService initialized');
   }
-  
+
   async saveCredentials(userId: string, client: Auth) {
     const content = await fs.readFile(this.CREDENTIALS_PATH);
     const keys = JSON.parse(content.toString());
@@ -63,7 +62,10 @@ export class GoogleAuthService implements OnModuleInit{
     };
 
     // Assume the credentials.json file already exists, just overwrite it
-    await fs.writeFile(this.CREDENTIALS_PATH, JSON.stringify(credentials, null, 2));
+    await fs.writeFile(
+      this.CREDENTIALS_PATH,
+      JSON.stringify(credentials, null, 2),
+    );
 
     // ensure file is written and reflected in cache
     await fs.access(this.CREDENTIALS_PATH);
@@ -71,13 +73,12 @@ export class GoogleAuthService implements OnModuleInit{
     console.log('Credentials file initialized successfully');
   }
 
-  private async auth(user: string){
-
+  private async auth(user: string) {
     await this.initCredentialsFile();
 
     // await 10s delay to ensure file is written
     await new Promise((resolve) => setTimeout(resolve, 10000));
-    
+
     const auth = await authenticate({
       scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
       keyfilePath: this.CREDENTIALS_PATH,
@@ -90,7 +91,7 @@ export class GoogleAuthService implements OnModuleInit{
     return auth;
   }
 
-  public async getAuth(user: string): Promise<Auth> {
+  public getAuth(user: string): Auth {
     const client = this.clients.get(user);
 
     if (!client) {
@@ -99,5 +100,4 @@ export class GoogleAuthService implements OnModuleInit{
 
     return client;
   }
-
 }
