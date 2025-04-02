@@ -14,32 +14,9 @@ datasource db {
 }
 
 
-model Email {
-  id        String @id
-  subject   String
-  body      String @db.VarChar(10000)
-  
-  results   Results[]
-}
-
-model Run {
-  id        String @id @default(uuid())
-  startedAt DateTime @default(now())
-  finishedAt DateTime?
-  numberProcessed Int?
-
-  results   Results[]
-}
-
-model Results {
-  id        String @id @default(uuid())
-  emailId   String
-  runId     String
-
-  jobRelated Boolean
-  employer String
-  jobTitle String
-
-  email     Email @relation(fields: [emailId], references: [id])
-  run       Run   @relation(fields: [runId], references: [id])
+model placeholder {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

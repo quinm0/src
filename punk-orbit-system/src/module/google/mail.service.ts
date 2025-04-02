@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { google } from 'googleapis';
 import { GoogleAuthService } from './auth.service';
+import { PrismaService } from 'src/prisma.service';
 
 export type GoogleMailMessage = {
   id: string;
@@ -12,6 +13,7 @@ export class GoogleMailService {
 
   constructor(
     private authService: GoogleAuthService,
+    private prismaService: PrismaService,
   ){}
 
   async getAllMessages(userId: string) {
@@ -56,8 +58,8 @@ export class GoogleMailService {
     return {
       id: res.data.id,
       threadId: res.data.threadId,
-      body: decodedBody,
       subject: res.data.payload?.headers?.find((header) => header.name === 'Subject')?.value,
+      body: decodedBody,
     }
   }
 

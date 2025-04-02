@@ -15,7 +15,7 @@ export class GoogleAuthService implements OnModuleInit{
   private TOKEN_PATH = 'tokens';
 
   async onModuleInit() {
-    console.log('GoogleService initalizing...');
+    console.log('GoogleAuthService initalizing...');
 
     // load all tokens from the tokens folder into the clients map
     const files = await fs.readdir(this.TOKEN_PATH);
@@ -33,7 +33,7 @@ export class GoogleAuthService implements OnModuleInit{
       console.log('Authenticated successfully');
     }
 
-    console.log('GoogleService initialized');
+    console.log('GoogleAuthService initialized');
   }
   
   async saveCredentials(userId: string, client: Auth) {
@@ -49,7 +49,35 @@ export class GoogleAuthService implements OnModuleInit{
     await fs.writeFile(`${this.TOKEN_PATH}/${userId}.json`, payload);
   }
 
+  async initCredentialsFile() {
+    const credentials = {
+      installed: {
+        client_id: process.env.GCLOUD_CLIENT_ID,
+        project_id: process.env.GCLOUD_PROJECT_ID,
+        auth_uri: process.env.GCLOUD_AUTH_URI,
+        token_uri: process.env.GCLOUD_TOKEN_URI,
+        auth_provider_x509_cert_url: process.env.GCLOUD_AUTH_PROVIDER_CERT_URL,
+        client_secret: process.env.GCLOUD_CLIENT_SECRET,
+        redirect_uris: process.env.GCLOUD_REDIRECT_URIS?.split(','),
+      },
+    };
+
+    // Assume the credentials.json file already exists, just overwrite it
+    await fs.writeFile(this.CREDENTIALS_PATH, JSON.stringify(credentials, null, 2));
+
+    // ensure file is written and reflected in cache
+    await fs.access(this.CREDENTIALS_PATH);
+
+    console.log('Credentials file initialized successfully');
+  }
+
   private async auth(user: string){
+
+    await this.initCredentialsFile();
+
+    // await 10s delay to ensure file is written
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    
     const auth = await authenticate({
       scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
       keyfilePath: this.CREDENTIALS_PATH,
