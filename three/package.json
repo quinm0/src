@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "dev": "bun serve index.html"
+  },
+  "dependencies": {
+    "@types/three": "^0.176.0",
+    "three": "^0.176.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.6",
+    "@types/bun": "latest"
+  },
+  "name": "three",
+  "module": "index.ts",
+  "type": "module",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
