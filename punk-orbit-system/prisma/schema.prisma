@@ -14,9 +14,12 @@ datasource db {
 }
 
 
-model placeholder {
+model LabeledTrainingData {
   id        String   @id @default(cuid())
-  name      String
+  
+  tagId    String
+  resultingData String
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

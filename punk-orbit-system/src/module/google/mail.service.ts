@@ -12,7 +12,7 @@ export class GoogleMailService {
   ) {}
 
   async getAllMessages(userId: string) {
-    const auth = await this.authService.getAuth(userId);
+    const auth = this.authService.getAuth(userId);
     const gmail = google.gmail({ version: 'v1', auth });
     let messages: gmail_v1.Schema$Message[] = [];
     let nextPageToken: string | undefined | null = undefined;
@@ -37,7 +37,7 @@ export class GoogleMailService {
 
   // method to get email by id for a specific user
   async getEmailById(userId: string, emailId: string) {
-    const auth = await this.authService.getAuth(userId);
+    const auth = this.authService.getAuth(userId);
     const gmail = google.gmail({ version: 'v1', auth });
     const res = await gmail.users.messages.get({
       userId: 'me',
@@ -59,5 +59,55 @@ export class GoogleMailService {
       )?.value,
       body: decodedBody,
     };
+  }
+
+  // get threads for a specific user
+  async getThreads(userId: string) {
+    const auth = this.authService.getAuth(userId);
+    const gmail = google.gmail({ version: 'v1', auth });
+    const res = await gmail.users.threads.list({
+      userId: 'me',
+      maxResults: 500,
+    });
+
+    return res.data.threads;
+  }
+
+  async getLabels(userId: string) {
+    const auth = this.authService.getAuth(userId);
+    const gmail = google.gmail({ version: 'v1', auth });
+    const res = await gmail.users.labels.list({
+      userId: 'me',
+    });
+    return res.data.labels;
+  }
+
+  async getEmailsByLabel(userId: string, labelId: string) {
+    const auth = this.authService.getAuth(userId);
+    const gmail = google.gmail({ version: 'v1', auth });
+    const res = await gmail.users.messages.list({
+      userId: 'me',
+      labelIds: [labelId],
+    });
+
+    // Call getEmailById for each email in the list
+    const emails = await Promise.all(
+      (res.data.messages ?? []).map(async (message) => {
+        const email = await this.getEmailById(userId, message.id ?? '');
+        return email;
+      }),
+    );
+    return emails;
+  }
+
+  async getThreadsByLabel(userId: string, labelId: string) {
+    const auth = this.authService.getAuth(userId);
+    const gmail = google.gmail({ version: 'v1', auth });
+    const res = await gmail.users.threads.list({
+      userId: 'me',
+      labelIds: [labelId],
+    });
+
+    return res.data.threads;
   }
 }

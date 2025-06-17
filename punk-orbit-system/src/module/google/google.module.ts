@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GoogleAuthService } from './auth.service';
 import { GoogleMailService } from './mail.service';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [],
@@ -13,8 +14,9 @@ import { GoogleMailService } from './mail.service';
         await authService.onModuleInit();
         return authService;
       },
-    }, 
-    GoogleMailService
+    },
+    GoogleMailService,
+    PrismaService,
   ],
   exports: [GoogleMailService],
 })
