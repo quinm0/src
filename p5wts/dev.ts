@@ -2,7 +2,6 @@ import { serve } from "bun";
 import type { BuildArtifact } from 'bun';
 import { watch } from "fs";
 
-
 // Data and configs
 const SRC_DIR = "./src";
 var latestBuildArtifacts: BuildArtifact[] = [];
@@ -19,27 +18,37 @@ async function build(
   path?: string, 
   clearCache?: boolean
 } = {}) {
-  const result = await Bun.build({
-    entrypoints: [`${path}/index.ts`],
-  });
 
-  if(clearCache) {
-    // empty the latestBuildArtifacts array
-    latestBuildArtifacts = [];
-  }
+  try {
+    console.log(`Starting build process for ${path}...`);
+    const result = await Bun.build({
+      entrypoints: [`${path}/index.js`],
+    });
 
-  for (const res of result.outputs) {
-    latestBuildArtifacts.push(res);
+    if(clearCache) {
+      // empty the latestBuildArtifacts array
+      latestBuildArtifacts = [];
+    }
 
-    const hash = Bun.hash(await res.arrayBuffer());
-    hashedArtifacts.set(`${res.path.slice(2)}`, res); // remove leading "./" from path
-    console.log(`Built: ${res.path}`, res.size, `Hash: ${hash}`);
-  }
+    for (const res of result.outputs) {
+      latestBuildArtifacts.push(res);
 
-  console.log(`Build complete. ${result.outputs.length} artifacts generated.`);
-  console.log(`All artifacts: ${latestBuildArtifacts.length}`);
-  for (const [key, value] of Object.entries(hashedArtifacts)) {
-    console.log(`Hashed Artifact: ${key}`);
+      const hash = Bun.hash(await res.arrayBuffer());
+      hashedArtifacts.set(`${res.path.slice(2)}`, res); // remove leading "./" from path
+      console.log(`Built: ${res.path}`, res.size, `Hash: ${hash}`);
+    }
+
+    console.log(`Build complete. ${result.outputs.length} artifacts generated.`);
+    console.log(`All artifacts: ${latestBuildArtifacts.length}`);
+    for (const [key, value] of Object.entries(hashedArtifacts)) {
+      console.log(`Hashed Artifact: ${key}`);
+    }
+  
+  }catch (error) {
+    console.error("Build failed:", error);
+    if (LOG_LEVEL === 'error' || LOG_LEVEL === 'warn' || LOG_LEVEL === 'info') {
+      console.error(error);
+    }
   }
 }
 
@@ -111,4 +120,4 @@ process.on("SIGINT", () => {
   process.exit(0);
 });
 
-await build();
+// await build();
