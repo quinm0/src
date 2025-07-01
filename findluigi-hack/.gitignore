@@ -1,0 +1,7 @@
+*.mp4
+*.cfg
+*.weights
+*.names
+*.npy
+env/
+yolo-env/
