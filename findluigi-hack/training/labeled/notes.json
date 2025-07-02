@@ -14,10 +14,14 @@
     },
     {
       "id": 3,
-      "name": "wario"
+      "name": "the one who knocks"
     },
     {
       "id": 4,
+      "name": "wario"
+    },
+    {
+      "id": 5,
       "name": "yoshi"
     }
   ],
