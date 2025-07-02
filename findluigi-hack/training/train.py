@@ -1,19 +1,36 @@
 from ultralytics import YOLO
 
 '''
-⚠ NOTE: selections do not prevent you from specifying a combination for a model that doesn't exist.
-Reference the documentation for valid model specifications: https://docs.ultralytics.com/models
+Aggressive training for small, noisy pixel art images:
+- More epochs
+- Higher learning rate
+- Stronger augmentation
+- Smaller batch size
+- Smaller image size (if your sprites are tiny)
+- Lower early stopping patience
 '''
-# Use more epochs, lower batch size, and enable augmentation for small datasets
-my_data = "training/dataset.yaml"  # path to your dataset.yaml file
-model = YOLO("training/yolov8n.pt")
+
+my_data = "dataset.yaml"  # path to your dataset.yaml file
+model = YOLO("yolov8n.pt")
+
 results = model.train(
     data=my_data,
-    epochs=5,           # more epochs for small data (for testing training methods)
-    batch=4,              # lower batch size
-    imgsz=640,            # default image size
-    lr0=0.01,             # slightly higher learning rate
-    augment=True,         # enable data augmentation
-    patience=50           # early stopping patience
+    epochs=100,            # much more training
+    batch=1,               # see each image more often
+    imgsz=320,             # smaller input size for small sprites
+    lr0=0.1,               # very high learning rate for fast adaptation
+    augment=True,          # enable all default augmentations
+    hsv_h=0.2,             # strong color augmentation
+    hsv_s=0.7,
+    hsv_v=0.7,
+    degrees=30,            # strong rotation
+    translate=0.3,         # strong translation
+    scale=0.7,             # strong scaling
+    shear=15,              # strong shearing
+    mosaic=0,            # always use mosaic augmentation
+    mixup=0,             # use mixup
+    patience=0,            # stop early if no improvement
+    project="output",
+    name="exp1"
 )
 # reference https://docs.ultralytics.com/modes/train/

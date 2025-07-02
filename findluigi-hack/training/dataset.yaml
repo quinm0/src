@@ -1,8 +1,8 @@
 # Train/val/test sets as 1) dir: path/to/imgs
-path: "/home/qmoran/everything/findluigi-hack/training" # dataset root dir
+path: "." # dataset root dir (current directory, where this file is located)
 train: "labeled" # train folder (relative to 'path')
-val: "expandedVid/H23yi3K9mHbbk4CV" # validation folder (relative to 'path')
-test: "test" # test folder (relative to 'path')
+val: "labeled" # validation folder (relative to 'path')
+output: "output" # output folder (relative to 'path')
 
 # Classes list
 names:
