@@ -1,0 +1,14 @@
+# Train/val/test sets as 1) dir: path/to/imgs
+path: "/home/qmoran/everything/findluigi-hack/training" # dataset root dir
+train: "labeled" # train folder (relative to 'path')
+val: "expandedVid/H23yi3K9mHbbk4CV" # validation folder (relative to 'path')
+test: "test" # test folder (relative to 'path')
+
+# Classes list
+names:
+  0: bowser
+  1: luigi
+  2: mario
+  3: the one who knocks
+  4: wario
+  5: yoshi
