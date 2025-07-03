@@ -15,10 +15,10 @@ model = YOLO("yolov8n.pt")
 
 results = model.train(
     data=my_data,
-    epochs=100,            # much more training
+    epochs=200,            # much more training
     batch=1,               # see each image more often
     imgsz=320,             # smaller input size for small sprites
-    lr0=0.1,               # very high learning rate for fast adaptation
+    lr0=0.5,               # very high learning rate for fast adaptation
     augment=True,          # enable all default augmentations
     hsv_h=0.2,             # strong color augmentation
     hsv_s=0.7,
@@ -27,10 +27,10 @@ results = model.train(
     translate=0.3,         # strong translation
     scale=0.7,             # strong scaling
     shear=15,              # strong shearing
-    mosaic=0,            # always use mosaic augmentation
-    mixup=0,             # use mixup
-    patience=0,            # stop early if no improvement
+    mosaic=0.1,            # always use mosaic augmentation
+    mixup=0.2,              # use mixup
+    patience=20,            # stop early if no improvement
     project="output",
-    name="exp1"
+    name="modelv"
 )
 # reference https://docs.ultralytics.com/modes/train/

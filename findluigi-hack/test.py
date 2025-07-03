@@ -3,12 +3,12 @@ import os
 import re
 
 # find the folder with the most latest model build.
-# in ./training/output/expXX where XX is the experiment number.
+# in ./training/output/modelvXX where XX is the experiment number.
 # automatically find the high numbered experiment folder
 # and use the best model from that experiment.
 
 def get_latest_model_path(base_dir="./training/output"):
-    exp_dirs = [d for d in os.listdir(base_dir) if re.match(r"exp\d+", d)]
+    exp_dirs = [d for d in os.listdir(base_dir) if re.match(r"modelv\d+", d)]
     if not exp_dirs:
         raise FileNotFoundError("No experiment folders found in {}".format(base_dir))
     # Extract experiment numbers and sort
@@ -27,7 +27,7 @@ def get_latest_model_path(base_dir="./training/output"):
 model_path = get_latest_model_path()
 print(f"Using model: {model_path}")
 model = YOLO(model_path, task="detect")
-results = model(source="./training/test", conf=0.01)
+results = model(source="./training/test", conf=0.10)
 
 for result in results:
     print(result.boxes.data)
