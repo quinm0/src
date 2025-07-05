@@ -6,3 +6,16 @@
 *.zip
 training/expandedVid/
 originalVideos/
+
+# Ignore python env and cache files/folders
+__pycache__/
+bin/
+include/
+lib/
+lib64/
+share/
+lib64
+
+# Don't track yolo
+yolo11n.pt
+yolov8n.pt
