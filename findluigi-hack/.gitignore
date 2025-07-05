@@ -4,7 +4,5 @@
 *.names
 *.npy
 *.zip
-env/
-yolo-env/
 training/expandedVid/
 originalVideos/
