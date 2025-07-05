@@ -15,8 +15,8 @@ model = YOLO("yolov8n.pt")
 
 results = model.train(
     data=my_data,
-    epochs=200,            # much more training
-    batch=100,               # see each image more often
+    epochs=1000,            # much more training
+    batch=100,              
     imgsz=320,             # smaller input size for small sprites
     lr0=0.2,               # very high learning rate for fast adaptation
     augment=True,          # enable all default augmentations
