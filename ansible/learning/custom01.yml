@@ -1,0 +1,14 @@
+---
+- name: My second play
+  hosts: myhosts
+  become: yes
+
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:
+
+    - name: Install Btop
+      apt:
+        name: btop
+        state: present
+        update_cache: yes
