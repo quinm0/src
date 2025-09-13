@@ -1,0 +1,4 @@
+---
+
+- name: Install python and pip 
+  import_tasks: python.yaml
