@@ -1,0 +1,14 @@
+[accounts]
+  qmoran: lightertime
+
+[global]
+  e2dsa  # enable file indexing and filesystem scanning
+  e2ts   # and enable multimedia indexing
+  ansi   # and colors in log messages
+  p: 3923
+
+[/]            # create a volume at "/" (the webroot), which will
+  /srv/copyparty         # share the contents of the "/mnt" folder
+  accs:
+    rw: *      # everyone gets read-write access, but
+    rwmda: ed  # the user "ed" gets read-write-move-delete-admin
