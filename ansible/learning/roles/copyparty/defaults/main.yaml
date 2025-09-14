@@ -1,0 +1,8 @@
+---
+# Default copyparty directory variables
+copyparty_data_dir: "/srv/copyparty"
+copyparty_working_dir: "/var/lib/copyparty"
+copyparty_log_dir: "/var/log/copyparty"
+copyparty_config_file: "/etc/copyparty.conf"
+copyparty_service_file: "/etc/systemd/system/copyparty.service"
+# You can override these per host/group in inventory or playbook vars

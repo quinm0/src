@@ -1,21 +1,63 @@
+- name: Ensure copyparty group exists
+  ansible.builtin.group:
+    name: copyparty
+    state: present
+
+- name: Ensure copyparty user exists
+  ansible.builtin.user:
+    name: copyparty
+    group: copyparty
+    shell: /usr/sbin/nologin
+    create_home: yes
+    state: present
+
+
+- name: Ensure copyparty data directory exists
+  ansible.builtin.file:
+    path: "{{ copyparty_data_dir }}"
+    state: directory
+    owner: copyparty
+    group: copyparty
+    mode: '0755'
+
+
+- name: Ensure copyparty working directory exists
+  ansible.builtin.file:
+    path: "{{ copyparty_working_dir }}"
+    state: directory
+    owner: copyparty
+    group: copyparty
+    mode: '0755'
+
+
+- name: Ensure copyparty log directory exists
+  ansible.builtin.file:
+    path: "{{ copyparty_log_dir }}"
+    state: directory
+    owner: copyparty
+    group: copyparty
+    mode: '0755'
+
 - name: Install Copyparty via pip in virtualenv
   command: /opt/venv/bin/pip install copyparty
 
 - name: Install cfssl 
   import_tasks: cfssl.yaml
 
+
 - name: Create Copyparty config file
   ansible.builtin.template:
     src: copyparty.conf.j2
-    dest: /etc/copyparty.conf
+    dest: "{{ copyparty_config_file }}"
     owner: root
     group: root
     mode: '0644'
 
+
 - name: Create systemd service for Copyparty
   ansible.builtin.template:
     src: copyparty.service.j2
-    dest: /etc/systemd/system/copyparty.service
+    dest: "{{ copyparty_service_file }}"
     owner: root
     group: root
     mode: '0644'
