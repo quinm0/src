@@ -1,11 +1,6 @@
 ---
 
-- hosts: all
+- hosts: po1
   become: yes
   roles:
     - common
-
-- hosts: copyparty
-  become: yes
-  roles:
-    - copyparty
