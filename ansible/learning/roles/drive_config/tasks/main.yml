@@ -1,18 +1,25 @@
-- name: Add Drv1 PARTUUID to fstab
-  lineinfile:
-    dest: /etc/fstab
-    line: "PARTUUID=9f9dfead-c8bd-40bc-a012-7c3fa996e610 /mnt/drv1 ext4 defaults"
-    state: present
+# - name: Add Drv1 PARTUUID to fstab
+#   lineinfile:
+#     dest: /etc/fstab
+#     line: "PARTUUID=9f9dfead-c8bd-40bc-a012-7c3fa996e610 /mnt/drv1 ext4 defaults"
+#     state: present
+---
+- name: Configure Drives Auto-Mounting
+  hosts: all
 
-- name: Ensure mount point exists
-  file:
-    path: /mnt/drv1
-    state: directory
-    mode: '0755'
+# - name: Ensure mount point exists
+#   file:
 
-- name: Set permissions for the mount point
-  file:
-    path: /mnt/drv1
-    owner: qmoran
-    group: qmoran
-    recurse: yes
+
+
+  vars_files:
+    - drive_configs.yml
+
+
+
+
+
+
+
+  tasks:
+  
