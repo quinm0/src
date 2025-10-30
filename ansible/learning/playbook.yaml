@@ -3,10 +3,4 @@
 - hosts: all
   become: yes
   roles:
-    - drive_config
     - common
-
-- hosts: copyparty
-  become: yes
-  roles:
-    - copyparty
