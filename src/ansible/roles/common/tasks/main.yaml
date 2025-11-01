@@ -1,4 +1,6 @@
 ---
-
-- name: Install python and pip 
+- name: Install python and pip
   import_tasks: python.yaml
+
+- name: Configure drives and mount points
+  import_tasks: driveConfigTasks.yaml

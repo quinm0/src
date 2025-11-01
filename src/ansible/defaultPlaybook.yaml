@@ -1,7 +1,5 @@
 ---
-
 - hosts: all
   become: yes
   roles:
     - common
-    - drive_config

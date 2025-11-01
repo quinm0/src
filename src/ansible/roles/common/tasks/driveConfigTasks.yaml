@@ -1,10 +1,9 @@
 ---
-
 - name: Ensure fstab is updated with drive configurations
   lineinfile:
-    regexp: '^PARTUUID={{ item.partuuid }}'
+    regexp: "^PARTUUID={{ item.partuuid }}"
     path: /etc/fstab
-    line: 'PARTUUID={{ item.partuuid }} {{ mount_point }}/{{ item.name }} {{ item.fs_type }} defaults,auto 0 2'
+    line: "PARTUUID={{ item.partuuid }} {{ mount_point }}/{{ item.name }} {{ item.fs_type }} defaults,auto 0 2"
     state: present
   loop: "{{ drive_configs }}"
 
@@ -12,7 +11,7 @@
   file:
     path: "{{ mount_point }}/{{ item.name }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
     owner: root
     group: root
   loop: "{{ drive_configs }}"
