@@ -1,4 +1,27 @@
 ---
+- name: Install mergerfs if not present
+  apt:
+    name: mergerfs
+    state: present
+    update_cache: yes
+
+- name: Update mergerfs systemd service with drive paths
+  template:
+    src: mergerfs.service.j2
+    dest: /etc/systemd/system/mergerfs.service
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Reload systemd daemon
+  command: systemctl daemon-reload
+
+- name: Start and enable mergerfs service
+  systemd:
+    name: mergerfs
+    state: started
+    enabled: yes
+
 - name: Ensure fstab is updated with drive configurations
   lineinfile:
     regexp: "^PARTUUID={{ item.partuuid }}"

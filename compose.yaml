@@ -14,7 +14,6 @@ services:
       - OPENVPN_USER=${PIA_USERNAME}
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - UPDATER_PERIOD=24h
-    #command: update -enduser -providers "private internet access"
     ports:
       # Deluge
       - 8112:8112

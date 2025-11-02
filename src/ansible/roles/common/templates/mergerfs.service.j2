@@ -1,0 +1,20 @@
+[Unit]
+Description=mergerfs /media service
+After=local-fs.target network.target
+
+[Service]
+Type=simple
+KillMode=none
+ExecStart=/usr/bin/mergerfs \
+  -f \
+  -o cache.files=off \
+  -o category.create=pfrd \
+  -o func.getattr=newest \
+  -o dropcacheonclose=false \
+  {% for drive in drive_configs %}/mnt/{{ drive.name }}{% if not loop.last %}:{% endif %}{% endfor %} \
+  /mnt/mount
+ExecStop=/usr/bin/umount /mnt/mount
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
