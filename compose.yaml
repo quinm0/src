@@ -1,0 +1,63 @@
+services:
+  vpn:
+    container_name: vpn
+    image: qmcgaw/gluetun:v3.39.0
+    cap_add:
+      - NET_ADMIN # Quin does not like these
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ${DOCKER_DIR_PATH}/${USER}/vpn:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=private internet access
+      - SERVER_REGIONS=Netherlands
+      - OPENVPN_USER=${PIA_USERNAME}
+      - OPENVPN_PASSWORD=${PIA_PASSWORD}
+      - UPDATER_PERIOD=24h
+    #command: update -enduser -providers "private internet access"
+    ports:
+      # Deluge
+      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
+      - 58846:58846 #optional
+      # Prowlarr
+      - 9696:9696
+    restart: no
+
+  deluge:
+    container_name: deluge
+    image: lscr.io/linuxserver/deluge:latest
+    network_mode: "service:vpn"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - ${DOCKER_DIR_PATH}/${USER}/deluge:/config
+      - ./dist/deluge/core.conf:/config/core.conf
+      - ./tmp/downloads:/downloads
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+    restart: no
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
+    network_mode: "service:vpn"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ${DOCKER_DIR_PATH}/${USER}/prowlarr/data:/config
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+    restart: no
