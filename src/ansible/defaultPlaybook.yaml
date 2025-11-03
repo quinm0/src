@@ -10,4 +10,4 @@
   roles:
     # - common
   vars_files:
-    - ./secrets.env.yaml
+    - ./secrets.enc
