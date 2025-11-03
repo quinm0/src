@@ -22,7 +22,7 @@ services:
       - 58846:58846 #optional
       # Prowlarr
       - 9696:9696
-    restart: no
+    restart: unless-stopped
 
   deluge:
     container_name: deluge
@@ -42,7 +42,7 @@ services:
         condition: service_started
         restart: true
         required: true
-    restart: no
+    restart: unless-stopped
 
   prowlarr:
     container_name: prowlarr
@@ -59,4 +59,4 @@ services:
         condition: service_started
         restart: true
         required: true
-    restart: no
+    restart: unless-stopped

@@ -4,3 +4,6 @@
 
 - name: Configure drives and mount points
   import_tasks: driveConfigTasks.yaml
+
+- name: Install and configure Docker
+  import_tasks: docker.yaml
