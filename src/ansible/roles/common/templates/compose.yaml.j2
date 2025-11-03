@@ -7,7 +7,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ${DOCKER_DIR_PATH}/${USER}/vpn:/gluetun
+      - {{ mount_point }}/docker/vpn:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       - SERVER_REGIONS=Netherlands
@@ -34,9 +34,9 @@ services:
       - TZ=Etc/UTC
       - DELUGE_LOGLEVEL=error #optional
     volumes:
-      - ${DOCKER_DIR_PATH}/${USER}/deluge:/config
-      - ./dist/deluge/core.conf:/config/core.conf
-      - ./tmp/downloads:/downloads
+      - {{ mount_point }}/docker/deluge:/config
+      - /etc/deluge/core.conf:/config/core.conf
+      - {{ mount_point }}/mount/delugeDownloads:/downloads
     depends_on:
       vpn:
         condition: service_started

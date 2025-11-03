@@ -1,0 +1,24 @@
+---
+- name: Stop all docker containers
+  command: docker stop $(docker ps -aq)
+  ignore_errors: yes
+
+- name: Create deluge configuration directory
+  file:
+    path: /etc/deluge
+    state: directory
+    mode: "0755"
+
+- name: Copy deluge-core.conf template
+  template:
+    src: deluge-core.conf.j2
+    dest: /etc/deluge/core.conf
+    owner: deluge
+    group: deluge
+    mode: "0644"
+
+- name: Ensure download directory exists
+  file:
+    path: "{{ mount_point }}/mount/delugeDownloads"
+    state: directory
+    mode: "0755"

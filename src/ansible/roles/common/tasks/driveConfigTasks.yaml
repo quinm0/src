@@ -13,15 +13,6 @@
     owner: root
     group: root
 
-- name: Reload systemd daemon
-  command: systemctl daemon-reload
-
-- name: Start and enable mergerfs service
-  systemd:
-    name: mergerfs
-    state: started
-    enabled: yes
-
 - name: Ensure fstab is updated with drive configurations
   lineinfile:
     regexp: "^PARTUUID={{ item.partuuid }}"
@@ -44,3 +35,9 @@
 
 - name: Mount all filesystems
   command: mount -a
+
+- name: Start and enable mergerfs service
+  systemd:
+    name: mergerfs
+    state: started
+    enabled: yes
