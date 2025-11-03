@@ -1,0 +1,38 @@
+- name: Create needed directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - /etc/deluge
+    - /etc/prowlarr
+    - /mnt/mount/docker/vpn
+    - /mnt/mount/docker/deluge
+    - /mnt/mount/docker/prowlarr
+    - /mnt/mount/delugeDownloads
+
+- name: Copy deluge core.conf template
+  template:
+    src: deluge-core.conf.j2
+    dest: /etc/deluge/core.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Copy docker compose file
+  template:
+    src: compose.yaml.j2
+    dest: /mnt/mount/docker/docker-compose.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Write env secrets from vault
+  copy:
+    content: |
+      PIA_USERNAME={{ vault_pia_username }}
+      PIA_PASSWORD={{ vault_pia_password }}
+    dest: /mnt/mount/docker/.env
+    owner: root
+    group: root
+    mode: "0600"

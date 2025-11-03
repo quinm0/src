@@ -1,5 +1,13 @@
 ---
-- hosts: all
+- hosts: po1
   become: yes
   roles:
-    - common
+    # - common
+    - dockercomposeinit
+
+- hosts: qmoran-laptop
+  become: yes
+  roles:
+    # - common
+  vars_files:
+    - ./secrets.env.yaml
