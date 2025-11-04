@@ -8,3 +8,7 @@ drive_configs:
   - name: d2
     partuuid: d9892c39-c6f2-4090-bccc-1b976f85c762
     fs_type: ext4
+
+  - name: DATA
+    partuuid: 9f9dfead-c8bd-40bc-a012-7c3fa996e610
+    fs_type: ext4

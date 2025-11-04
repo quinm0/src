@@ -7,7 +7,11 @@
     - /etc/transmission
     - /etc/prowlarr
     - /etc/vpn
+    - /etc/jellyfin
+    - /etc/jellyfin/cache
+
     - /mnt/mount/transmissionDownloads
+    - /mnt/mount/jellyfinMedia
 
 - name: Copy docker compose file
   template:

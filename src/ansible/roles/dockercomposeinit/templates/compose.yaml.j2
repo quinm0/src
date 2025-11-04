@@ -1,7 +1,7 @@
 services:
   vpn:
     container_name: vpn
-    image: qmcgaw/gluetun:latest
+    image: qmcgaw/gluetun:v3.40
     cap_add:
       - NET_ADMIN # Quin does not like these
     devices:
@@ -58,3 +58,18 @@ services:
         restart: true
         required: true
     restart: unless-stopped
+
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    user: 1000:1000
+    ports:
+      - 8096:8096/tcp
+      - 7359:7359/udp
+    volumes:
+      - /etc/jellyfin:/config
+      - /etc/jellyfin/cache:/cache
+      - type: bind
+        source: /mnt/mount/jellyfinMedia
+        target: /media
+    restart: 'unless-stopped'
