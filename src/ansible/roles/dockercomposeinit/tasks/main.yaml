@@ -6,9 +6,7 @@
   with_items:
     - /etc/deluge
     - /etc/prowlarr
-    - /mnt/mount/docker/vpn
-    - /mnt/mount/docker/deluge
-    - /mnt/mount/docker/prowlarr
+    - /etc/vpn
     - /mnt/mount/delugeDownloads
 
 - name: Copy deluge core.conf template

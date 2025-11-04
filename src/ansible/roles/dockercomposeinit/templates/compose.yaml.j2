@@ -7,7 +7,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - /mnt/mount/docker/vpn:/gluetun
+      - /etc/vpn:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       - SERVER_REGIONS=Netherlands
@@ -34,7 +34,7 @@ services:
       - TZ=Etc/UTC
       - DELUGE_LOGLEVEL=error #optional
     volumes:
-      - /mnt/mount/docker/deluge:/config
+      - /etc/deluge:/config
       - /etc/deluge/core.conf:/config/core.conf
       - /mnt/mount/delugeDownloads:/downloads
     depends_on:
@@ -53,7 +53,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /mnt/mount/docker/prowlarr:/config
+      - /etc/prowlarr:/config
     depends_on:
       vpn:
         condition: service_started

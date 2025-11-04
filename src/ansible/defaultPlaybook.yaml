@@ -1,13 +1,15 @@
 ---
-- hosts: po1
+- hosts: poone
   become: yes
   roles:
     # - common
     - dockercomposeinit
-
-- hosts: qmoran-laptop
-  become: yes
-  roles:
-    # - common
   vars_files:
-    - ./secrets.enc
+    - secrets.yaml
+# ---
+# - hosts: qmoran-laptop
+#   become: yes
+#   roles:
+#     # - common
+#   vars_files:
+#     - secrets.yaml
