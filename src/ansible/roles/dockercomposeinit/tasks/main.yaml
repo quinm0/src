@@ -2,20 +2,12 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: "0755"
+    mode: "0777"
   with_items:
-    - /etc/deluge
+    - /etc/transmission
     - /etc/prowlarr
     - /etc/vpn
-    - /mnt/mount/delugeDownloads
-
-- name: Copy deluge core.conf template
-  template:
-    src: deluge-core.conf.j2
-    dest: /etc/deluge/core.conf
-    owner: root
-    group: root
-    mode: "0644"
+    - /mnt/mount/transmissionDownloads
 
 - name: Copy docker compose file
   template:

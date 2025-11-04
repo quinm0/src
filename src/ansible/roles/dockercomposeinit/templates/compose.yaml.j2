@@ -1,7 +1,7 @@
 services:
   vpn:
     container_name: vpn
-    image: qmcgaw/gluetun:v3.39.0
+    image: qmcgaw/gluetun:latest
     cap_add:
       - NET_ADMIN # Quin does not like these
     devices:
@@ -15,28 +15,26 @@ services:
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - UPDATER_PERIOD=24h
     ports:
-      # Deluge
-      - 8112:8112
-      - 6881:6881
-      - 6881:6881/udp
-      - 58846:58846 #optional
+      # Transmission
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
       # Prowlarr
       - 9696:9696
     restart: unless-stopped
 
-  deluge:
-    container_name: deluge
-    image: lscr.io/linuxserver/deluge:latest
+  transmission:
+    container_name: transmission
+    image: lscr.io/linuxserver/transmission:latest
     network_mode: "service:vpn"
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=America/New_York
       - DELUGE_LOGLEVEL=error #optional
     volumes:
-      - /etc/deluge:/config
-      - /etc/deluge/core.conf:/config/core.conf
-      - /mnt/mount/delugeDownloads:/downloads
+      - /etc/transmission:/config
+      - /mnt/mount/transmissionDownloads:/downloads
     depends_on:
       vpn:
         condition: service_started
@@ -51,7 +49,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=America/New_York
     volumes:
       - /etc/prowlarr:/config
     depends_on:
