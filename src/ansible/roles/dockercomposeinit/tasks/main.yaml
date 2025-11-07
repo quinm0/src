@@ -22,7 +22,7 @@
 - name: Copy docker compose file
   template:
     src: compose.yaml.j2
-    dest: /mnt/mount/docker/docker-compose.yaml
+    dest: /mnt/mount/docker-compose.yaml
     owner: root
     group: root
     mode: "0644"
