@@ -7,11 +7,17 @@
     - /etc/transmission
     - /etc/prowlarr
     - /etc/vpn
+    - /etc/radarr
+    - /etc/sonarr
+    - /etc/lidarr
     - /etc/jellyfin
     - /etc/jellyfin/cache
 
     - /mnt/mount/transmissionDownloads
     - /mnt/mount/jellyfinMedia
+    - /mnt/mount/jellyfinMedia/Movies
+    - /mnt/mount/jellyfinMedia/Shows
+    - /mnt/mount/jellyfinMedia/Music
 
 - name: Copy docker compose file
   template:
