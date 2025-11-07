@@ -91,7 +91,7 @@ services:
       - TZ=America/New_York
     volumes:
       - /etc/radarr:/config
-      - /mnt/mount/movies:/Movies #optional
+      - /mnt/mount/jellyfinMedia/Movies:/Movies #optional
       - /mnt/mount/transmissionDownloads:/downloads #optional
     depends_on:
       vpn:
@@ -114,8 +114,8 @@ services:
       - TZ=America/New_York
     volumes:
       - /etc/sonarr:/config
-      - /mnt/mount/Shows:/tv #optional
-      - /mnt/mount/:/downloads #optional
+      - /mnt/mount/jellyfinMedia/Shows:/tv #optional
+      - /mnt/mount/transmissionDownloads:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
@@ -137,7 +137,7 @@ services:
       - TZ=America/New_York
     volumes:
       - /etc/lidarr:/config
-      - /mnt/mount/Music:/music #optional
+      - /mnt/mount/jellyfinMedia/Music:/music #optional
       - /mnt/mount/transmissionDownloads:/downloads #optional
     depends_on:
       vpn:
