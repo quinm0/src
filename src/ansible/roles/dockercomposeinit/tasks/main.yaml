@@ -12,9 +12,13 @@
     - /etc/lidarr
     - /etc/jellyfin
     - /etc/jellyfin/cache
+    - /etc/navidrome
 
     - /mnt/mount/transmissionDownloads
     - /mnt/mount/transmissionDownloads/complete/tv-sonarr
+    - /mnt/mount/transmissionDownloads/complete/movie
+    - /mnt/mount/transmissionDownloads/complete/music
+
     - /mnt/mount/jellyfinMedia
     - /mnt/mount/jellyfinMedia/Movies
     - /mnt/mount/jellyfinMedia/Shows
@@ -33,7 +37,7 @@
     content: |
       PIA_USERNAME={{ vault_pia_username }}
       PIA_PASSWORD={{ vault_pia_password }}
-    dest: /mnt/mount/docker/.env
+    dest: /mnt/mount/.env
     owner: root
     group: root
     mode: "0600"
