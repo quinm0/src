@@ -4,6 +4,7 @@
   roles:
     # - common
     - dockercomposeinit
+    - pi
   vars_files:
     - secrets.yaml
 # ---
