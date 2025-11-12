@@ -2,8 +2,9 @@
 - hosts: poone
   become: yes
   roles:
+    - postgresdb
     # - common
-    - dockercomposeinit
+    # - dockercomposeinit
   vars_files:
     - secrets.yaml
 # ---

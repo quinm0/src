@@ -1,0 +1,35 @@
+---
+- name: Install postgresql deps
+  pip:
+    name:
+      - packaging
+      - psycopg2-binary
+    executable: /opt/venv/bin/pip3
+    state: present
+
+- name: Install postgresql
+  apt:
+    name: postgresql-17
+    state: present
+    update_cache: yes
+
+- name: Set postgres listen address
+  lineinfile:
+    path: /etc/postgresql/17/main/postgresql.conf
+    regexp: "^#listen_addresses ="
+    line: "listen_addresses = '*'"
+    state: present
+
+- name: start postgresql server
+  service:
+    enabled: yes
+    name: postgresql
+    state: restarted
+
+- name: create postgresql user
+  postgresql_user:
+    user: "qmoran"
+    password: "{{ postgresql_root_password }}"
+    role_attr_flags: "CREATEDB"
+    login_user: "postgres"
+    login_password: "postgres"
