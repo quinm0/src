@@ -1,35 +1,20 @@
 ---
-- name: Install postgresql deps
-  pip:
-    name:
-      - packaging
-      - psycopg2-binary
-    executable: /opt/venv/bin/pip3
-    state: present
+- name: Create postgres data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0777"
+  with_items:
+    - /var/lib/postgres
+    - /var/lib/postgres/data
 
-- name: Install postgresql
-  apt:
-    name: postgresql-17
-    state: present
-    update_cache: yes
-
-- name: Set postgres listen address
-  lineinfile:
-    path: /etc/postgresql/17/main/postgresql.conf
-    regexp: "^#listen_addresses ="
-    line: "listen_addresses = '*'"
-    state: present
-
-- name: start postgresql server
-  service:
-    enabled: yes
-    name: postgresql
-    state: restarted
-
-- name: create postgresql user
-  postgresql_user:
-    user: "qmoran"
-    password: "{{ postgresql_root_password }}"
-    role_attr_flags: "CREATEDB"
-    login_user: "postgres"
-    login_password: "postgres"
+- name: Create docker container to run postgres
+  docker_container:
+    name: postgres
+    image: postgres:18
+    state: stopped
+    restart_policy: unless-stopped
+    volumes:
+      - /var/lib/postgres/data:/var/lib/postgresql/data
+    env:
+      POSTGRES_PASSWORD: "{{ postgresql_root_password }}"
