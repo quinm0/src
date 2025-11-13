@@ -13,6 +13,8 @@
     image: postgres:18
     state: started
     restart_policy: unless-stopped
+    ports:
+      - "5432:5432"
     volumes:
       - /var/lib/postgres:/var/lib/postgresql
     env:
