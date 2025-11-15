@@ -1,0 +1,8 @@
+---
+- name: Update cmdline.txt
+  # Add nvme_core.default_ps_max_latency_us=0 pcie_port_pm=off pcie_aspm=off
+  # to the end of existing string in cmdline.txt
+  lineinfile:
+    path: /boot/firmware/cmdline.txt
+    line: "nvme_core.default_ps_max_latency_us=0 pcie_port_pm=off pcie_aspm=off"
+    state: present

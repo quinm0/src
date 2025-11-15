@@ -1,0 +1,21 @@
+---
+- name: Create postgres data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0777"
+  with_items:
+    - /var/lib/postgres
+
+- name: Create docker container to run postgres
+  docker_container:
+    name: postgres
+    image: postgres:18
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgres:/var/lib/postgresql
+    env:
+      POSTGRES_PASSWORD: "{{ postgresql_root_password }}"
