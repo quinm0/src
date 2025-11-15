@@ -2,15 +2,9 @@
 - hosts: poone
   become: yes
   roles:
+    - common
     - postgresdb
-    # - common
-    # - dockercomposeinit
+    - dockercomposeinit
+    - pi
   vars_files:
     - secrets.yaml
-# ---
-# - hosts: qmoran-laptop
-#   become: yes
-#   roles:
-#     # - common
-#   vars_files:
-#     - secrets.yaml
