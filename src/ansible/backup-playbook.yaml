@@ -19,4 +19,4 @@
     backup_dir: /mnt/mount/backups
     backup_retention_days: 30
     backup_schedule: "0 2 * * *" # Daily at 2 AM
-    backup_now: false
+    backup_now: true
