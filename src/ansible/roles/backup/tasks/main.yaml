@@ -18,8 +18,9 @@
     hour: "{{ backup_schedule.split()[1] }}"
     day: "{{ backup_schedule.split()[2] }}"
     month: "{{ backup_schedule.split()[3] }}"
+
+    job: "tar -czf {{ backup_dir }}/backup_$(date +%Y%m%d%H%M%S).tar.gz --exclude=\"{{ backup_dir }}/logs/*\" {{ backup_paths | join(' ') }} > /var/log/backup_$(date +%Y%m%d%H%M%S).log && find {{ backup_dir }} -type f -name 'backup_*.tar.gz' -mtime +{{ backup_retention_days }} -delete >> /var/log/backup_deleted_$(date +%Y%m%d%H%M%S).log"
     weekday: "{{ backup_schedule.split()[4] }}"
-    job: "tar -czf {{ backup_dir }}/{{ backup_file_name }}.tar.gz --exclude=\"{{ backup_dir }}/logs/*\" {{ backup_paths | join(' ') }} > /var/log/backup_$(date +%Y%m%d).log && find {{ backup_dir }} -type f -name 'backup_*.tar.gz' -mtime +{{ backup_retention_days }} -delete >> /var/log/backup_deleted_$(date +%Y%m%d).log"
     user: root
     state: present
 
@@ -28,7 +29,7 @@
   block:
     - name: Create backup archive
       command: >
-        tar -czf {{ backup_dir }}/{{ backup_file_name }}.tar.gz
+        tar -czf {{ backup_dir }}/backup_$(date +%Y%m%d%H%M%S).tar.gz
         --exclude="{{ backup_dir }}/logs/*"
         {{ backup_paths | join(' ') }}
       register: backup_result
