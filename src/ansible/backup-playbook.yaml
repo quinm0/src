@@ -1,0 +1,23 @@
+---
+- hosts: poone
+  become: yes
+  roles:
+    - backup
+  vars_files:
+    - secrets.yaml
+  vars:
+    backup_paths:
+      - /etc/transmission
+      - /etc/prowlarr
+      - /etc/vpn
+      - /etc/radarr
+      - /etc/sonarr
+      - /etc/lidarr
+      - /etc/jellyfin
+      - /etc/navidrome
+      - /var/log/backup
+    backup_dir: /mnt/mount/backups
+    backup_file_name: backup_{{ ansible_date_time.date }}
+    backup_retention_days: 30
+    backup_schedule: "0 2 * * *" # Daily at 2 AM
+    backup_now: true
