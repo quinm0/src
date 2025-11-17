@@ -11,6 +11,12 @@
     state: directory
     mode: "0755"
 
+- name: Copy backup script to /usr/local/bin/backup-script.sh
+  template:
+    src: backup-script.sh
+    dest: /usr/local/bin/backup-script.sh
+    mode: "0755"
+
 - name: Create cron job for backups
   cron:
     name: "Daily Backup"
@@ -25,7 +31,6 @@
     user: root
     state: present
 
-- name: Perform initial backup immediately (if backup_now is true) with all logging
   when: backup_now | default(false)
   block:
     - name: Create backup archive

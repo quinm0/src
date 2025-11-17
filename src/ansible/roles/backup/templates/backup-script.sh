@@ -1,0 +1,146 @@
+#!/bin/bash
+
+# BACKUP_ENCRYPTION_KEY is expected to be provided via .env file if encryption is desired
+# Load environment variables from specified path if provided
+ENV_PATH_FOR_VARS="{{ backup_env_path | default('') }}"
+if [[ -n "$ENV_PATH_FOR_VARS" && -f "$ENV_PATH_FOR_VARS" ]]; then
+  source "$ENV_PATH_FOR_VARS"
+fi
+
+# Backup script for generic unix system
+# Uses ansible variable 'backup_paths' for a list of paths to back up
+# backup_dir is the directory where backups will be stored
+# backup_retention_days is the number of days to keep backups
+# exists it will be created and if it exists it will be updated
+# Encryption will be used if 'BACKUP_ENCRYPTION_KEY' is provided
+
+# Variables (to be replaced by Ansible)
+BACKUP_PATHS="{{ backup_paths | join(' ') }}"
+BACKUP_DIR="{{ backup_dir }}"
+BACKUP_RETENTION_DAYS="{{ backup_retention_days }}"
+BACKUP_SCHEDULE="{{ backup_schedule }}"
+
+# First ARG is the action: "backup", "restore", or "purge"
+ACTION="$1"
+case "$ACTION" in
+  "backup")
+    perform_backup
+    ;;
+  "restore")
+    restore_backup
+    ;;
+  "purge")
+    purge_old_backups
+    ;;
+  *)
+    echo "Usage: $0 {backup|restore|purge}"
+    exit 1
+    ;;
+esac
+
+# Function to perform backup
+# Will use encryption if 'BACKUP_ENCRYPTION_KEY' is provided
+# Will use tar to create a compressed archive of the backup paths
+# IS_PRE_RESTORE is a parameter to indicate if this backup is being made before a restore
+# If IS_PRE_RESTORE is true, the backup file will be named with a "_pre_restore" suffix
+perform_backup(IS_PRE_RESTORE=false){
+   # Create backup directory if it doesn't exist
+   mkdir -p "$BACKUP_DIR"
+   
+   # Check if BACKUP_ENCRYPTION_KEY is set
+   TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+   if $IS_PRE_RESTORE; then
+     BACKUP_FILENAME="backup_pre_restore_$TIMESTAMP.tar.gz"
+   else
+     BACKUP_FILENAME="backup_$TIMESTAMP.tar.gz"
+   fi
+    BACKUP_FILEPATH="$BACKUP_DIR/$BACKUP_FILENAME"
+    if [[ -n "$BACKUP_ENCRYPTION_KEY" ]]; then
+      tar -cz $BACKUP_PATHS | gpg --symmetric --passphrase "$BACKUP_ENCRYPTION_KEY" --batch --quiet -o "$BACKUP_FILEPATH.gpg"
+      echo "Backup created with encryption: $BACKUP_FILEPATH.gpg"
+    else
+      tar -czf "$BACKUP_FILEPATH" $BACKUP_PATHS
+      echo "Backup created: $BACKUP_FILEPATH"
+    fi
+}
+
+get_backup_list(){
+  ls -1t $BACKUP_DIR | grep '^backup_'
+}
+
+prompt_for_backup_selection(){
+  echo "Available backups:"
+  BACKUP_LIST=($(get_backup_list))
+  for i in "${!BACKUP_LIST[@]}"; do
+    BACKUP_FILE="${BACKUP_LIST[$i]}"
+    if [[ "$BACKUP_FILE" == *.gpg ]]; then
+      FILE_SIZE=$(gpg --decrypt --passphrase "{{ backup_encryption_key }}" --batch --quiet "$BACKUP_DIR/$BACKUP_FILE" | wc -c)
+    else
+      FILE_SIZE=$(stat -c%s "$BACKUP_DIR/$BACKUP_FILE")
+    fi
+    HUMAN_SIZE=$(numfmt --to=iec-i --suffix=B $FILE_SIZE)
+    MOD_DATE=$(date -r "$BACKUP_DIR/$BACKUP_FILE" +"%Y-%m-%d %H:%M:%S")
+    echo "$((i+1)). $BACKUP_FILE - $HUMAN_SIZE - $MOD_DATE"
+  done
+  read -p "Enter the number of the backup to restore: " SELECTION
+  SELECTED_INDEX=$((SELECTION-1))
+  if [[ $SELECTED_INDEX -ge 0 && $SELECTED_INDEX -lt ${#BACKUP_LIST[@]} ]]; then
+    echo "${BACKUP_LIST[$SELECTED_INDEX]}"
+  else
+    echo "Invalid selection"
+    exit 1
+  fi
+}
+
+# Function to restore backup
+# lists available backups, their human readable sizes and dates
+# and prompts user to select one to restore from.
+# restoration itself creates a backup of all paths before restoring.
+# If a temp directory is used for extraction, script exits after extraction, instruct user to inspect files
+# on next run, if temp directory is already present, it performs the actual restore and removes the temp directory
+restore_backup(){
+  SELECTED_BACKUP=$(prompt_for_backup_selection)
+  echo "Restoring from backup: $SELECTED_BACKUP"
+  # one more check to make sure the user wants to restore
+  read -p "Are you sure you want to restore from this backup? This will overwrite existing files. (y/n): " CONFIRM
+  if [[ "$CONFIRM" != "y" ]]; then
+    echo "Restore cancelled."
+    exit 0
+  fi
+  
+  # preform a pre-restore backup
+  perform_backup(true)
+
+  # Decrypt if necessary and extract to temp directory for user inspection
+  TEMP_DIR="$BACKUP_DIR/temp_restore"
+  if [[ -d "$TEMP_DIR" ]]; then
+    echo "Temp directory already exists. Performing actual restore."
+    # Perform actual restore
+    if [[ "$SELECTED_BACKUP" == *.gpg ]]; then
+      gpg --decrypt --passphrase "$" --batch --quiet "$BACKUP_DIR/$SELECTED_BACKUP" | tar -xz -C /
+    else
+      tar -xzf "$BACKUP_DIR/$SELECTED_BACKUP" -C /
+    fi
+    rm -rf "$TEMP_DIR"
+  else
+    echo "Creating temp directory for extraction."
+    mkdir -p "$TEMP_DIR"
+    if [[ "$SELECTED_BACKUP" == *.gpg ]]; then
+      gpg --decrypt --passphrase "{{ backup_encryption_key }}" --batch --quiet "$BACKUP_DIR/$SELECTED_BACKUP" | tar -xz -C "$TEMP_DIR"
+    else
+      tar -xzf "$BACKUP_DIR/$SELECTED_BACKUP" -C "$TEMP_DIR"
+    fi
+  fi
+
+  echo "Restore process completed. Please inspect files in $TEMP_DIR before performing actual restore."
+}
+
+# Should output logs of which backups are purged and how old they were
+purge_old_backups(){
+  OLD_BACKUP_PATHS=$(find "$BACKUP_DIR" -name 'backup_*' -type f -mtime +$BACKUP_RETENTION_DAYS)
+  for FILE in $OLD_BACKUP_PATHS; do
+    FILE_AGE_DAYS=$(( ( $(date +%s) - $(stat -c %Y "$FILE") ) / 86400 ))
+    echo "Purging backup: $FILE (Age: $FILE_AGE_DAYS days)"
+    rm -f "$FILE"
+  done
+}
