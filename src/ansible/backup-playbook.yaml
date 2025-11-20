@@ -19,4 +19,10 @@
     backup_dir: /mnt/mount/backups
     backup_env_path: /mnt/mount/.env
     backup_retention_days: 30
-    backup_schedule: "0 2 * * *" # Daily at 2 AM
+    
+    # Unset backup_schedule to disable automatic backups
+    # Disable automatic backups
+    backup_schedule: ""
+
+    # Enable automatic backups at 2:00 AM daily
+    # backup_schedule: "0 0 2 * * *"

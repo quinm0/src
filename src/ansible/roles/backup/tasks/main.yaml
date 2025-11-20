@@ -13,44 +13,17 @@
 
 - name: Copy backup script to /usr/local/bin/backup-script.sh
   template:
-    src: backup-script.sh
+    src: backup-script.sh.j2
     dest: /usr/local/bin/backup-script.sh
     mode: "0755"
 
-- name: Create cron job for backups
+- name: If backup_schedule is set, create cron job for backups, else remove existing cron job
   cron:
-    name: "Daily Backup"
+    name: "Automated Backup Job"
     minute: "{{ backup_schedule.split()[0] }}"
     hour: "{{ backup_schedule.split()[1] }}"
     day: "{{ backup_schedule.split()[2] }}"
     month: "{{ backup_schedule.split()[3] }}"
-
-    job: |
-      tar -czf {{ backup_dir }}/backup_$(date +%Y%m%d%H%M%S).tar.gz --exclude="{{ backup_dir }}/logs/*" $(find {{ backup_paths | join(' ') }} -type f) > /var/log/backup_$(date +%Y%m%d%H%M%S).log && find {{ backup_dir }} -type f -name 'backup_*.tar.gz' -mtime +{{ backup_retention_days }} -delete >> /var/log/backup_deleted_$(date +%Y%m%d%H%M%S).log
     weekday: "{{ backup_schedule.split()[4] }}"
-    user: root
-    state: present
-
-  when: backup_now | default(false)
-  block:
-    - name: Create backup archive
-      command: >
-        tar -czf {{ backup_dir }}/backup_$(date +%Y%m%d%H%M%S).tar.gz --exclude="{{ backup_dir }}/logs/*" $(find {{ backup_paths | join(' ') }} -type f)
-      register: backup_result
-      ignore_errors: yes
-
-    - name: Log backup output
-      copy:
-        content: "{{ backup_result.stdout }}\n{{ backup_result.stderr }}"
-        dest: "/var/log/backup_{{ ansible_date_time.date }}.log"
-
-    - name: Remove old backups
-      command: >
-        find {{ backup_dir }} -type f -name 'backup_*.tar.gz' -mtime +{{ backup_retention_days }} -delete
-      register: delete_result
-      ignore_errors: yes
-
-    - name: Log deletion output
-      copy:
-        content: "{{ delete_result.stdout }}\n{{ delete_result.stderr }}"
-        dest: "/var/log/backup_deleted_{{ ansible_date_time.date }}.log"
+    job: "/usr/local/bin/backup-script.sh >> /var/log/backup/backup.log 2>&1"
+    state: "{{ 'present' if backup_schedule else 'absent' }}"
