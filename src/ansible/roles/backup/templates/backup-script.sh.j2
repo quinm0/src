@@ -1,145 +1,165 @@
 #!/bin/bash
 
-# BACKUP_ENCRYPTION_KEY is expected to be provided via .env file if encryption is desired
-# Load environment variables from specified path if provided
-ENV_PATH_FOR_VARS="{{ backup_env_path | default('') }}"
-if [[ -n "$ENV_PATH_FOR_VARS" && -f "$ENV_PATH_FOR_VARS" ]]; then
-  source "$ENV_PATH_FOR_VARS"
-fi
+# Log function
+# msg: Message to log
+# lvl: Log level (INFO, WARN, ERROR)
+# log_file: Log file path
+# Description: Logs messages with `[LVL] DDMMYY HHMMSS`
+log() {
+    local msg="$1"
+    local lvl="$2"
+    local log_file="{{ log_dir }}/backup.log"
+    local timestamp
+    timestamp=$(date +"%d%m%y %H%M%S")
+    echo "[$lvl] $timestamp : $msg" >> "$log_file"
+}
 
-# Backup script for generic unix system
-# Uses ansible variable 'backup_paths' for a list of paths to back up
-# backup_dir is the directory where backups will be stored
-# backup_retention_days is the number of days to keep backups
-# exists it will be created and if it exists it will be updated
-# Encryption will be used if 'BACKUP_ENCRYPTION_KEY' is provided
-
-# Variables (to be replaced by Ansible)
-BACKUP_PATHS="{{ backup_paths | join(' ') }}"
-BACKUP_DIR="{{ backup_dir }}"
-BACKUP_RETENTION_DAYS="{{ backup_retention_days }}"
-
-# First ARG is the action: "backup", "restore", or "purge"
-ACTION="$1"
-case "$ACTION" in
-  "backup")
-    perform_backup
-    ;;
-  "restore")
-    restore_backup
-    ;;
-  "purge")
-    purge_old_backups
-    ;;
-  )
-    echo "Usage: $0 {backup|restore|purge}"
-    exit 1
-    ;;
-esac
-
-# Function to perform backup
-# Will use encryption if 'BACKUP_ENCRYPTION_KEY' is provided
-# Will use tar to create a compressed archive of the backup paths
-# IS_PRE_RESTORE is a parameter to indicate if this backup is being made before a restore
-# If IS_PRE_RESTORE is true, the backup file will be named with a "_pre_restore" suffix
-perform_backup(IS_PRE_RESTORE=false){
-   # Create backup directory if it doesn't exist
-   mkdir -p "$BACKUP_DIR"
-   
-   # Check if BACKUP_ENCRYPTION_KEY is set
-   TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-   if $IS_PRE_RESTORE; then
-     BACKUP_FILENAME="backup_pre_restore_$TIMESTAMP.tar.gz"
-   else
-     BACKUP_FILENAME="backup_$TIMESTAMP.tar.gz"
-   fi
-    BACKUP_FILEPATH="$BACKUP_DIR/$BACKUP_FILENAME"
-    if [[ -n "$BACKUP_ENCRYPTION_KEY" ]]; then
-      tar -cz $BACKUP_PATHS | gpg --symmetric --passphrase "$BACKUP_ENCRYPTION_KEY" --batch --quiet -o "$BACKUP_FILEPATH.gpg"
-      echo "Backup created with encryption: $BACKUP_FILEPATH.gpg"
+# Function to load .env file from configured env path (from ansible template value bakup_env_path)
+load_env() {
+    local env_file="{{ backup_env_path }}"
+    if [ -f "$env_file" ]; then
+        export $(grep -v '^#' "$env_file" | xargs)
+        log "Environment variables loaded from $env_file" "INFO"
     else
-      tar -czf "$BACKUP_FILEPATH" $BACKUP_PATHS
-      echo "Backup created: $BACKUP_FILEPATH"
+        log "Environment file $env_file not found. Proceeding without loading env variables." "WARN"
+    fi
+
+  # If BACKUP_ENCRYPTION_KEY is not set, throw an error and exit
+    if [ -z "$BACKUP_ENCRYPTION_KEY" ]; then
+        log "BACKUP_ENCRYPTION_KEY is not set in the environment. Exiting." "ERROR"
+        exit 1
     fi
 }
 
-get_backup_list(){
-  ls -1t $BACKUP_DIR | grep '^backup_'
+# Backup function pt-1 (Ensures temp dir was already done and closed)
+# Should create a temp directory that's static. Should be checked to make sure it's empty before use.
+# If not empty, log warning, and move contents to backup location with timestamp.
+# Then if temp dir is empty proceed with success
+backupSTEP1() {
+    local temp_dir="/tmp/backup_temp"
+    local backup_dest="{{ backup_destination }}"
+    
+    # Ensure temp directory exists
+    mkdir -p "$temp_dir"
+
+    # Check if temp directory is empty
+    if [ "$(ls -A $temp_dir)" ]; then
+        log "Temporary directory $temp_dir is not empty. Moving contents to backup destination." "WARN"
+        local timestamp
+        timestamp=$(date +"%Y%m%d_%H%M%S")
+        mv "$temp_dir"/* "$backup_dest/partial-backup_$timestamp/"
+        log "Moved contents of $temp_dir to $backup_dest/partial-backup_$timestamp/" "INFO"
+    else
+        log "Temporary directory $temp_dir is empty. Proceeding with backup." "INFO"
+    fi
 }
 
-prompt_for_backup_selection(){
-  echo "Available backups:"
-  BACKUP_LIST=($(get_backup_list))
-  for i in "${!BACKUP_LIST[@]}"; do
-    BACKUP_FILE="${BACKUP_LIST[$i]}"
-    if [[ "$BACKUP_FILE" == *.gpg ]]; then
-      FILE_SIZE=$(gpg --decrypt --passphrase "{{ backup_encryption_key }}" --batch --quiet "$BACKUP_DIR/$BACKUP_FILE" | wc -c)
-    else
-      FILE_SIZE=$(stat -c%s "$BACKUP_DIR/$BACKUP_FILE")
-    fi
-    HUMAN_SIZE=$(numfmt --to=iec-i --suffix=B $FILE_SIZE)
-    MOD_DATE=$(date -r "$BACKUP_DIR/$BACKUP_FILE" +"%Y-%m-%d %H:%M:%S")
-    echo "$((i+1)). $BACKUP_FILE - $HUMAN_SIZE - $MOD_DATE"
-  done
-  read -p "Enter the number of the backup to restore: " SELECTION
-  SELECTED_INDEX=$((SELECTION-1))
-  if [[ $SELECTED_INDEX -ge 0 && $SELECTED_INDEX -lt ${#BACKUP_LIST[@]} ]]; then
-    echo "${BACKUP_LIST[$SELECTED_INDEX]}"
-  else
-    echo "Invalid selection"
-    exit 1
-  fi
+
+# Backup function pt-2
+# Tar to archive all the paths specified into their own tar.gz file in temp_dir/zips
+# Logging for each path zipped
+# No encryption yet
+backupSTEP2() {
+    local temp_dir="/tmp/backup_temp"
+    local zip_dir="$temp_dir/zips"
+    local paths_to_backup=({{ backup_paths | join(' ') }})
+    # Create the temporary directory if it doesn't exist
+    mkdir -p "$zip_dir"
+    for path in $paths_to_backup; do
+        if [ -e "$path" ]; then
+            local base_name
+            base_name=$(basename "$path")
+            local timestamp
+            timestamp=$(date +"%Y%m%d_%H%M%S")
+            local archive_name="$zip_dir/${base_name}_$timestamp.tar.gz"
+            tar -czf "$archive_name" "$path"
+            if [ $? -eq 0 ]; then
+                log "Successfully backed up $path to $archive_name" "INFO"
+            else
+                log "Failed to back up $path" "ERROR"
+            fi
+        else
+            log "Path $path does not exist. Skipping." "WARN"
+        fi
+    done
 }
 
-# Function to restore backup
-# lists available backups, their human readable sizes and dates
-# and prompts user to select one to restore from.
-# restoration itself creates a backup of all paths before restoring.
-# If a temp directory is used for extraction, script exits after extraction, instruct user to inspect files
-# on next run, if temp directory is already present, it performs the actual restore and removes the temp directory
-restore_backup(){
-  SELECTED_BACKUP=$(prompt_for_backup_selection)
-  echo "Restoring from backup: $SELECTED_BACKUP"
-  # one more check to make sure the user wants to restore
-  read -p "Are you sure you want to restore from this backup? This will overwrite existing files. (y/n): " CONFIRM
-  if [[ "$CONFIRM" != "y" ]]; then
-    echo "Restore cancelled."
-    exit 0
-  fi
-  
-  # preform a pre-restore backup
-  perform_backup(true)
-
-  # Decrypt if necessary and extract to temp directory for user inspection
-  TEMP_DIR="$BACKUP_DIR/temp_restore"
-  if [[ -d "$TEMP_DIR" ]]; then
-    echo "Temp directory already exists. Performing actual restore."
-    # Perform actual restore
-    if [[ "$SELECTED_BACKUP" == *.gpg ]]; then
-      gpg --decrypt --passphrase "$" --batch --quiet "$BACKUP_DIR/$SELECTED_BACKUP" | tar -xz -C /
+# Backup function pt-3
+# Zip up all of the other zips into a single zip file with timestamp and encryption BACKUP_ENCRYPTION_KEY
+# Add README file with list of paths backed up, timestamps, their expected sizes and hash sums
+backupSTEP3() {
+    local temp_dir="/tmp/backup_temp"
+    local zip_dir="$temp_dir/zips"
+    local backup_dest="{{ backup_destination }}"
+    local timestamp
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    local final_archive="$backup_dest/backup_$timestamp.tar.gz"
+    # Create README file
+    local readme_file="$temp_dir/README_$timestamp.txt"
+    echo "Backup created on: $timestamp" > "$readme_file"
+    echo "Paths backed up:" >> "$readme_file"
+    for path in "${paths[@]}"; do
+        if [ -e "$path" ]; then
+            local size
+            size=$(du -sh "$path" | cut -f1)
+            local hash
+            hash=$(sha256sum "$path" | awk '{print $1}')
+            echo "- $path | Size: $size | SHA256: $hash" >> "$readme_file"
+        fi
+    done
+    # Create final archive with encryption
+    tar -czf - -C "$zip_dir" . -C "$temp_dir" . | openssl enc -aes-256-cbc -salt -out "$final_archive" -pass pass:"$BACKUP_ENCRYPTION_KEY"
+    if [ $? -eq 0 ]; then
+        log "Final encrypted backup created at $final_archive" "INFO"
     else
-      tar -xzf "$BACKUP_DIR/$SELECTED_BACKUP" -C /
+        log "Failed to create final encrypted backup" "ERROR"
     fi
-    rm -rf "$TEMP_DIR"
-  else
-    echo "Creating temp directory for extraction."
-    mkdir -p "$TEMP_DIR"
-    if [[ "$SELECTED_BACKUP" == *.gpg ]]; then
-      gpg --decrypt --passphrase "{{ backup_encryption_key }}" --batch --quiet "$BACKUP_DIR/$SELECTED_BACKUP" | tar -xz -C "$TEMP_DIR"
-    else
-      tar -xzf "$BACKUP_DIR/$SELECTED_BACKUP" -C "$TEMP_DIR"
-    fi
-  fi
-
-  echo "Restore process completed. Please inspect files in $TEMP_DIR before performing actual restore."
 }
 
-# Should output logs of which backups are purged and how old they were
-purge_old_backups(){
-  OLD_BACKUP_PATHS=$(find "$BACKUP_DIR" -name 'backup_*' -type f -mtime +$BACKUP_RETENTION_DAYS)
-  for FILE in $OLD_BACKUP_PATHS; do
-    FILE_AGE_DAYS=$(( ( $(date +%s) - $(stat -c %Y "$FILE") ) / 86400 ))
-    echo "Purging backup: $FILE (Age: $FILE_AGE_DAYS days)"
-    rm -f "$FILE"
-  done
+# Backup function pt-4
+# Clean up temp directory after successful backup
+backupSTEP4() {
+    local temp_dir="/tmp/backup_temp"
+    rm -rf "$temp_dir"
+    if [ $? -eq 0 ]; then
+        log "Temporary directory $temp_dir cleaned up successfully." "INFO"
+    else
+        log "Failed to clean up temporary directory $temp_dir." "ERROR"
+    fi
+}
+
+# Restore function pt-1
+# List available backups in backup destination, make human readable interface with a nice 01-n numbering so the user can pick which one to restore
+# Restore the directories to a temp restore directory for inspection before moving to live location
+# Exit the script after listing/restoring for manual inspection and leave something in temp directory to restart this restore once
+# the user is satisfied. If the function is called and the temp restore directory exists, prompt user to continue with restore or clean up and exit.
+# Should unzip the main zip file and decrypt using BACKUP_ENCRYPTION_KEY and unzip all the individual zips in the output temp restore directory
+restoreSTEP1() {
+
+    local backup_dest="{{ backup_destination }}"
+    local restore_temp_dir="/tmp/backup_restore_temp"
+    mkdir -p "$restore_temp_dir"
+    echo "Available backups:"
+    local backups=("$backup_dest"/*.tar.gz)
+    local i=1
+    for backup in "${backups[@]}"; do
+        echo "$i) $(basename "$backup")"
+        i=$((i + 1))
+    done
+    read -p "Enter the number of the backup to restore: " choice
+    local selected_backup="${backups[$((choice - 1))]}"
+    if [ -f "$selected_backup" ]; then
+        openssl enc -d -aes-256-cbc -in "$selected_backup" -pass pass:"$BACKUP_ENCRYPTION_KEY" | tar -xz -C "$restore_temp_dir"
+        if [ $? -eq 0 ]; then
+            log "Backup $selected_backup restored to $restore_temp_dir for inspection." "INFO"
+            echo "Backup restored to $restore_temp_dir. Please inspect the files before moving them to their live locations."
+        else
+            log "Failed to restore backup $selected_backup." "ERROR"
+        fi
+    else
+        log "Invalid selection. No such backup." "ERROR"
+    fi
+    log "Backup script completed successfully." "INFO"
+
+    
 }
