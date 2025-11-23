@@ -1,9 +1,6 @@
-#!/bin/bash #
-
 # Log function
 # msg: Message to log
 # lvl: Log level (INFO, WARN, ERROR)
-# log_file: Log file path
 # Description: Logs messages with `[LVL] DDMMYY HHMMSS`
 log() {
     local msg="$1"
@@ -31,20 +28,29 @@ load_env() {
     fi
 }
 
-# Function to read paths from /etc/backups/paths.txt
 read_paths() {
-    local paths_file="/etc/backups/paths.txt"
-    if [ -f "$paths_file" ]; then
-        while IFS= read -r path; do
-            # Trim leading/trailing whitespace and ignore empty lines or comments
-            [[ -n "$path" && ! "$path" =~ ^[[:space:]]*# ]] && paths_to_backup+=("$path")
-        done < "$paths_file"
-        if [ ${#paths_to_backup[@]} -eq 0 ]; then
-            log "No valid paths found in $paths_file. Exiting." "ERROR"
-            exit 1
-        fi
-    else
+    local paths_file="/etc/backup/paths.txt"
+    
+    # Initialize an empty array to store valid paths
+    paths_to_backup=()
+
+    # Check if the file exists
+    if [ ! -f "$paths_file" ]; then
         log "File $paths_file not found. Exiting." "ERROR"
+        exit 1
+    fi
+
+    # Read lines from the file into the array, trimming whitespace and ignoring comments
+    while IFS= read -r path; do
+        # Skip empty lines and lines that start with a comment
+        if [[ -n $path && ! "$path" =~ ^\s*# ]]; then
+            paths_to_backup+=("$path")
+        fi
+    done < "$paths_file"
+
+    # Check if any valid paths were found
+    if [ ${#paths_to_backup[@]} -eq 0 ]; then
+        log "No valid paths found in $paths_file. Exiting." "ERROR"
         exit 1
     fi
 }
@@ -188,12 +194,12 @@ restoreSTEP1() {
 # Main function, takes arguments to start or finish backups.
 function main() {
     local action=$1
-    load_env
     read_paths
+    load_env
     
     if [ "$action" == "backup" ]; then
         # Uncomment the following lines to enable backup steps
-        log "Starting backup process..." "INFO"
+        # log "Starting backup process..." "INFO"
         backupSTEP1
         backupSTEP2
         backupSTEP3
