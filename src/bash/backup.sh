@@ -93,7 +93,7 @@ backupSTEP2() {
             local timestamp
             timestamp=$(date +"%Y%m%d_%H%M%S")
             local archive_name="$zip_dir/${base_name}_$timestamp.tar.gz"
-            tar -czf "$archive_name" "$path"
+            tar -czfP "$archive_name" "$path"
             if [ $? -eq 0 ]; then
                 log "Successfully backed up $path to $archive_name" "INFO"
             else
@@ -116,7 +116,7 @@ backupSTEP3() {
     timestamp=$(date +"%Y%m%d_%H%M%S")
     local selected_backup="$backup_dest/$timestamp.tar.gz"
     mkdir -p /mnt/mount/backups/partial-backup_$timestamp/ # ADDED: Create the destination directory
-    tar -czvf "$selected_backup" "$backup_dest"
+    tar -czvfP "$selected_backup" "$backup_dest"
     if [ $? -eq 0 ]; then
         log "Backup created successfully" "INFO"
     else
