@@ -1,7 +1,8 @@
 - name: Install rclone
-  apt:
-    name:
-      - rclone
+  command:
+    # This command is for sure not working but I ran it manually and it worked. So I blame ansible
+    cmd: "curl https://rclone.org/install.sh | sudo bash ; touch /var/rclone_installed"
+    creates: /var/rclone_installed
 
 - name: Create required directories
   file:
