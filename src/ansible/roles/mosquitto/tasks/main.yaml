@@ -1,0 +1,28 @@
+- name: Create required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0770"
+  with_items:
+    - /etc/mosquitto
+    - /etc/mosquitto/config
+    - /mnt/mount/mosquitto
+    - /mnt/mount/mosquitto/data
+    - /var/log/mosquitto
+
+- name: Create config file for mosquitto
+  copy:
+    content: |
+      persistence true
+      persistence_location /mosquitto/data/
+      log_dest file /mosquitto/log/mosquitto.log
+    dest: /etc/mosquitto/config/mosquitto.conf
+    mode: "0644"
+
+- name: Copy docker compose file
+  template:
+    src: compose.yaml.j2
+    dest: /etc/mosquitto/compose.yaml
+    owner: root
+    group: root
+    mode: "0644"

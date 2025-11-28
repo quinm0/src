@@ -1,9 +1,11 @@
 # docker run -it -p 1880:1880 -v node_red_data:/data --name mynodered nodered/node-red
 services:
   nodered:
-    image: nodered/node-red
+    image: nodered/node-red:4.1.1-22
     container_name: node_red
+    environment:
+      - TZ=America/New_York
     ports:
       - "1880:1880"
     volumes:
-      - /var/node_red_data:/data
+      - /home/qmoran/.node-red:/data
