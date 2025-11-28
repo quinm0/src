@@ -1,0 +1,19 @@
+[Unit]
+Description=Rclone mount service
+After=local-fs.target network.target
+
+[Service]
+Type=simple
+KillMode=none
+ExecStart=sudo rclone mount data:enc /mnt/mega -vv \
+  --allow-non-empty \
+  --vfs-cache-mode writes \
+  --allow-other \
+  --fuse-flag allow_other \
+  --dir-perms 0777 \
+  --file-perms 0777
+ExecStop=umount /mnt/mega
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

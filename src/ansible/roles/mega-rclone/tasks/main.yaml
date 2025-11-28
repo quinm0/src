@@ -11,6 +11,7 @@
     mode: "0770"
   with_items:
     - /root/.config/rclone
+    - /mnt/mega
 
 - name: Create rclone config
   copy:
@@ -26,3 +27,20 @@
       password = {{ rclone_encPass_one }}
       password2 = {{ rclone_encPass_two }}
     dest: /root/.config/rclone/rclone.conf
+
+- name: Create Rclone service
+  template:
+    src: rclone.service.j2
+    dest: /etc/systemd/system/rclone.service
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Systemctl daemon-reload
+  command: systemctl daemon-reload
+
+- name: Start and enable rclone service
+  systemd:
+    name: rclone
+    state: started
+    enabled: yes
