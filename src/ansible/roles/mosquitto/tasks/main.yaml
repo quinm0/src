@@ -13,10 +13,19 @@
 - name: Create config file for mosquitto
   copy:
     content: |
+      listener 1883
+      password_file /etc/mosquitto/password_file
       persistence true
       persistence_location /mosquitto/data/
       log_dest file /mosquitto/log/mosquitto.log
     dest: /etc/mosquitto/config/mosquitto.conf
+    mode: "0644"
+
+- name: Create password file for mosquitto
+  copy:
+    content: |
+      root:{{ mosquitto_root_key }}
+    dest: /etc/mosquitto/config/password_file
     mode: "0644"
 
 - name: Copy docker compose file
