@@ -1,0 +1,27 @@
+- name: Install rclone
+  apt:
+    name:
+      - rclone
+
+- name: Create required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0770"
+  with_items:
+    - /root/.config/rclone
+
+- name: Create rclone config
+  copy:
+    content: |
+      [mega]
+      type = mega
+      user = tnuu9h362@mozmail.com
+      pass = {{ rclone_mega_key }}
+
+      [data]
+      type = crypt
+      remote = mega:enc
+      password = {{ rclone_encPass_one }}
+      password2 = {{ rclone_encPass_two }}
+    dest: /root/.config/rclone/rclone.conf
