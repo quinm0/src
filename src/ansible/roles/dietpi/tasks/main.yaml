@@ -1,0 +1,2 @@
+- name: Install Reticulum Network Stack (RNS)
+  import_tasks: rns.yaml

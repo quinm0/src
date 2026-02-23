@@ -1,0 +1,13 @@
+- name: Create soupclown moderator group
+  group:
+    name: "{{ soupclown_mod_group_name }}"
+    state: present
+
+- name: For each user in config, ensure user exists and if isMod true, add to moderator group
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ [soupclown_mod_group_name] if item.isMod else [] }}"
+    password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters,digits') | password_hash('sha512') }}"
+    update_password: on_create
+  loop: "{{ soupclown_users }}"

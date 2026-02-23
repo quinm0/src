@@ -1,0 +1,7 @@
+---
+- hosts: qmoran-desktop
+  become: yes
+  roles:
+    - devtools
+  vars_files:
+    - secrets.yaml

@@ -1,0 +1,4 @@
+---
+- hosts: dietpi-inv
+  roles:
+    - dietpi

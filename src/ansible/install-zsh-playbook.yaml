@@ -1,0 +1,28 @@
+---
+- name: Playbook
+  hosts: qmoran-laptop
+  become: true
+
+  vars:
+    omz_install_zsh: true
+    users:
+      - name: "qmoran"
+        group: "qmoran"
+        settings: |
+          export PATH="/usr/local/sbin:$PATH"
+          alias desktop="ssh qmoran@100.96.19.102"
+          alias po1="ssh qmoran@100.70.86.70"
+
+  tasks:
+    - name: Run oh-my-zsh.
+      include_role:
+        name: "oh-my-zsh"
+      vars:
+        omz_user: "{{ item }}"
+        # Only create `.zshrc` for user 'qmoran'; item.settings will be
+        # appended to `.zshrc` for the user 'qmoran'.
+        omz_zshrc_create: "{{ (item.name == 'qmoran') | ternary(true, false) }}"
+        omz_plugins:
+          # - "autojump"
+          - "git"
+      with_items: "{{ users }}"

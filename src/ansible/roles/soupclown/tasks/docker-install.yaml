@@ -1,0 +1,47 @@
+---
+- name: Check if our custom file indicating Docker is installed exists
+  stat:
+    path: /var/docker_installed
+  register: docker_installed_check
+
+- name: Uninstall old Docker versions if present
+  apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+    purge: yes
+    update_cache: yes
+  when: not docker_installed_check.stat.exists
+
+- name: Install required packages for Docker
+  apt:
+    name:
+      - gpg
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+    update_cache: yes
+  when: not docker_installed_check.stat.exists
+
+#  curl -fsSL https://get.docker.com -o get-docker.sh
+- name: Get temporary Docker installation script
+  get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+    mode: "0755"
+  when: not docker_installed_check.stat.exists
+
+- name: Install Docker using the official installation script
+  command: sh /tmp/get-docker.sh
+  when: not docker_installed_check.stat.exists
+
+- name: Create file indicating Docker is installed
+  file:
+    path: /var/docker_installed
+    state: touch

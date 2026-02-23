@@ -1,0 +1,121 @@
+# PIA_USERNAME: your PIA username
+# PIA_PASSWORD: your PIA password
+# ETC_PATH: path to store config files, e.g. /etc/services
+# DOWNLOAD_PATH: path to store in-progress downloads
+# STORAGE_PATH: path to store completed downloads
+# STORAGE_MINIMUM_FREE_SPACE_GB*: minimum free space in GB for storage
+# DOWNLOAD_MINIMUM_FREE_SPACE_GB*: minimum free space in GB for in-progress downloads
+# * = not implemented
+
+services:
+  vpn:
+    container_name: vpn
+    image: qmcgaw/gluetun:v3.40
+    cap_add:
+      - NET_ADMIN # Quin does not like these
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ${ETC_PATH}/gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=private internet access
+      - SERVER_REGIONS=Netherlands
+      - OPENVPN_USER=${PIA_USERNAME}
+      - OPENVPN_PASSWORD=${PIA_PASSWORD}
+      - UPDATER_PERIOD=24h
+    ports:
+      # Deluge
+      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
+      - 58846:58846 #optional
+      # Prowlarr
+      - 9696:9696
+      # Radarr
+      - 7878:7878
+      # Sonarr
+      - 8989:8989
+
+    restart: unless-stopped
+
+  deluge:
+    container_name: deluge
+    image: lscr.io/linuxserver/deluge:latest
+    network_mode: "service:vpn"
+    environment:
+      - TZ=America/New_York
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${ETC_PATH}/deluge:/config
+      - ${DOWNLOAD_PATH}:/downloads
+      - ${STORAGE_PATH}:/storage
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
+    network_mode: "service:vpn"
+    environment:
+      - TZ=America/New_York
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${ETC_PATH}/prowlarr:/config
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    network_mode: "service:vpn"
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - ${ETC_PATH}/radarr:/config
+      - ${STORAGE_PATH}/Movies:/Movies #optional
+      - ${DOWNLOAD_PATH}:/downloads #optional
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+      prowlarr:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    network_mode: "service:vpn"
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - ${ETC_PATH}/sonarr:/config
+      - ${STORAGE_PATH}/Shows:/tv #optional
+      - ${DOWNLOAD_PATH}:/downloads #optional
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+      prowlarr:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
