@@ -7,5 +7,5 @@ services:
       - "4533:4533"
     volumes:
       - /root/navidrome:/data
-      - /mnt/mega/jellyfinMedia/Music:/music
+      - /mnt/mega/beetsMusic:/music
     restart: unless-stopped
