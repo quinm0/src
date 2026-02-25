@@ -1,19 +1,19 @@
-# Continuwuity
 services:
-  homeserver:
+  matrix:
     image: docker.io/jadedblueeyes/continuwuity
+    container_name: matrix
     restart: unless-stopped
     ports:
-      - 8448:6167
+      - 6167:6167
     volumes:
-      - db:/var/lib/continuwuity
+      - ${ETC_PATH}:/var/lib/continuwuity
     environment:
-      CONTINUWUITY_SERVER_NAME: matrix.soupclown.com
+      CONTINUWUITY_SERVER_NAME: soupclown.com
       CONTINUWUITY_DATABASE_PATH: /var/lib/continuwuity
       CONTINUWUITY_PORT: 6167
       CONTINUWUITY_MAX_REQUEST_SIZE: 20000000 # in bytes, ~20 MB
       CONTINUWUITY_ALLOW_REGISTRATION: "true"
-      CONTINUWUITY_REGISTRATION_TOKEN: "YOUR_TOKEN" # A registration token is required when registration is allowed.
+      CONTINUWUITY_REGISTRATION_TOKEN: ${CONTINUWUITY_REGISTRATION_TOKEN}
       CONTINUWUITY_ALLOW_FEDERATION: "true"
       CONTINUWUITY_ALLOW_CHECK_FOR_UPDATES: "true"
       CONTINUWUITY_TRUSTED_SERVERS: '["matrix.org"]'
