@@ -1,6 +1,13 @@
 #!/bin/bash
 
-SERVICE_NAMES=("paperless" "jellyfin" "immich" "navidrome" "downloadin" "matrix")
+SERVICE_NAMES=(
+    "paperless"
+    "jellyfin"
+    "immich"
+    "navidrome"
+    # "downloadin"
+    "matrix"
+)
 for SERVICE in "${SERVICE_NAMES[@]}"; do
-    bash $(pwd)/${SERVICE}-up.sh
+    docker compose --env-file /etc/.soupclown.env -f $(pwd)/${SERVICE}-compose.yaml up -d
 done

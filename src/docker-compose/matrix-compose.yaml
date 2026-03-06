@@ -6,7 +6,7 @@ services:
     ports:
       - 6167:6167
     volumes:
-      - ${ETC_PATH}:/var/lib/continuwuity
+      - ${MATRIX_ETC_PATH}:/var/lib/continuwuity
     environment:
       CONTINUWUITY_SERVER_NAME: soupclown.com
       CONTINUWUITY_DATABASE_PATH: /var/lib/continuwuity

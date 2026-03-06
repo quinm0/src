@@ -1,0 +1,38 @@
+# A role that updates the root soupclown env for all hosts
+# All values will be set in the secrets and then copied to an env file on each host that hosts services
+- name: Update env file for soupclown services
+  copy:
+    content: |
+      #GLOBAL ENV VARS
+      TZ="America/New_York"
+      PIA_USERNAME: "{{ PIA_USERNAME }}"
+      PIA_PASSWORD: "{{ PIA_PASSWORD }}"
+      TMDB_API_KEY: "{{ TMDB_API_KEY }}"
+
+      # Downloadin
+      DOWNLOAD_ETC_PATH: "/etc/soupclown/downloadin"
+      DOWNLOAD_IN_PROGRESS_PATH: "/home/qmoran/Downloads/in-progress"
+      DOWNLOAD_DONE_PATH: "/mnt/mega/jellyfinMedia"
+
+      # Immich
+      IMMICH_UPLOAD_LOCATION="/mnt/mega/immich/uploads"
+      IMMICH_DB_DATA_LOCATION="/root/immich/postgres"
+      IMMICH_VERSION="v2"
+      IMMICH_DB_PASSWORD="{{ IMMICH_DB_PASSWORD }}"
+      IMMICH_DB_USERNAME="postgres"
+      IMMICH_DB_DATABASE_NAME="immich"
+
+      # Paperless
+      PAPERLESS_CONSUMPTION_DIR="/usr/src/paperless/consume"
+      PAPERLESS_URL="http://qmoran-desktop:8000"
+      PAPERLESS_SECRET_KEY="{{ PAPERLESS_SECRET_KEY }}"
+      PAPERLESS_TIME_ZONE="America/New_York"
+      PAPERLESS_OCR_LANGUAGE="eng"
+
+      # Matrix
+      MATRIX_ETC_PATH: "/var/lib/matrix"
+      CONTINUWUITY_REGISTRATION_TOKEN: "{{ CONTINUWUITY_REGISTRATION_TOKEN }}"
+    dest: /etc/.soupclown.env
+    owner: root
+    group: root
+    mode: '0600'

@@ -85,3 +85,9 @@
     name: docker-ctop
     state: present
   when: not ctop_installed_check.stat.exists
+
+- name: Create marker file to indicate ctop installation
+  file:
+    path: /var/ctop_installed
+    state: touch
+  when: not ctop_installed_check.stat.exists

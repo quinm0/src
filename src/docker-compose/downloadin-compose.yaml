@@ -1,8 +1,8 @@
 # PIA_USERNAME: your PIA username
 # PIA_PASSWORD: your PIA password
-# ETC_PATH: path to store config files, e.g. /etc/services
-# DOWNLOAD_PATH: path to store in-progress downloads
-# STORAGE_PATH: path to store completed downloads
+# DOWNLOAD_ETC_PATH: path to store config files, e.g. /etc/services
+# DOWNLOAD_IN_PROGRESS_PATH: path to store in-progress downloads
+# DOWNLOAD_DONE_PATH: path to store completed downloads
 # STORAGE_MINIMUM_FREE_SPACE_GB*: minimum free space in GB for storage
 # DOWNLOAD_MINIMUM_FREE_SPACE_GB*: minimum free space in GB for in-progress downloads
 # * = not implemented
@@ -16,7 +16,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ${ETC_PATH}/gluetun:/gluetun
+      - ${DOWNLOAD_ETC_PATH}/gluetun:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       - SERVER_REGIONS=Netherlands
@@ -47,9 +47,9 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ${ETC_PATH}/deluge:/config
-      - ${DOWNLOAD_PATH}:/downloads
-      - ${STORAGE_PATH}:/storage
+      - ${DOWNLOAD_ETC_PATH}/deluge:/config
+      - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads
+      - ${DOWNLOAD_DONE_PATH}:/storage
     depends_on:
       vpn:
         condition: service_started
@@ -66,7 +66,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ${ETC_PATH}/prowlarr:/config
+      - ${DOWNLOAD_ETC_PATH}/prowlarr:/config
     depends_on:
       vpn:
         condition: service_started
@@ -83,9 +83,9 @@ services:
       - PGID=1000
       - TZ=America/New_York
     volumes:
-      - ${ETC_PATH}/radarr:/config
-      - ${STORAGE_PATH}/Movies:/Movies #optional
-      - ${DOWNLOAD_PATH}:/downloads #optional
+      - ${DOWNLOAD_ETC_PATH}/radarr:/config
+      - ${DOWNLOAD_DONE_PATH}/Movies:/Movies #optional
+      - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
@@ -106,9 +106,9 @@ services:
       - PGID=1000
       - TZ=America/New_York
     volumes:
-      - ${ETC_PATH}/sonarr:/config
-      - ${STORAGE_PATH}/Shows:/tv #optional
-      - ${DOWNLOAD_PATH}:/downloads #optional
+      - ${DOWNLOAD_ETC_PATH}/sonarr:/config
+      - ${DOWNLOAD_DONE_PATH}/Shows:/tv #optional
+      - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
