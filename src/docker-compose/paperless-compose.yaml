@@ -55,7 +55,7 @@ services:
       - /mnt/mega/paperless_media:/usr/src/paperless/media
       - /mnt/mega/paperless/export:/usr/src/paperless/export
       - /mnt/mega/paperless/consume:/usr/src/paperless/consume
-    env_file: paperless-compose.env
+    env_file: /etc/.soupclown.env
     environment:
       PAPERLESS_URL: https://paperless.soupclown.com
       PAPERLESS_REDIS: redis://broker:6379

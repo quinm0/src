@@ -9,5 +9,5 @@ SERVICE_NAMES=(
     "matrix"
 )
 for SERVICE in "${SERVICE_NAMES[@]}"; do
-    docker compose --env-file /etc/.soupclown.env -f $(pwd)/${SERVICE}-compose.yaml up
+    docker compose --env-file /etc/.soupclown.env -f $(pwd)/${SERVICE}-compose.yaml up -d
 done
