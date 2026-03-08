@@ -9,8 +9,8 @@ services:
     environment:
       - TZ=America/New_York
     volumes:
-      - /mnt/mega/jellyfin-etc:/config
-      - /mnt/mega/jellyfinMedia/cache:/cache
+      - /etc/jellyfin:/config
+      - /var/jellyfin-cache:/cache
       - type: bind
         source: /mnt/mega/jellyfinMedia
         target: /media
