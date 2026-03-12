@@ -15,6 +15,7 @@ in
       kdePackages.kate
       signal-desktop
       lazygit
+      element-desktop
     #  thunderbird
     ];
   };
