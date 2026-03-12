@@ -17,8 +17,6 @@ in
       signal-desktop
       lazygit
       element-desktop
-      hyper
-    #  thunderbird
     ];
   };
 
