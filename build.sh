@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo nixos-rebuild switch -I $(pwd)/configuration.nix
+sudo nixos-rebuild switch -I nixos-config=$(pwd)/configuration.nix
