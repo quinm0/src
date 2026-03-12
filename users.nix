@@ -12,10 +12,12 @@ in
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       gh
+      btop
       kdePackages.kate
       signal-desktop
       lazygit
       element-desktop
+      hyper
     #  thunderbird
     ];
   };
