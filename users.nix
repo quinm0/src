@@ -13,6 +13,8 @@
       signal-desktop
       lazygit
       element-desktop
+      vscodium
+      vivaldi
     ];
   };
 
