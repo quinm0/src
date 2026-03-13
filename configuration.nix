@@ -53,6 +53,9 @@
     pkgs.xterm
   ];
 
+  # Set up docker
+  virtualisation.docker.enable = true;
+
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -81,24 +84,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  #users.users.qmoran = {
-  #  isNormalUser = true;
-  #  description = "quin";
-  #  extraGroups = [ "networkmanager" "wheel" ];
-  #  packages = with pkgs; [
-  #    kdePackages.kate
-  #    signal-desktop
-    #  thunderbird
-  #  ];
-  #};
-
-  # Install firefox.
-  #programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
