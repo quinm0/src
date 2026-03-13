@@ -27,10 +27,22 @@
   networking.networkmanager.enable = true;
   networking.hostName = "qmoran-laptop";
 
-  imports = [
-    ./hardware-configuration.nix
-    ./users.nix
-  ];
+  # My user for now
+  users.users.qmoran = {
+    isNormalUser = true;
+    description = "quin";
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    packages = with pkgs; [
+      gh
+      btop
+      kdePackages.kate
+      signal-desktop
+      lazygit
+      element-desktop
+      vscodium
+      vivaldi
+    ];
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
