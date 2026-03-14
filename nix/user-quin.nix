@@ -20,6 +20,7 @@
       element-desktop
       vscodium
       vivaldi
+      libreoffice-qt-fresh
     ];
   };
 }
