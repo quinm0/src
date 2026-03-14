@@ -14,8 +14,10 @@
     nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./hardware-configuration.nix
-        ./configuration.nix
+        ./nix/qlhc.nix
+        ./nix/common.nix
+        ./nix/user-quin.nix
+        ./nix/gui1.nix
       ];
     };
   };
