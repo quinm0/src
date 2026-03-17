@@ -32,6 +32,7 @@
         ./nix/user-quin.nix
         ./nix/gui1.nix
         ./nix/mega.nix
+        ./nix/jf-server.nix
       ];
     };
 

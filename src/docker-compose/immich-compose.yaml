@@ -22,7 +22,7 @@ services:
       - /mnt/mega/immich/old-album:/old-album
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - immich.env
+      - /etc/.soupclown.env
     ports:
       - "2283:2283"
     depends_on:
@@ -43,7 +43,7 @@ services:
     volumes:
       - model-cache:/cache
     env_file:
-      - immich.env
+      - /etc/.soupclown.env
     restart: always
     healthcheck:
       disable: false

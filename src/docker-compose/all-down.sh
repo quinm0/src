@@ -2,7 +2,6 @@
 
 SERVICE_NAMES=(
     "paperless"
-    "jellyfin"
     "immich"
     "navidrome"
     "downloadin"
