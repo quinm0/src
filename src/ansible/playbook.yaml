@@ -2,7 +2,6 @@
 - hosts: qmoran-desktop
   become: yes
   roles:
-    - devtools
     - oneenv
   vars_files:
     - secrets.yaml

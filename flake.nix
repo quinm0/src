@@ -21,6 +21,18 @@
         ./nix/mega.nix
       ];
     };
+
+    nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./nix/qdhc.nix
+        ./nix/common.nix
+        ./nix/user-quin.nix
+        ./nix/gui1.nix
+        ./nix/mega.nix
+      ];
+    };
+
   };
 }
 
