@@ -34,7 +34,8 @@ in
     path = [ pkgs.bash ];
   
     serviceConfig = {
-      ExecStart = "${pkgs.rclone}/bin/rclone mount ${rcloneBucket} ${mountPath} -vv --vfs-cache-mode full --allow-other --fuse-flag allow_other --dir-perms 0777 --file-perms 0777 --umask 0 --default-permissions --dir-cache-time 300h --config ${rcloneConfigPath}";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount ${rcloneBucket} ${mountPath} -vv --vfs-cache-mode full --allow-other --fuse-flag allow_other --dir-perms 0777 --file-perms 0777 --umask 0 --dir-cache-time 300h --config ${rcloneConfigPath}";
+      ExecStop = "umount /mnt/mega";
     };
   };
 

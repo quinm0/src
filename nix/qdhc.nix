@@ -77,4 +77,5 @@
   };
 
   users.users.qmoran.packages = with pkgs; [ nvtopPackages.nvidia ];
+  hardware.nvidia-container-toolkit.enable = true;
 }
