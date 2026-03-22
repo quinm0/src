@@ -4,7 +4,7 @@ SERVICE_NAMES=(
     # "paperless"
     # "immich"
     # "navidrome"
-    # "downloadin"
+    "downloadin"
     # "matrix"
 )
 for SERVICE in "${SERVICE_NAMES[@]}"; do

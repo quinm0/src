@@ -1,12 +1,3 @@
-# PIA_USERNAME: your PIA username
-# PIA_PASSWORD: your PIA password
-# DOWNLOAD_ETC_PATH: path to store config files, e.g. /etc/services
-# DOWNLOAD_IN_PROGRESS_PATH: path to store in-progress downloads
-# DOWNLOAD_DONE_PATH: path to store completed downloads
-# STORAGE_MINIMUM_FREE_SPACE_GB*: minimum free space in GB for storage
-# DOWNLOAD_MINIMUM_FREE_SPACE_GB*: minimum free space in GB for in-progress downloads
-# * = not implemented
-
 services:
   vpn:
     container_name: vpn
@@ -24,17 +15,16 @@ services:
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - UPDATER_PERIOD=24h
     ports:
-      # Deluge
-      - 8112:8112
-      - 6881:6881
-      - 6881:6881/udp
-      - 58846:58846 #optional
-      # Prowlarr
-      - 9696:9696
-      # Radarr
-      - 7878:7878
-      # Sonarr
-      - 8989:8989
+      - 8112:8112       # Deluge
+      - 6881:6881       # Deluge
+      - 6881:6881/udp   # Deluge
+      - 58846:58846     # idk Deluge
+      - 9696:9696       # Prowlarr
+      - 7878:7878       # Radarr
+      - 8989:8989       # Sonarr
+      - "3333:3333"     # bitmagnet API and WebUI port
+      - "3334:3334/tcp" # bitmagnet BitTorrent ports
+      - "3334:3334/udp" # bitmagnet BitTorrent ports
 
     restart: unless-stopped
 
@@ -119,3 +109,43 @@ services:
         restart: true
         required: true
     restart: unless-stopped
+
+  bitmagnet:
+    image: ghcr.io/bitmagnet-io/bitmagnet:latest
+    container_name: bitmagnet
+    restart: unless-stopped
+    network_mode: "service:vpn"
+    environment:
+      - POSTGRES_PASSWORD=${DOWNLOAD_BITMAGENT_DB_PASS}
+      - TMDB_API_KEY=${TMDB_API_KEY}
+    volumes:
+      - ${SOUPCLOWN_ETC_PATH}/downloadin/bitmagnet/etc:/root/.config/bitmagnet
+    command:
+      - worker
+      - run
+      - --keys=http_server
+      - --keys=queue_server
+      # disable the next line to run without DHT crawler
+      - --keys=dht_crawler
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: bitmagnet-postgres
+    network_mode: "service:vpn"
+    volumes:
+      - ${SOUPCLOWN_ETC_PATH}/downloadin/bitmagnet/postgresdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${DOWNLOAD_BITMAGENT_DB_PASS}
+      - POSTGRES_DB=bitmagnet
+      - PGUSER=postgres
+    shm_size: 1g
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready
+      start_period: 20s
+      interval: 10s
