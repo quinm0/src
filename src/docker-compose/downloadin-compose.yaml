@@ -25,6 +25,7 @@ services:
       - "3333:3333"     # bitmagnet API and WebUI port
       - "3334:3334/tcp" # bitmagnet BitTorrent ports
       - "3334:3334/udp" # bitmagnet BitTorrent ports
+      - 5055:5055       # seerr
     restart: unless-stopped
 
   deluge:
