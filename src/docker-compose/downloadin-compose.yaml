@@ -25,7 +25,6 @@ services:
       - "3333:3333"     # bitmagnet API and WebUI port
       - "3334:3334/tcp" # bitmagnet BitTorrent ports
       - "3334:3334/udp" # bitmagnet BitTorrent ports
-
     restart: unless-stopped
 
   deluge:
@@ -33,7 +32,7 @@ services:
     image: lscr.io/linuxserver/deluge:latest
     network_mode: "service:vpn"
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
       - PUID=1000
       - PGID=1000
     volumes:
@@ -52,7 +51,7 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     network_mode: "service:vpn"
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
       - PUID=1000
       - PGID=1000
     volumes:
@@ -71,7 +70,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/radarr:/config
       - ${DOWNLOAD_DONE_PATH}/Movies:/Movies #optional
@@ -94,7 +93,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/sonarr:/config
       - ${DOWNLOAD_DONE_PATH}/Shows:/tv #optional
@@ -149,3 +148,21 @@ services:
         - pg_isready
       start_period: 20s
       interval: 10s
+
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
+    network_mode: "service:vpn"
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+      - LOG_LEVEL=debug
+    volumes:
+      - ${SOUPCLOWN_ETC_PATH}/seer:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
