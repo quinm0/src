@@ -15,36 +15,34 @@ services:
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - UPDATER_PERIOD=24h
     ports:
-      - 8112:8112       # Deluge
-      - 6881:6881       # Deluge
-      - 6881:6881/udp   # Deluge
-      - 58846:58846     # idk Deluge
-      - 9696:9696       # Prowlarr
-      - 7878:7878       # Radarr
-      - 8989:8989       # Sonarr
-      - "3333:3333"     # bitmagnet API and WebUI port
-      - "3334:3334/tcp" # bitmagnet BitTorrent ports
-      - "3334:3334/udp" # bitmagnet BitTorrent ports
-      - 5055:5055       # seerr
+      - 9091:9091         # Transmission
+      - 51413:51413       # Transmission
+      - 51413:51413/udp   # Transmission
+      - 9696:9696         # Prowlarr
+      - 7878:7878         # Radarr
+      - 8989:8989         # Sonarr
+      - 3333:3333         # bitmagnet API and WebUI port
+      - 3334:3334/tcp     # bitmagnet BitTorrent ports
+      - 3334:3334/udp     # bitmagnet BitTorrent ports
+      - 5055:5055         # seerr
+      # - 8112:8112       # Deluge
+      # - 6881:6881       # Deluge
+      # - 6881:6881/udp   # Deluge
+      # - 58846:58846     # idk Deluge
     restart: unless-stopped
 
-  deluge:
-    container_name: deluge
-    image: lscr.io/linuxserver/deluge:latest
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
     network_mode: "service:vpn"
     environment:
       - TZ=${TZ}
       - PUID=1000
       - PGID=1000
     volumes:
-      - ${DOWNLOAD_ETC_PATH}/deluge:/config
+      - ${DOWNLOAD_ETC_PATH}/transmission:/config
       - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads
-      - ${DOWNLOAD_DONE_PATH}:/storage
-    depends_on:
-      vpn:
-        condition: service_started
-        restart: true
-        required: true
+      - /mnt/mega/jellyfinMedia:/media
     restart: unless-stopped
 
   prowlarr:
