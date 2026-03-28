@@ -25,6 +25,7 @@
       trash-cli
       lutris
       vlc
+      gparted
     ];
   };
 
