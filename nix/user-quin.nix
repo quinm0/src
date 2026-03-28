@@ -23,6 +23,8 @@
       libreoffice-qt-fresh
       ansible_2_18
       trash-cli
+      lutris
+      vlc
     ];
   };
 

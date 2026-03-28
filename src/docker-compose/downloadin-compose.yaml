@@ -74,8 +74,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/radarr:/config
-      - ${DOWNLOAD_DONE_PATH}/Movies:/Movies #optional
       - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
+      - /mnt/mega/jellyfinMedia:/media
     depends_on:
       vpn:
         condition: service_started
@@ -87,28 +87,28 @@ services:
         required: true
     restart: unless-stopped
 
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    network_mode: "service:vpn"
-    container_name: sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-    volumes:
-      - ${DOWNLOAD_ETC_PATH}/sonarr:/config
-      - ${DOWNLOAD_DONE_PATH}/Shows:/tv #optional
-      - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
-    depends_on:
-      vpn:
-        condition: service_started
-        restart: true
-        required: true
-      prowlarr:
-        condition: service_started
-        restart: true
-        required: true
-    restart: unless-stopped
+  # sonarr:
+  #   image: lscr.io/linuxserver/sonarr:latest
+  #   network_mode: "service:vpn"
+  #   container_name: sonarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=${TZ}
+  #   volumes:
+  #     - ${DOWNLOAD_ETC_PATH}/sonarr:/config
+  #     - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
+  #     - /mnt/mega/jellyfinMedia:/media
+  #   depends_on:
+  #     vpn:
+  #       condition: service_started
+  #       restart: true
+  #       required: true
+  #     prowlarr:
+  #       condition: service_started
+  #       restart: true
+  #       required: true
+  #   restart: unless-stopped
 
   bitmagnet:
     image: ghcr.io/bitmagnet-io/bitmagnet:latest
