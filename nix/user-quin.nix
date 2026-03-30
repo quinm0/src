@@ -14,18 +14,17 @@
       gh
       btop
       ctop
-      kdePackages.kate
       signal-desktop
       lazygit
       element-desktop
-      vscodium
       vivaldi
       libreoffice-qt-fresh
-      ansible_2_18
       trash-cli
       lutris
       vlc
       gparted
+      kitty
+      neovim
     ];
   };
 
