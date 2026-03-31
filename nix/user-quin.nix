@@ -25,6 +25,7 @@
       gparted
       kitty
       neovim
+      gimp
     ];
   };
 
