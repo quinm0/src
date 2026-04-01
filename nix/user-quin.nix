@@ -26,6 +26,8 @@
       kitty
       neovim
       gimp
+      kicad-small
+      rpi-imager
     ];
   };
 
