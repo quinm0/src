@@ -30,6 +30,11 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/tmpMedia" =
+    { device = "/dev/disk/by-uuid/fa20e116-e04e-4f3e-bf5a-c2e2c1fad610";
+      fsType = "ext4";
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/cf4cff49-15d7-4145-86c2-8be30e71fe4c"; }
     ];
