@@ -28,6 +28,7 @@
       gimp
       kicad-small
       rpi-imager
+      vscodium-fhs
     ];
   };
 
