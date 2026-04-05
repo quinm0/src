@@ -1,7 +1,8 @@
 ---
-- hosts: qmoran-desktop
+- hosts: pt1
   become: yes
   roles:
+    - dietpi
     - oneenv
   vars_files:
     - secrets.yaml

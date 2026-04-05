@@ -1,8 +1,0 @@
-- name: Install opentofu
-  import_tasks: install-opentofu.yaml
-
-- name: Install lazydocker
-  import_tasks: install-lazydocker.yaml
-
-- name: Install ctop
-  import_tasks: install-ctop.yaml

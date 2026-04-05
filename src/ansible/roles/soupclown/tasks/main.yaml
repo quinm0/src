@@ -1,9 +1,0 @@
----
-- name: Install all dependencies
-  import_tasks: install-deps.yaml
-
-- name: Create users
-  import_tasks: create-users.yaml
-
-- name: Install rclone (MEGA)
-  import_tasks: rclone-mega-install.yaml

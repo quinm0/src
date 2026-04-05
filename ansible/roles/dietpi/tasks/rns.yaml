@@ -1,13 +1,4 @@
 ---
-# - name: Install python3 packages
-#   pip:
-#     name: "{{ item }}"
-#     state: present
-#     executable: pip3
-#   with_items:
-#     - rns
-#     - lxmf
-
 - name: Create systemd service for rns
   copy:
     dest: /etc/systemd/system/rns.service
