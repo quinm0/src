@@ -14,10 +14,7 @@
   };
 
   outputs = inputs@{ flake-parts, nixos-hardware, import-tree, nixpkgs, ... }:
-    # https://flake.parts/module-arguments.html
     flake-parts.lib.mkFlake { inherit inputs; } (top@{ config, withSystem, moduleWithSystem, ... }: {
-      imports = [
-      ];
       flake = {
         nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -39,8 +36,6 @@
       systems = [
         "x86_64-linux"
       ];
-      perSystem = { config, pkgs, ... }: {
-      };
     });
 }
 
