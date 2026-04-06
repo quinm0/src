@@ -12,13 +12,13 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, nixos-hardware, lib, ... }:
+  outputs = inputs@{ flake-parts, nixos-hardware, nixpkgs, ... }:
     # https://flake.parts/module-arguments.html
     flake-parts.lib.mkFlake { inherit inputs; } (top@{ config, withSystem, moduleWithSystem, ... }: {
       imports = [
       ];
       flake = {
-        nixosConfigurations.qmoran-laptop = lib.nixosSystem {
+        nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./nix/qlhc.nix
@@ -29,7 +29,7 @@
             nixos-hardware.nixosModules.framework-11th-gen-intel
           ];
         };
-        nixosConfigurations.qmoran-desktop = lib.nixosSystem {
+        nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./nix/qdhc.nix
