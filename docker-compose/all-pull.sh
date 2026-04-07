@@ -3,7 +3,7 @@
 SERVICE_NAMES=(
     # "paperless"
     # "immich"
-    # "navidrome"
+    "navidrome"
     "downloadin"
     # "matrix"
 )
