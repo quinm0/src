@@ -11,6 +11,12 @@
     state: present
     break_system_packages: yes
 
+- name: Install the nomadnet package
+  ansible.builtin.pip:
+    name: nomadnet
+    state: present
+    break_system_packages: yes
+
 - name: Create systemd service for rns
   copy:
     dest: /etc/systemd/system/rns.service
@@ -36,7 +42,7 @@
 - name: Ensure rns service is configured
   systemd:
     name: rns.service
-    enabled: no
+    enabled: yes
     state: stopped
 
 - name: Ensure Reticulum config directory exists
@@ -50,14 +56,15 @@
     dest: /root/.reticulum/config
     content: |
       [reticulum]
-        enable_transport = True
+        enable_transport = Yes
         share_instance = Yes
         instance_name = {{ansible_hostname}}
         discover_interfaces = Yes
         panic_on_interface_error = No
+        respond_to_probes = Yes
 
       [logging]
-        loglevel = 3
+        loglevel = 6
 
       [interfaces]
 
@@ -79,7 +86,8 @@
           id_interval = {{ radio.id_interval | default(600) }}
         {% endfor %}
 
-# - name: Start rns service after config update
-#   systemd:
-#     name: rns.service
-#     state: started
+- name: Start rns service after config update
+  systemd:
+    name: rns.service
+    enabled: yes
+    state: started

@@ -3,3 +3,6 @@
 
 - name: Install Reticulum Network Stack (RNS)
   import_tasks: rns.yaml
+
+- name: Install nomadnet (lxmf message daemon)
+  import_tasks: nomadnet.yaml

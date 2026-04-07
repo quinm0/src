@@ -1,0 +1,28 @@
+---
+- name: Create systemd service for nomadnet
+  copy:
+    dest: /etc/systemd/system/nomadnet.service
+    content: |
+      [Unit]
+      Description=Nomadnet Daemon
+      After=multi-user.target
+
+      [Service]
+      Type=simple
+      Restart=always
+      RestartSec=3
+      User=root
+      ExecStart=nomadnet -d
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Start nomadnet service after config update
+  systemd:
+    name: nomadnet.service
+    enabled: yes
+    state: started
