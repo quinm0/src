@@ -1,2 +1,5 @@
+- name: Install pyenv
+  import_tasks: pyenv.yaml
+
 - name: Install Reticulum Network Stack (RNS)
   import_tasks: rns.yaml

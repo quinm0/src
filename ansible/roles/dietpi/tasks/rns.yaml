@@ -1,4 +1,16 @@
 ---
+- name: Install the rns package
+  ansible.builtin.pip:
+    name: rns
+    state: present
+    break_system_packages: yes
+
+- name: Install the lxmf package
+  ansible.builtin.pip:
+    name: lxmf
+    state: present
+    break_system_packages: yes
+
 - name: Create systemd service for rns
   copy:
     dest: /etc/systemd/system/rns.service
@@ -21,15 +33,10 @@
   systemd:
     daemon_reload: yes
 
-- name: Ensure rns service is enabled and started
+- name: Ensure rns service is configured
   systemd:
     name: rns.service
-    enabled: yes
-    state: started
-
-- name: Stop service for config file update
-  systemd:
-    name: rns.service
+    enabled: no
     state: stopped
 
 - name: Ensure Reticulum config directory exists
@@ -45,85 +52,34 @@
       [reticulum]
         enable_transport = True
         share_instance = Yes
-        instance_name = B407
+        instance_name = {{ansible_hostname}}
         discover_interfaces = Yes
         panic_on_interface_error = No
 
-      # If you're connecting to a large external network, you
-      # can use one or more external blackhole list to block
-      # spammy and excessive announces onto your network. This
-      # funtionality is especially useful if you're hosting public
-      # entrypoints or gateways. The list source below provides a
-      # functional example, but better, more timely maintained
-      # lists probably exist in the community.
-
-      # blackhole_sources = 521c87a83afb8f29e4455e77930b973b
-
       [logging]
-        # Valid log levels are 0 through 7:
-        #   0: Log only critical information
-        #   1: Log errors and lower log levels
-        #   2: Log warnings and lower log levels
-        #   3: Log notices and lower log levels
-        #   4: Log info and lower (this is the default)
-        #   5: Verbose logging
-        #   6: Debug logging
-        #   7: Extreme logging
-        loglevel = 4
-
-      # The interfaces section defines the physical and virtual
-      # interfaces Reticulum will use to communicate on. This
-      # section will contain examples for a variety of interface
-      # types. You can modify these or use them as a basis for
-      # your own config, or simply remove the unused ones.
+        loglevel = 3
 
       [interfaces]
-        
+
         [[Default Interface]]
           type = AutoInterface
           enabled = Yes
-        [[RNode LoRa Interface]]
-          type = RNodeInterface
-          enabled = yes
-          port = /dev/ttyACM0
-          # Set frequency to 915 MHz (US ISM Band)
-          frequency = 915000000
-          # Set LoRa bandwidth to 125 KHz
-          bandwidth = 125000
-          # Set TX power to 7 dBm (5 mW)
-          txpower = 7
-          # Select spreading factor 8. Valid
-          # range is 7 through 12, with 7
-          # being the fastest and 12 having
-          # the longest range.
-          spreadingfactor = 8
-          # Select coding rate 5. Valid range
-          # is 5 throough 8, with 5 being the
-          # fastest, and 8 the longest range.
-          codingrate = 5
-          # You can configure the RNode to send
-          # out identification on the channel with
-          # a set interval by configuring the
-          # following two parameters.
-          id_callsign = B407
-          id_interval = 600
-          # For certain homebrew RNode interfaces
-          # with low amounts of RAM, using packet
-          # flow control can be useful. By default
-          # it is disabled.
-          # flow_control = False
-          # It is possible to limit the airtime
-          # utilisation of an RNode by using the
-          # following two configuration options.
-          # The short-term limit is applied in a
-          # window of approximately 15 seconds,
-          # and the long-term limit is enforced
-          # over a rolling 60 minute window. Both
-          # options are specified in percent.
-          # airtime_limit_long = 1.5
-          # airtime_limit_short = 33
+        {% for key, radio in radios.items() %}
 
-- name: Start rns service after config update
-  systemd:
-    name: rns.service
-    state: started
+        [[RNode LoRa {{radio.name}}]]
+          type = RNodeInterface
+          enabled = {{ radio.enabled | default('yes') }}
+          port = {{ radio.serialpath | default('/dev/ttyACM0') }}
+          frequency = {{ radio.frequency | default(915000000) }}
+          bandwidth = {{ radio.bandwidth | default(125000) }}
+          txpower = {{ radio.txpower | default(7) }}
+          spreadingfactor = {{ radio.spreadingfactor | default(8) }}
+          codingrate = {{ radio.codingrate | default(5) }}
+          id_callsign = {{ radio.name | default(key) }}
+          id_interval = {{ radio.id_interval | default(600) }}
+        {% endfor %}
+
+# - name: Start rns service after config update
+#   systemd:
+#     name: rns.service
+#     state: started

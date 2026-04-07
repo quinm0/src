@@ -29,6 +29,8 @@
       kicad-small
       rpi-imager
       vscodium-fhs
+      ansible_2_18
+      usbutils
     ];
   };
 
