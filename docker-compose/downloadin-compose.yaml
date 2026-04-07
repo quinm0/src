@@ -24,7 +24,7 @@ services:
       - 3333:3333         # bitmagnet API and WebUI port
       - 3334:3334/tcp     # bitmagnet BitTorrent ports
       - 3334:3334/udp     # bitmagnet BitTorrent ports
-      - 5055:5055         # seerr
+      # - 5055:5055         # seerr
       # - 8112:8112       # Deluge
       # - 6881:6881       # Deluge
       # - 6881:6881/udp   # Deluge
@@ -152,8 +152,9 @@ services:
     image: ghcr.io/seerr-team/seerr:latest
     init: true
     container_name: seerr
-    network_mode: "service:vpn"
     restart: unless-stopped
+    ports:
+      - 5055:5055
     environment:
       - TZ=${TZ}
       - LOG_LEVEL=debug

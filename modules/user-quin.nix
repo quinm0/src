@@ -31,6 +31,7 @@
       vscodium-fhs
       ansible_2_18
       usbutils
+      python313Packages.nomadnet
     ];
   };
 
