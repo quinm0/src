@@ -5,8 +5,8 @@ LOGFILE="${HOME}/screen_sessions.log"
 
 # Map window names to commands (commands run as shells; use full paths or quotes if needed)
 declare -A CMD_FOR_SESSION=(
-  [radarr]='sudo rclone move --config /etc/rclone.conf --transfers 30 -P /mnt/tmpMedia/radarr data:enc/mnt/mega/app_data/complete_torrent_downloads'
-  [sonarr]='sudo rclone move --config /etc/rclone.conf --transfers 30 -P /mnt/tmpMedia/sonarr data:enc/mnt/mega/app_data/complete_torrent_downloads'
+  [radarr]='sudo rclone move --config /etc/rclone.conf -P /mnt/tmpMedia/radarr data:enc/mnt/mega/app_data/complete_torrent_downloads'
+  [sonarr]='sudo rclone move --config /etc/rclone.conf -P /mnt/tmpMedia/sonarr data:enc/mnt/mega/app_data/complete_torrent_downloads'
 )
 
 timestamp(){ date --iso-8601=seconds; }
