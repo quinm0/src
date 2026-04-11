@@ -35,8 +35,6 @@
       device = "/dev/disk/by-uuid/fa20e116-e04e-4f3e-bf5a-c2e2c1fad610";
       fsType = "ext4";
       options = ["noatime" "nodiratime" "noauto"];
-
-      systemd.automount = true;
     };
 
   swapDevices =
