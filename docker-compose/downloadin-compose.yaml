@@ -72,7 +72,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/radarr:/config
-      - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
+      - ${DOWNLOAD_IN_PROGRESS_PATH}/incomplete:/downloads/incomplete #optional
+      - /mnt/mega/app_data/complete_torrent_downloads/radarr:/downloads/radarr #optional
       - /mnt/mega/jellyfinMedia:/media
     depends_on:
       vpn:
@@ -95,7 +96,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/sonarr:/config
-      - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads #optional
+      - ${DOWNLOAD_IN_PROGRESS_PATH}/incomplete:/downloads/incomplete #optional
+      - /mnt/mega/app_data/complete_torrent_downloads/sonarr:/downloads/sonarr #optional
       - /mnt/mega/jellyfinMedia:/media
     depends_on:
       vpn:
