@@ -42,7 +42,6 @@ services:
     volumes:
       - ${DOWNLOAD_ETC_PATH}/transmission:/config
       - ${DOWNLOAD_IN_PROGRESS_PATH}:/downloads
-      - /mnt/mega/jellyfinMedia:/media
     restart: unless-stopped
 
   prowlarr:
@@ -72,9 +71,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/radarr:/config
-      - ${DOWNLOAD_IN_PROGRESS_PATH}/incomplete:/downloads/incomplete #optional
-      - /mnt/mega/app_data/complete_torrent_downloads/radarr:/downloads/radarr #optional
-      - /mnt/mega/jellyfinMedia:/media
+      - /mnt/tmpMedia/app_data/transmission/downloads/incomplete:/downloads/incomplete #optional
+      - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
     depends_on:
       vpn:
         condition: service_started
@@ -96,9 +94,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/sonarr:/config
-      - ${DOWNLOAD_IN_PROGRESS_PATH}/incomplete:/downloads/incomplete #optional
-      - /mnt/mega/app_data/complete_torrent_downloads/sonarr:/downloads/sonarr #optional
-      - /mnt/mega/jellyfinMedia:/media
+      - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
+      - /mnt/tmpMedia/app_data/transmission/downloads/incomplete:/downloads/incomplete #optional
     depends_on:
       vpn:
         condition: service_started
