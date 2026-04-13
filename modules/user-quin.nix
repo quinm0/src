@@ -33,6 +33,8 @@
       usbutils
       python313Packages.nomadnet
       screen
+      jellyfin-desktop
+      renpy
     ];
   };
 
