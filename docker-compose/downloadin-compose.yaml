@@ -71,8 +71,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOWNLOAD_ETC_PATH}/radarr:/config
-      - /mnt/tmpMedia/app_data/transmission/downloads/incomplete:/downloads/incomplete #optional
       - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
+      - /mnt/tmpMedia/app_data/transmission/downloads:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
@@ -95,7 +95,7 @@ services:
     volumes:
       - ${DOWNLOAD_ETC_PATH}/sonarr:/config
       - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
-      - /mnt/tmpMedia/app_data/transmission/downloads/incomplete:/downloads/incomplete #optional
+      - /mnt/tmpMedia/app_data/transmission/downloads:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
