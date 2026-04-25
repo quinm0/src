@@ -35,6 +35,7 @@
       screen
       jellyfin-desktop
       renpy
+      bun
     ];
   };
 
