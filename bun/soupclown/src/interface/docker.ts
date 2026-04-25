@@ -17,7 +17,7 @@ const  SC_ContainerInfo = z.object({
     state: z.unknown(),
     created: z.date(),
 })
-type SC_ContainerInfoT = typeof SC_ContainerInfo;
+type SC_ContainerInfoT = z.infer<typeof SC_ContainerInfo>;
 
 async function PS (){
     const result = $`docker ps -a --format json`
