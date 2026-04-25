@@ -73,7 +73,7 @@ services:
       - ${DOWNLOAD_ETC_PATH}/radarr:/config
       - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
       - /mnt/media2/app_data/jellyfin/media:/soupclown/localmedia2
-      - /mnt/tmpMedia/app_data/transmission/downloads:/downloads #optional
+      - /mnt/media2/app_data/transmission/downloads:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
@@ -97,7 +97,7 @@ services:
       - ${DOWNLOAD_ETC_PATH}/sonarr:/config
       - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
       - /mnt/media2/app_data/jellyfin/media:/soupclown/localmedia2
-      - /mnt/tmpMedia/app_data/transmission/downloads:/downloads #optional
+      - /mnt/media2/app_data/transmission/downloads:/downloads #optional
     depends_on:
       vpn:
         condition: service_started
