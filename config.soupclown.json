@@ -1,1 +1,1 @@
-{"v":"v1","config":{"services":{}}}
+{"v":"v1","data":{"services":[{"name":"doohickey","desiredState":"up"}]}}
