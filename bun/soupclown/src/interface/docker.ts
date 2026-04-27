@@ -34,6 +34,6 @@ async function PS (){
     return containerData;
 }
 
-export const DockerSC = {
+export const SC_DOCKER = {
     PS,
 }
