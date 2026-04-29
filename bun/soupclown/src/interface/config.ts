@@ -61,7 +61,7 @@ export class SC_CONFIG_C {
   }
 
   private async _writeConfigFile(path = DEFAULT_CONFIG_PATH){
-    await Bun.write(path, JSON.stringify(this.runningConfig));
+    await Bun.write(path, JSON.stringify(this.runningConfig, null, 2));
   }
 }
 
