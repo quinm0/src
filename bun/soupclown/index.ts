@@ -7,10 +7,10 @@ export function RUN_CLI(){
   c
   .name('soupclown')
   .description('Soupclown system')
+  .option('--showConfig', 'display the configured config')
+  .parse();
 
-  c.option('--showConfig', 'display the configured config')
-  
-  const options = c.parse().opts();
+  const options = c.opts();
 
   if(options.showConfig){
     console.log(JSON.stringify(SC_CONFIG, null, 2))
