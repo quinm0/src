@@ -168,19 +168,3 @@ services:
       timeout: 3s
       interval: 15s
       retries: 3
-
-  autobrr:
-    container_name: autobrr
-    image: ghcr.io/autobrr/autobrr:latest
-    restart: unless-stopped
-    network_mode: "service:vpn"
-    user: 1000:1000
-    environment:
-      - TZ=${TZ}
-    volumes:
-      - ${SOUPCLOWN_ETC_PATH}/autobrr/config:/config
-    depends_on:
-      vpn:
-        condition: service_started
-        restart: true
-        required: true
