@@ -24,11 +24,12 @@ services:
       - 3333:3333         # bitmagnet API and WebUI port
       - 3334:3334/tcp     # bitmagnet BitTorrent ports
       - 3334:3334/udp     # bitmagnet BitTorrent ports
-      # - 5055:5055         # seerr
+      # - 5055:5055       # seerr
       # - 8112:8112       # Deluge
       # - 6881:6881       # Deluge
       # - 6881:6881/udp   # Deluge
       # - 58846:58846     # idk Deluge
+      - 7474:7474         # Autobrr
     restart: unless-stopped
 
   transmission:
@@ -167,3 +168,19 @@ services:
       timeout: 3s
       interval: 15s
       retries: 3
+
+  autobrr:
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    restart: unless-stopped
+    network_mode: "service:vpn"
+    user: 1000:1000
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${SOUPCLOWN_ETC_PATH}/autobrr/config:/config
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
