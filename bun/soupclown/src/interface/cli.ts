@@ -1,5 +1,5 @@
-import { Command, program } from "commander";
-import { SC_CONFIG } from "./config";
+import { Command } from "commander";
+import { HOST } from "./host";
 
 export function RUN_CLI(){
   const c = new Command();
@@ -10,12 +10,13 @@ export function RUN_CLI(){
 
   c
     .command('host <action>')
-    .action((action, opts) => {
+    .action(async (action, opts) => {
       console.log(opts)
       switch(action){
 
         case 'init':
           console.log('init action!')
+          console.log(`HOSTNAME: ${await HOST.getHostname()}`)
           break;
 
         default:
