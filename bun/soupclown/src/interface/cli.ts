@@ -17,6 +17,7 @@ export function RUN_CLI(){
         case 'init':
           console.log('init action!')
           console.log(`HOSTNAME: ${await HOST.getHostname()}`)
+          await HOST.initSystem()
           break;
 
         default:
