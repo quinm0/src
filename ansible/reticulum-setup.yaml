@@ -2,7 +2,7 @@
 - hosts: pt1
   become: yes
   roles:
-    - dietpi
+    - reticulum
   vars:
     radios:
       B407:
@@ -18,7 +18,6 @@
         enabled: "no"
         name: XXXX
         serialpath: /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
-        
       # C123:
       #   name: C123
       #   serialpath: /dev/ttyACM1

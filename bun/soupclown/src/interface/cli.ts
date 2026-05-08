@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { HOST } from "./host";
+import { SC_CONFIG } from "./config";
 
 export function RUN_CLI(){
   const c = new Command();
@@ -13,11 +14,10 @@ export function RUN_CLI(){
     .action(async (action, opts) => {
       console.log(opts)
       switch(action){
-
         case 'init':
-          console.log('init action!')
-          console.log(`HOSTNAME: ${await HOST.getHostname()}`)
           await HOST.initSystem()
+          await SC_CONFIG.save()
+          console.log('done!')
           break;
 
         default:

@@ -19,15 +19,31 @@ const CONFIG_SCHEMA = z.object({
 export type CONFIG_SCHEMA_T = z.infer<typeof CONFIG_SCHEMA>
 
 export class SC_CONFIG_C  {
-
+  private hostname = "";
 
   constructor(
-    protected runningConfig = {
+    private runningConfig = {
       v: 'v1',
-      data: new Map([
-      ]),
+      data: new Map(),
     } as CONFIG_SCHEMA_T,
-  ){}
+  ){
+  }
+
+  public get config(): HOST_CONFIG_SCHEMA_T{
+    const config = this.runningConfig.data.get(this.hostname);
+    if(config){
+      return config
+    }
+
+    return {
+      configurationPath: '/etc/soupclown',
+      services: [],
+    }
+  }
+
+  public set config(d: HOST_CONFIG_SCHEMA_T){
+    this.runningConfig.data.set(this.hostname, d);
+  }
 
   public static async loadConfigFile(path = DEFAULT_CONFIG_PATH){
     const configFile = Bun.file(path);
@@ -54,20 +70,21 @@ export class SC_CONFIG_C  {
     return newConfig;
   }
 
+  public async save(){
+    this._writeConfigFile();
+  }
+
   private async _loadConfigFile(path = DEFAULT_CONFIG_PATH){
     try{
       this.runningConfig = await SC_CONFIG_C.loadConfigFile(path);
-      const hostconfig = this.runningConfig.data.get(await HOST.getHostname());
-      if(hostconfig){
-        this.configurationPath = hostconfig.configurationPath;
-        this.services = hostconfig.services;
-      }
+      this.hostname = await HOST.getHostname();
     }catch{
       console.error('Failed to load config, assuming you know what you\'re doing');
     }
   }
 
   private async _writeConfigFile(path = DEFAULT_CONFIG_PATH){
+    console.log('trying to save', this.runningConfig.data)
     await Bun.write(path, JSON.stringify(this.runningConfig, null, 2));
   }
 }

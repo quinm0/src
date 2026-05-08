@@ -1,3 +1,8 @@
+- name: Check if pyenv is installed
+  stat:
+    path: /root/.pyenv
+  register: pyenv_installed
+
 - name: Install build environment
   become: true
   apt:
@@ -21,11 +26,7 @@
       - liblzma-dev
       - python3-pip
       - python3-venv
-
-- name: Check if pyenv is installed
-  stat:
-    path: /root/.pyenv
-  register: pyenv_installed
+  when: not pyenv_installed.stat.exists
 
 - name: Download pyenv install script
   get_url:

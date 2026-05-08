@@ -7,7 +7,7 @@ async function getHostname(){
 }
 
 async function initSystem(){
-  // await $`mkdir -p ${SC_CONFIG.configurationPath}`
+  await $`mkdir -p ${SC_CONFIG.config.configurationPath}`
 }
 
 export const HOST = {
