@@ -36,6 +36,7 @@
       jellyfin-desktop
       renpy
       bun
+      wine
     ];
   };
 
