@@ -30,19 +30,25 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  fileSystems."/mnt/tmpMedia" =
+  fileSystems."/mnt/disks/disk1" =
     { 
       device = "/dev/disk/by-uuid/fa20e116-e04e-4f3e-bf5a-c2e2c1fad610";
       fsType = "ext4";
       options = ["noatime" "nodiratime"];
     };
 
-  fileSystems."/mnt/media2" =
+  fileSystems."/mnt/disks/disk2" =
     { 
       device = "/dev/disk/by-uuid/887500d5-1d4d-4080-84e3-5ef424c9f310";
       fsType = "ext4";
       options = ["noatime" "nodiratime"];
     };
+
+  fileSystems."/storage" = {
+    fsType = "fuse.mergerfs";
+    device = "/mnt/disks/*";
+    options = ["cache.files=partial" "dropcacheonclose=true" "category.create=mfs"];
+  };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/cf4cff49-15d7-4145-86c2-8be30e71fe4c"; }

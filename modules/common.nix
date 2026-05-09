@@ -38,5 +38,6 @@
     git
     tailscale
     rclone
+    mergerfs
   ];
 }

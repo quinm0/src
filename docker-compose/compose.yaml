@@ -1,4 +1,6 @@
 services:
+
+### START DOWNLOAD
   vpn:
     container_name: vpn
     profiles:
@@ -9,7 +11,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ${DOWNLOAD_ETC_PATH}/gluetun:/gluetun
+      - ${PATH_ETC}/gluetun:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       - SERVER_REGIONS=Netherlands
@@ -23,6 +25,7 @@ services:
       - 9696:9696         # Prowlarr
       - 7878:7878         # Radarr
       - 8989:8989         # Sonarr
+      - 8686:8686         # Lidarr
       - 3333:3333         # bitmagnet API and WebUI port
       - 3334:3334/tcp     # bitmagnet BitTorrent ports
       - 3334:3334/udp     # bitmagnet BitTorrent ports
@@ -45,8 +48,8 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ${DOWNLOAD_ETC_PATH}/transmission:/config
-      - /mnt/media2/app_data/transmission/downloads:/downloads
+      - ${PATH_ETC}/transmission:/config
+      - /storage/transmission/downloads:/downloads
     restart: unless-stopped
 
   prowlarr:
@@ -60,7 +63,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ${DOWNLOAD_ETC_PATH}/prowlarr:/config
+      - ${PATH_ETC}/prowlarr:/config
     depends_on:
       vpn:
         condition: service_started
@@ -79,10 +82,9 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ${DOWNLOAD_ETC_PATH}/radarr:/config
-      - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
-      - /mnt/media2/app_data/jellyfin/media:/soupclown/localmedia2
-      - /mnt/media2/app_data/transmission/downloads:/downloads #optional
+      - ${PATH_ETC}/radarr:/config
+      - /storage/media:/media                       # Access to media library
+      - /storage/transmission/downloads:/downloads  # Access to transmission downloads
     depends_on:
       vpn:
         condition: service_started
@@ -105,10 +107,34 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ${DOWNLOAD_ETC_PATH}/sonarr:/config
-      - /mnt/tmpMedia/app_data/jellyfin/media:/soupclown/localmedia
-      - /mnt/media2/app_data/jellyfin/media:/soupclown/localmedia2
-      - /mnt/media2/app_data/transmission/downloads:/downloads #optional
+      - ${PATH_ETC}/sonarr:/config
+      - /storage/media:/media                       # Access to media library
+      - /storage/transmission/downloads:/downloads  # Access to transmission downloads
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+      prowlarr:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
+  
+  lidarr:
+    container_name: lidarr
+    profiles:
+      - download
+    image: lscr.io/linuxserver/lidarr:latest
+    network_mode: "service:vpn"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${PATH_ETC}/lidarr:/config
+      - /storage/media:/media                       # Access to media library
+      - /storage/transmission/downloads:/downloads  # Access to transmission downloads
     depends_on:
       vpn:
         condition: service_started
@@ -128,10 +154,10 @@ services:
     restart: unless-stopped
     network_mode: "service:vpn"
     environment:
-      - POSTGRES_PASSWORD=${DOWNLOAD_BITMAGENT_DB_PASS}
+      - POSTGRES_PASSWORD=${BITMAGENT_DB_PASS}
       - TMDB_API_KEY=${TMDB_API_KEY}
     volumes:
-      - ${SOUPCLOWN_ETC_PATH}/downloadin/bitmagnet/etc:/root/.config/bitmagnet
+      - ${PATH_ETC}/bitmagnet:/root/.config/bitmagnet
     command:
       - worker
       - run
@@ -150,10 +176,10 @@ services:
     image: postgres:16-alpine
     network_mode: "service:vpn"
     volumes:
-      - ${SOUPCLOWN_ETC_PATH}/downloadin/bitmagnet/postgresdata:/var/lib/postgresql/data
+      - ${PATH_ETC}/bitmagnet-postgres:/var/lib/postgresql/data
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=${DOWNLOAD_BITMAGENT_DB_PASS}
+      - POSTGRES_PASSWORD=${BITMAGENT_DB_PASS}
       - POSTGRES_DB=bitmagnet
       - PGUSER=postgres
     shm_size: 1g
@@ -177,7 +203,7 @@ services:
       - TZ=${TZ}
       - LOG_LEVEL=debug
     volumes:
-      - ${SOUPCLOWN_ETC_PATH}/seer:/app/config
+      - ${PATH_ETC}/seer:/app/config
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
       start_period: 20s
@@ -185,6 +211,38 @@ services:
       interval: 15s
       retries: 3
 
+  lidatube:
+    container_name: lidatube
+    profiles:
+      - download
+    image: thewicklowwolf/lidatube:latest
+    volumes:
+      - ${PATH_ETC}/lidatube:/lidatube/config
+      - /storage/lidatube:/lidatube/downloads
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - attempt_lidarr_import=True
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+
+  aurral:
+    container_name: aurral
+    profiles:
+      - download
+    image: ghcr.io/lklynet/aurral:latest
+    restart: unless-stopped
+    ports:
+      - 3001:3001
+    environment:
+      - DOWNLOAD_FOLDER=${DL_FOLDER:-./data/downloads}
+    volumes:
+      - ${PATH_ETC}/aurral:/app/backend/data
+      - /storage/aurral:/app/downloads
+
+  ### END DOWNLOAD
+
+  ### START APP
   navidrome:
     profiles:
       - app
@@ -194,8 +252,8 @@ services:
     ports:
       - "4533:4533"
     volumes:
-      - ${SOUPCLOWN_ETC_PATH}/navidrome:/data
-      - /mnt/mega/app_data/beets/beetsMusic/:/music1
+      - ${PATH_ETC}/navidrome:/data
+      - /storage/media/Music:/music
     restart: unless-stopped
 
   metube:
@@ -207,7 +265,9 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - /mnt/media2/app_data/metube/downloads:/downloads
-      - ./bin/metube-options.json:/config/metube-options.json
+      - ./bin/metube-options.json:/config/metube-options.json # Use config from repo :)
+      - /storage/metube/downloads:/downloads
     environment:
       - YTDL_OPTIONS_FILE=/config/metube-options.json
+
+  ### END APP
