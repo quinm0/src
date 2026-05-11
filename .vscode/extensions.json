@@ -2,6 +2,7 @@
     "recommendations": [
         "paisleysoftworks.renpywarp",
         "luquedaniel.languague-renpy",
-        "jnoortheen.nix-ide"
+        "jnoortheen.nix-ide",
+        "matthewpi.caddyfile-support"
     ]
 }

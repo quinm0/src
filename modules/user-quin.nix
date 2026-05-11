@@ -37,6 +37,7 @@
       renpy
       bun
       wine
+      beets
     ];
   };
 

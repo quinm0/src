@@ -1,0 +1,63 @@
+jf.soupclown.com {
+        reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:8096
+}
+
+nd.soupclown.com {
+        reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:4533
+}
+
+paperless.soupclown.com {
+        reverse_proxy qmoran-desktop.tailc7e587.ts.net:8000
+}
+
+immich.soupclown.com {
+        reverse_proxy qmoran-desktop.tailc7e587.ts.net:2283
+}
+
+seerr.soupclown.com {
+        reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:5055
+}
+
+soupclown.com {
+    header /.well-known/matrix/* {
+        Access-Control-Allow-Origin *
+        Content-Type application/json
+        Cache-Control public,max-age=806400
+    }
+    
+    # Matrix client-server well-known
+    handle /.well-known/matrix/client {
+        respond `{
+            "m.homeserver": {
+                "base_url": "https://matrix.soupclown.com"
+            },
+            "org.matrix.msc3575.proxy": {
+                "url": "https://matrix.soupclown.com"
+            }
+        }` 200
+    }
+
+    # Matrix server-server well-known
+    handle /.well-known/matrix/server {
+        respond `{
+            "m.server": "matrix.soupclown.com:443"
+        }` 200
+    }
+
+    # Matrix Support contact information (MSC1929)
+    handle /.well-known/matrix/support {
+        respond `{
+            "contacts": [
+                {
+                    "matrix_id": "@qmoran:soupclown.com",
+                    "email_address": "",
+                    "role": "m.role.admin"
+                }
+            ]
+        }` 200
+    }
+}
+
+matrix.soupclown.com, soupclown.com:8448 {
+	reverse_proxy qmoran-desktop.tailc7e587.ts.net:6167
+}
