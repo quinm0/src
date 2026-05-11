@@ -276,8 +276,8 @@ services:
     container_name: gitea
     image: docker.gitea.com/gitea:1.26.1
     ports:
-      - 3000:3000
-      - 222:22
+      - 3031:3000
+      - 8022:22
     volumes:
       - ${PATH_ETC}/gitea-data:/data
       - /etc/timezone:/etc/timezone:ro
