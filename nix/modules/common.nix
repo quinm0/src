@@ -13,6 +13,7 @@
   services.printing.enable = true; # CUPS
   services.tailscale.enable = true; # Tailscale
 
+  nix.settings.warn-dirty = false;
   nix.settings.experimental-features = [ 
     "nix-command"
     "flakes" 

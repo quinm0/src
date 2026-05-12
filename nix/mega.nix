@@ -24,7 +24,6 @@ in
     };
   };
 
-
   # Actual mount service
   systemd.services."${mountName}-mount" = {
     description = "Rclone mount '${mountName}'";

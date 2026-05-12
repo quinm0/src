@@ -23,13 +23,13 @@
   }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        inputs.home-manager.flakeModules.home-manager
+        home-manager.flakeModules.home-manager
       ];
       flake = {
         nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import-tree ./modules)
+            (import-tree ./nix/modules)
             nixos-hardware.nixosModules.framework-11th-gen-intel
             ./nix/qlhc.nix
           ];
@@ -37,7 +37,7 @@
         nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import-tree ./modules)
+            (import-tree ./nix/modules)
             ./nix/qdhc.nix
             ./nix/jf-server.nix
           ];
