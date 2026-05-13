@@ -1,0 +1,5 @@
+---
+- hosts: soupclown1
+  become: yes
+  roles:
+    - update_caddy_config

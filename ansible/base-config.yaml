@@ -1,5 +1,0 @@
----
-- hosts: qmoran-laptop
-  become: yes
-  roles:
-    - oneenv
