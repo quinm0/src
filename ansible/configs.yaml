@@ -3,3 +3,10 @@
   become: yes
   roles:
     - update_caddy_config
+
+- hosts: desktop
+  become: yes
+  roles:
+    - update_env
+  vars_files:
+    - secrets.yaml

@@ -1,0 +1,26 @@
+
+---
+- name: Check if env file in sync
+  ansible.builtin.template:
+    src: env.j2
+    dest: /etc/.soupclown.env
+    owner: root
+    group: root
+    mode: '0644'
+  check_mode: yes
+  register: env_check
+
+- name: Report drift status
+  ansible.builtin.debug:
+    msg: >
+      {{ 
+        'UPDATE REQUIRED: ENV on host (' + inventory_hostname + ') needs update'
+         if env_check.changed
+         else 'OK: ENV up to date' 
+      }}
+
+- name: Update ENV file
+  ansible.builtin.template:
+    src: env.j2
+    dest: /etc/.soupclown.env
+  when: env_check.changed

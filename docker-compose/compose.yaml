@@ -312,4 +312,45 @@ services:
       start_period: 20s
       interval: 10s
     restart: unless-stopped
+  
+  nextcloudDb:
+    profiles:
+      - donotstart
+    container_name: nextcloud-db
+    image: mariadb:lts
+    command: --transaction-isolation=READ-COMMITTED
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PASS}
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${NEXTCLOUD_DB_USERNAME}
+    restart: unless-stopped
+
+  nextcloudRedis:
+    profiles:
+      - donotstart
+    container_name: nextcloud-redis
+    image: redis:alpine
+    restart: unless-stopped
+
+  nextcloud:
+    profiles:
+      - donotstart
+    container_name: nextcloud
+    image: nextcloud
+    ports:
+      - 8080:80
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${NEXTCLOUD_DB_USERNAME}
+      - MYSQL_HOST=nextcloudDb
+    depends_on:
+      - nextcloudRedis
+      - nextcloudDb
+    restart: unless-stopped
   ### END APP
