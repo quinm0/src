@@ -243,7 +243,19 @@ services:
   ### END DOWNLOAD
 
   ### INFRA
-  
+  prometheus:
+    profiles:
+      - infra
+    container_name: prometheus
+    image: prom/prometheus
+    user: 1000:1000
+    ports:
+      - 9090:9090
+    volumes:
+      - ${PATH_ETC}/prometheus:/prometheus
+      - ./bin/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+
   ### END INFRA
 
   ### START APP

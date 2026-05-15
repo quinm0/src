@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 1m
+  scrape_timeout: 10s
+  evaluation_interval: 1m
+  metric_name_validation_scheme: utf8
+  metric_name_escaping_scheme: allow-utf-8
+  scrape_native_histograms: false
+  extra_scrape_metrics: false
+runtime:
+  gogc: 75
+storage:
+  tsdb:
+    outofordertimewindow: 0
+    retention:
+      time: 15d
+otlp:
+  translation_strategy: UnderscoreEscapingWithSuffixes
+  label_name_underscore_sanitization: true
+  label_name_preserve_multiple_underscores: true
