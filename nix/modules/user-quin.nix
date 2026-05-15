@@ -21,7 +21,6 @@
       libreoffice-qt-fresh
       trash-cli
       lutris
-      vlc
       gparted
       kitty
       neovim
@@ -35,7 +34,6 @@
       screen
       jellyfin-desktop
       renpy
-      bun
       wine
       beets
     ];

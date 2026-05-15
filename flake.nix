@@ -6,6 +6,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
+    codecelllib.url = "github:microbotsio/CodeCell"
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -44,10 +45,10 @@
         };
       };
       perSystem = { pkgs, ... }: {
-        devShells.airgradient = pkgs.mkShell {
+        devShells.codecell = pkgs.mkShell {
           shellHook =
             ''
-              echo "Airgradient devshell"
+              echo "Codecell devshell"
             '';
           packages = with pkgs; [
             esptool
