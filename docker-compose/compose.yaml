@@ -242,6 +242,10 @@ services:
 
   ### END DOWNLOAD
 
+  ### INFRA
+  
+  ### END INFRA
+
   ### START APP
   navidrome:
     profiles:

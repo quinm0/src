@@ -43,6 +43,17 @@
           ];
         };
       };
+      perSystem = { pkgs, ... }: {
+        devShells.airgradient = pkgs.mkShell {
+          shellHook =
+            ''
+              echo "Airgradient devshell"
+            '';
+          packages = with pkgs; [
+            esptool
+          ];
+        };
+      };
       systems = [
         "x86_64-linux"
       ];
