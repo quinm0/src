@@ -6,7 +6,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
-    codecelllib.url = "github:microbotsio/CodeCell"
 
     home-manager = {
       url = "github:nix-community/home-manager";
