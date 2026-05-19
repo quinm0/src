@@ -44,7 +44,7 @@
         };
       };
       perSystem = { pkgs, ... }: {
-        devShells.codecell = pkgs.mkShell {
+        devShells.espdev = pkgs.mkShell {
           shellHook =
             ''
               echo "Codecell devshell"
