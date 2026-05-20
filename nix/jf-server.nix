@@ -5,6 +5,7 @@
     enable = true;
     openFirewall = true;
     group = "soupclownservice";
+    dataDir = "/etc/soupclown/jellyfin";
   };
 
   environment.systemPackages = [

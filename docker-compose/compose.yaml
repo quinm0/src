@@ -37,16 +37,19 @@ services:
       - 7474:7474         # Autobrr
     restart: unless-stopped
 
+  #DONOTSTART
   transmission:
     container_name: transmission
     profiles:
-      - download
+      # - download
+      - donotstart
     image: lscr.io/linuxserver/transmission:latest
+    user: 700:700
     network_mode: "service:vpn"
     environment:
       - TZ=${TZ}
-      - PUID=1000
-      - PGID=1000
+      - PUID=700
+      - PGID=700
     volumes:
       - ${PATH_ETC}/transmission:/config
       - /storage/transmission/downloads:/downloads
@@ -57,11 +60,12 @@ services:
     profiles:
       - download
     image: lscr.io/linuxserver/prowlarr:latest
+    user: 700:700
     network_mode: "service:vpn"
     environment:
       - TZ=${TZ}
-      - PUID=1000
-      - PGID=1000
+      - PUID=700
+      - PGID=700
     volumes:
       - ${PATH_ETC}/prowlarr:/config
     depends_on:
@@ -76,10 +80,11 @@ services:
     profiles:
       - download
     image: lscr.io/linuxserver/radarr:latest
+    user: 700:700
     network_mode: "service:vpn"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=700
+      - PGID=700
       - TZ=${TZ}
     volumes:
       - ${PATH_ETC}/radarr:/config
@@ -101,10 +106,11 @@ services:
     profiles:
       - download
     image: lscr.io/linuxserver/sonarr:latest
+    user: 700:700
     network_mode: "service:vpn"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=700
+      - PGID=700
       - TZ=${TZ}
     volumes:
       - ${PATH_ETC}/sonarr:/config
@@ -126,10 +132,11 @@ services:
     profiles:
       - download
     image: lscr.io/linuxserver/lidarr:latest
+    user: 700:700
     network_mode: "service:vpn"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=700
+      - PGID=700
       - TZ=${TZ}
     volumes:
       - ${PATH_ETC}/lidarr:/config
@@ -151,11 +158,14 @@ services:
     profiles:
       - download
     image: ghcr.io/bitmagnet-io/bitmagnet:latest
+    user: 700:700
     restart: unless-stopped
     network_mode: "service:vpn"
     environment:
       - POSTGRES_PASSWORD=${BITMAGENT_DB_PASS}
       - TMDB_API_KEY=${TMDB_API_KEY}
+      - PUID=700
+      - PGID=700
     volumes:
       - ${PATH_ETC}/bitmagnet:/root/.config/bitmagnet
     command:
@@ -166,10 +176,10 @@ services:
       # disable the next line to run without DHT crawler
       - --keys=dht_crawler
     depends_on:
-      postgres:
+      bitmagnetpostgres:
         condition: service_healthy
 
-  postgres:
+  bitmagnetpostgres:
     container_name: bitmagnet-postgres
     profiles:
       - download
@@ -195,12 +205,15 @@ services:
     profiles:
       - download
     image: ghcr.io/seerr-team/seerr:latest
+    user: 700:700
     init: true
     ports:
       - 5055:5055
     environment:
       - TZ=${TZ}
       - LOG_LEVEL=debug
+      - PUID=700
+      - PGID=700
     volumes:
       - ${PATH_ETC}/seer:/app/config
     healthcheck:
@@ -211,17 +224,21 @@ services:
       retries: 3
     restart: unless-stopped
 
+  #DONOTSTART
   lidatube:
     container_name: lidatube
     profiles:
-      - download
+      - donotstart
     image: thewicklowwolf/lidatube:latest
+    user: 700:700
     volumes:
       - ${PATH_ETC}/lidatube:/lidatube/config
       - /storage/lidatube:/lidatube/downloads
       - /etc/localtime:/etc/localtime:ro
     environment:
       - attempt_lidarr_import=True
+      - PUID=700
+      - PGID=700
     ports:
       - 5000:5000
     restart: unless-stopped
@@ -231,10 +248,13 @@ services:
     profiles:
       - download
     image: ghcr.io/lklynet/aurral:latest
+    user: 700:700
     ports:
       - 3001:3001
     environment:
       - DOWNLOAD_FOLDER=${DL_FOLDER:-./data/downloads}
+      - PUID=700
+      - PGID=700
     volumes:
       - ${PATH_ETC}/aurral:/app/backend/data
       - /storage/aurral:/app/downloads
@@ -248,12 +268,15 @@ services:
       - infra
     container_name: prometheus
     image: prom/prometheus
-    user: 1000:1000
+    user: 700:700
     ports:
       - 9090:9090
     volumes:
       - ${PATH_ETC}/prometheus:/prometheus
       - ./bin/prometheus.yml:/etc/prometheus/prometheus.yml
+    environment:
+      - PUID=700
+      - PGID=700
     restart: unless-stopped
 
   ### END INFRA
@@ -264,18 +287,22 @@ services:
       - app
     container_name: navidrome
     image: deluan/navidrome:latest
-    user: 1000:1000
+    user: 700:700
     ports:
       - "4533:4533"
     volumes:
       - ${PATH_ETC}/navidrome:/data
       - /storage/media/Music:/music
+    environment:
+      - PUID=700
+      - PGID=700
     restart: unless-stopped
 
   metube:
     profiles:
       - app
     image: ghcr.io/alexta69/metube
+    user: 700:700
     container_name: metube
     ports:
       - "8081:8081"
@@ -284,13 +311,17 @@ services:
       - /storage/metube/downloads:/downloads
     environment:
       - YTDL_OPTIONS_FILE=/config/metube-options.json
+      - PUID=700
+      - PGID=700
     restart: unless-stopped
 
+  #DONOTSTART
   gitea:
     profiles:
-      - app
+      - donotstart
     container_name: gitea
     image: docker.gitea.com/gitea:1.26.1
+    user: 700:700
     ports:
       - 3031:3000
       - 8022:22
@@ -310,11 +341,13 @@ services:
     depends_on:
       - giteadb
 
+  #DONOTSTART
   giteadb:
     profiles:
-      - app
+      - donotstart
     container_name: gitea-postgres
     image: docker.io/library/postgres:14
+    user: 1000:700
     environment:
       - POSTGRES_USER=${GITEA_DB_USERNAME}
       - POSTGRES_PASSWORD=${GITEA_DB_PASSWORD}
@@ -329,11 +362,13 @@ services:
       interval: 10s
     restart: unless-stopped
   
+  #DONOTSTART
   nextcloudDb:
     profiles:
       - donotstart
     container_name: nextcloud-db
     image: mariadb:lts
+    user: 1000:700
     command: --transaction-isolation=READ-COMMITTED
     volumes:
       - db:/var/lib/mysql
@@ -344,18 +379,25 @@ services:
       - MYSQL_USER=${NEXTCLOUD_DB_USERNAME}
     restart: unless-stopped
 
+  #DONOTSTART
   nextcloudRedis:
     profiles:
       - donotstart
     container_name: nextcloud-redis
     image: redis:alpine
+    user: 700:700
+    environment:
+      - PUID=700
+      - PGID=700
     restart: unless-stopped
 
+  #DONOTSTART
   nextcloud:
     profiles:
       - donotstart
     container_name: nextcloud
     image: nextcloud
+    user: 700:700
     ports:
       - 8080:80
     volumes:
@@ -365,6 +407,8 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=${NEXTCLOUD_DB_USERNAME}
       - MYSQL_HOST=nextcloudDb
+      - PUID=700
+      - PGID=700
     depends_on:
       - nextcloudRedis
       - nextcloudDb
