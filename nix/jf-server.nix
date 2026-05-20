@@ -4,6 +4,7 @@
   services.jellyfin = {
     enable = true;
     openFirewall = true;
+    group = "soupclownservice";
   };
 
   environment.systemPackages = [

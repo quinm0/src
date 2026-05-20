@@ -36,6 +36,7 @@
       renpy
       wine
       beets
+      vlc
     ];
   };
 
