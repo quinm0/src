@@ -8,7 +8,8 @@
     extraGroups = [ 
       "wheel" 
       "docker" 
-      "networkmanager" 
+      "networkmanager"
+      "dialout"
     ];
     packages = with pkgs; [
       gh
