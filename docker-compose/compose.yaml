@@ -18,6 +18,8 @@ services:
       - OPENVPN_USER=${PIA_USERNAME}
       - OPENVPN_PASSWORD=${PIA_PASSWORD}
       - UPDATER_PERIOD=24h
+      - PORT_FORWARD_ONLY=true
+      - VPN_PORT_FORWARDING=on
     ports:
       - 9091:9091         # Transmission
       - 51413:51413       # Transmission
@@ -30,19 +32,14 @@ services:
       - 3334:3334/tcp     # bitmagnet BitTorrent ports
       - 3334:3334/udp     # bitmagnet BitTorrent ports
       # - 5055:5055       # seerr
-      # - 8112:8112       # Deluge
-      # - 6881:6881       # Deluge
-      # - 6881:6881/udp   # Deluge
-      # - 58846:58846     # idk Deluge
       - 7474:7474         # Autobrr
     restart: unless-stopped
 
-  #DONOTSTART
   transmission:
     container_name: transmission
     profiles:
-      # - download
-      - donotstart
+      - download
+      # - donotstart
     image: lscr.io/linuxserver/transmission:latest
     user: 700:700
     network_mode: "service:vpn"
