@@ -38,6 +38,7 @@
       wine
       beets
       vlc
+      restic
     ];
   };
 
