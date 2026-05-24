@@ -276,6 +276,29 @@ services:
       - PGID=700
     restart: unless-stopped
 
+  meshchatx:
+    profiles:
+      - infra
+    container_name: meshchatx
+    image: quad4io/meshchatx:latest
+    privileged: true
+    group_add:
+      - 27 # Dialout group hehe
+    user: 1000:700
+    ports:
+      - 8000:8000
+      - 4242:4242
+    volumes:
+      - ${PATH_ETC}/meshchatx:/config
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    environment:
+      - PUID=700
+      - PGID=700
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
   ### END INFRA
 
   ### START APP
