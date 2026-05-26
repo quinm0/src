@@ -39,6 +39,7 @@
       beets
       vlc
       restic
+      prismlauncher
     ];
   };
 
