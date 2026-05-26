@@ -40,6 +40,7 @@
       vlc
       restic
       prismlauncher
+      jdk25_headless
     ];
   };
 
