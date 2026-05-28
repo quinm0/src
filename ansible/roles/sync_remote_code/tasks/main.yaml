@@ -1,0 +1,20 @@
+---
+- name: Ensure git installed
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    pkg:
+      - git
+
+- name: Pull code
+  git:
+    repo: "git@github.com:quinm0/src.git"
+    dest: "{{PATH_ETC}}/code"
+    version: main
+    force: true
+  register: deploy_result
+  
+- name: Pull results
+  debug:
+    msg: "Commit: {{ deploy_result.after[:12] }}, Changed: {{ deploy_result.changed }}"

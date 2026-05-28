@@ -2,11 +2,15 @@
 - hosts: soupclown1
   become: yes
   roles:
+    - sync_remote_code
     - update_caddy_config
-
-- hosts: desktop
-  become: yes
-  roles:
-    - update_env
   vars_files:
     - secrets.yaml
+
+# - hosts: desktop
+#   become: yes
+#   roles:
+#     - sync_remote_code
+#     - update_env
+#   vars_files:
+#     - secrets.yaml
