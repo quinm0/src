@@ -3,6 +3,8 @@
         "paisleysoftworks.renpywarp",
         "luquedaniel.languague-renpy",
         "jnoortheen.nix-ide",
-        "matthewpi.caddyfile-support"
+        "matthewpi.caddyfile-support",
+        "esbenp.prettier-vscode",
+        "craigrbroughton.htmx-attributes"
     ]
 }
