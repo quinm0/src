@@ -336,6 +336,8 @@ services:
     restart: unless-stopped
 
   soupclownmc:
+    profiles:
+      - app
     image: itzg/minecraft-server:latest
     container_name: soupclownmc
     user: 700:700
@@ -349,6 +351,7 @@ services:
       - PGID=700
     volumes:
       - ${PATH_ETC}/soupclownmc:/data
+    restart: unless-stopped
 
   #DONOTSTART
   gitea:
