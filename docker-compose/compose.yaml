@@ -397,6 +397,7 @@ services:
       - 5836:80
     volumes:
       - ${PATH_ETC}/nextcloud/etc:/var/www/html
+      - ./bin/nextcloud:/var/www/html/config
       - /storage/nextcloud-data:/var/www/html/data
     environment:
       - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
@@ -408,6 +409,23 @@ services:
     depends_on:
       - nextcloudRedis
       - nextcloudDb
+    restart: unless-stopped
+
+  harp_frpc_docker:
+    profiles:
+      - app
+    cap_add:
+      - NET_ADMIN # Quin does not like these
+    container_name: harp_frpc_docker
+    image: ghcr.io/nextcloud/nextcloud-appapi-harp:release
+    volumes:
+      - ./bin/frpc.toml:/etc/frpc.toml
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - HP_FRP_DISABLE_TLS=true
+      - HP_SHARED_KEY=${NEXTCLOUD_HARP_FRPC_KEY}
+      - NC_INSTANCE_URL=https://cloud.soupclown.com
+    command: -c=/etc/frpc.toml
     restart: unless-stopped
   ### END APP
 
