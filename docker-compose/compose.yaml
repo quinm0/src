@@ -28,6 +28,7 @@ services:
       - 7878:7878         # Radarr
       - 8989:8989         # Sonarr
       - 8686:8686         # Lidarr
+      - 6767:6767         # Bazarr
       - 3333:3333         # bitmagnet API and WebUI port
       - 3334:3334/tcp     # bitmagnet BitTorrent ports
       - 3334:3334/udp     # bitmagnet BitTorrent ports
@@ -125,9 +126,9 @@ services:
     restart: unless-stopped
   
   lidarr:
-    container_name: lidarr
     profiles:
       - download
+    container_name: lidarr
     image: lscr.io/linuxserver/lidarr:latest
     user: 700:700
     network_mode: "service:vpn"
@@ -139,6 +140,31 @@ services:
       - ${PATH_ETC}/lidarr:/config
       - /storage/media:/media                       # Access to media library
       - /storage/transmission/downloads:/downloads  # Access to transmission downloads
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+      prowlarr:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
+
+  bazarr:
+    profiles:
+      - download
+    container_name: bazarr
+    image: lscr.io/linuxserver/bazarr:latest
+    user: 700:700
+    network_mode: "service:vpn"
+    environment:
+      - PUID=700
+      - PGID=700
+      - TZ=${TZ}
+    volumes:
+      - ${PATH_ETC}/bazarr:/config
+      - /storage/media:/media                       # Access to media library
     depends_on:
       vpn:
         condition: service_started
