@@ -11,5 +11,30 @@ seerr.soupclown.com {
 }
 
 cloud.soupclown.com {
+    encode zstd gzip
+
+	header {
+		# enable HSTS
+		Strict-Transport-Security "max-age=31536000;"
+	}
+	redir /.well-known/webfinger /public.php?service=webfinger 301
+	redir /.well-known/carddav /remote.php/dav 301
+	redir /.well-known/caldav /remote.php/dav 301
+	@forbidden {
+		path /.htaccess
+		path /data/*
+		path /config/*
+		path /db_structure
+		path /.xml
+		path /README
+		path /3rdparty/*
+		path /lib/*
+		path /templates/*
+		path /occ
+		path /console.php
+	}
+
     reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:5836
+	respond @forbidden 403
 }
+
