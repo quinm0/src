@@ -30,6 +30,15 @@
 
 .header { grid-area: header; }
 .leftSide { grid-area: leftSide; }
-.body { grid-area: body; }
+.body { 
+  grid-area: body; 
+}
 .rightSide { grid-area: rightSide; }
 .footer { grid-area: footer; }
+.blinkie {
+  padding: 2rem 1rem;
+}
+
+ul {
+  margin: 0;
+}
