@@ -51,6 +51,7 @@
             '';
           packages = with pkgs; [
             esptool
+            clang-tools
           ];
         };
       };
