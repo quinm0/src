@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 1m
+  scrape_interval: 20s
   scrape_timeout: 10s
   evaluation_interval: 1m
   metric_name_validation_scheme: utf8
