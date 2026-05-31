@@ -17,3 +17,9 @@ otlp:
   translation_strategy: UnderscoreEscapingWithSuffixes
   label_name_underscore_sanitization: true
   label_name_preserve_multiple_underscores: true
+scrape_configs:
+  - job_name: airgradient
+    static_configs:
+    - targets: ['192.168.68.59']
+      labels:
+        sensor_location: bedroom
