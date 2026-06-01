@@ -7,6 +7,35 @@
     pkg:
       - git
 
+- name: Ensure remote refs are fetched
+  command:
+    cmd: "git -C {{PATH_ETC}}/code fetch --quiet"
+  register: git_fetch
+  changed_when: false
+
+- name: Get local HEAD SHA
+  command:
+    cmd: "git -C {{PATH_ETC}}/code rev-parse HEAD"
+  register: local_head
+  changed_when: false
+
+- name: Get remote HEAD SHA (origin/branch)
+  command:
+    cmd: "git -C {{PATH_ETC}}/code rev-parse origin/main"
+  register: remote_head
+  changed_when: false
+
+- name: Set fact if remote has new commits
+  set_fact:
+    remote_has_changes: "{{ local_head.stdout != remote_head.stdout }}"
+
+- name: Stop caddy service
+  systemd:
+    name: caddy
+    enabled: no
+    state: stopped
+  when: remote_has_changes | bool
+
 - name: Pull code
   git:
     repo: "git@github.com:quinm0/src.git"
@@ -14,7 +43,14 @@
     version: main
     force: true
   register: deploy_result
-  
+
+- name: Start caddy service
+  systemd:
+    name: caddy
+    enabled: yes
+    state: started
+  when: caddy_config_check.changed
+
 - name: Pull results
   debug:
     msg: "Commit: {{ deploy_result.after[:12] }}, Changed: {{ deploy_result.changed }}"

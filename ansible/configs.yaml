@@ -3,7 +3,6 @@
   become: yes
   roles:
     - sync_remote_code
-    - update_caddy_config
   vars_files:
     - secrets.yaml
 
