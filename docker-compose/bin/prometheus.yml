@@ -23,3 +23,6 @@ scrape_configs:
     - targets: ['192.168.68.59']
       labels:
         sensor_location: bedroom
+    - targets: ['192.168.68.60']
+      labels:
+        sensor_location: livingroom
