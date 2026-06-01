@@ -42,15 +42,11 @@
     dest: "{{PATH_ETC}}/code"
     version: main
     force: true
-  register: deploy_result
+  when: remote_has_changes | bool
 
 - name: Start caddy service
   systemd:
     name: caddy
     enabled: yes
     state: started
-  when: caddy_config_check.changed
-
-- name: Pull results
-  debug:
-    msg: "Commit: {{ deploy_result.after[:12] }}, Changed: {{ deploy_result.changed }}"
+  when: remote_has_changes | bool
