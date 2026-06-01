@@ -11,7 +11,7 @@ seerr.soupclown.com {
 }
 
 soupclown.com {
-  root /etc/soupclown/code/soupclownsite/dist
+  root * /etc/soupclown/code/soupclownsite/dist
   file_server
 }
 
