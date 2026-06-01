@@ -309,6 +309,20 @@ services:
   ### END INFRA
 
   ### START APP
+  soupclownsite:
+    profiles:
+      - app
+    container_name: soupclownsite
+    image: joseluisq/static-web-server:2-alpine
+    user: 700:700
+    ports:
+      - 8075:80
+    volumes:
+      - ./bin/soupclown:/var/public
+    environmnet:
+      - SERVER_ROOT=/var/public
+    restart: unless-stopped
+
   navidrome:
     profiles:
       - app
