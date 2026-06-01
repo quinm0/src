@@ -11,6 +11,9 @@ seerr.soupclown.com {
 }
 
 soupclown.com {
+  dns cloudflare {
+    api_token $CLOUDFLARE_TOKEN
+  }
   root * /etc/soupclown/code/soupclownsite/dist
   file_server
 }
