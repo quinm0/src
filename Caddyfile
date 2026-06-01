@@ -10,6 +10,11 @@ seerr.soupclown.com {
   reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:5055
 }
 
+soupclown.com {
+  root /etc/soupclown/code/soupclownsite/dist
+  file_server
+}
+
 cloud.soupclown.com {
   encode zstd gzip
 
