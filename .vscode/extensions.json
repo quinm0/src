@@ -5,6 +5,7 @@
         "jnoortheen.nix-ide",
         "matthewpi.caddyfile-support",
         "esbenp.prettier-vscode",
-        "craigrbroughton.htmx-attributes"
+        "craigrbroughton.htmx-attributes",
+        "lordimmaculate.platformio-ide"
     ]
 }
