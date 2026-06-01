@@ -321,6 +321,9 @@ services:
       - ./bin/soupclown:/var/public
     environmnet:
       - SERVER_ROOT=/var/public
+      - https-redirect=true
+      - https-redirect-host="srv1378610"
+      - https-redirect-from-port=80
     restart: unless-stopped
 
   navidrome:
