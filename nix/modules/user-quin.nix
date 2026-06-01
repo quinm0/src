@@ -41,6 +41,7 @@
       restic
       prismlauncher
       jdk25_headless
+      jekyll
     ];
   };
 

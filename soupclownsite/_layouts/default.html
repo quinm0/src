@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Soupclown {{page.title}}</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+
+  <body class="layout combo-1">
+    <div class="header">
+        {% include navigation.html %}
+        <h1>{{ page.header }}</h1>
+    </div>
+    <div class="leftSide">
+        <p>2</p>
+    </div>
+    <div class="body">
+        {{ content }}
+        {% include blinkies.html%}
+    </div>
+    <div class="rightSide">4</div>
+    <div class="footer">5</div>
+  </body>
+</html>

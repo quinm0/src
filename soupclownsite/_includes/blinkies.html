@@ -1,0 +1,9 @@
+<div class="blinkie">
+  {% for item in site.data.blinkies %}
+    <img 
+      src="./assets/img/{{ item.name }}.gif" 
+      alt="{{ item.alt }} blinkie"
+      height="20px"
+    />
+  {% endfor %}
+</div>
