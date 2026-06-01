@@ -319,7 +319,7 @@ services:
       - 8075:80
     volumes:
       - ./bin/soupclown:/var/public
-    environmnet:
+    environment:
       - SERVER_ROOT=/var/public
       - https-redirect=true
       - https-redirect-host="srv1378610"
