@@ -313,17 +313,12 @@ services:
     profiles:
       - app
     container_name: soupclownsite
-    image: joseluisq/static-web-server:2-alpine
-    user: 700:700
+    image: nginx:alpine
     ports:
       - 8075:80
     volumes:
-      - ./bin/soupclown:/var/public
-    environment:
-      - SERVER_ROOT=/var/public
-      - https-redirect=true
-      - https-redirect-host="srv1378610"
-      - https-redirect-from-port=80
+      - ./bin/soupclown:/usr/share/nginx/html
+    command: [ "nginx", "-g", "daemon off;" ]
     restart: unless-stopped
 
   navidrome:
