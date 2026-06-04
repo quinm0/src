@@ -11,6 +11,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix.url = "github:nix-community/stylix/release-26.05";
   };
 
   outputs = inputs@{ 
@@ -18,6 +19,7 @@
     nixos-hardware, 
     import-tree, 
     home-manager, 
+    stylix,
     nixpkgs, 
     ... 
   }:
@@ -30,6 +32,7 @@
           system = "x86_64-linux";
           modules = [
             (import-tree ./nix/modules)
+            stylix.nixosModules.stylix
             nixos-hardware.nixosModules.framework-11th-gen-intel
             ./nix/qlhc.nix
           ];
@@ -38,6 +41,7 @@
           system = "x86_64-linux";
           modules = [
             (import-tree ./nix/modules)
+            stylix.nixosModules.stylix
             ./nix/qdhc.nix
             ./nix/jf-server.nix
           ];
