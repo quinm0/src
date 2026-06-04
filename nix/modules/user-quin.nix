@@ -29,7 +29,7 @@
       kicad-small
       rpi-imager
       vscodium-fhs
-      ansible_2_18
+      ansible
       usbutils
       python313Packages.nomadnet
       screen
@@ -42,6 +42,7 @@
       prismlauncher
       jdk25_headless
       jekyll
+      tutanota-desktop
     ];
   };
 
