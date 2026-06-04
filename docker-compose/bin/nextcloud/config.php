@@ -34,10 +34,13 @@ $CONFIG = array (
     0 => 'localhost:8080',
     1 => 'cloud.soupclown.com',
   ),
-  'trusted_proxies' => ['100.98.69.57'],
+  'trusted_proxies' => 
+  array (
+    0 => '100.98.69.57',
+  ),
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'mysql',
-  'version' => '33.0.4.1',
+  'version' => '33.0.5.1',
   'overwrite.cli.url' => 'https://cloud.soupclown.com',
   'overwritehost' => 'cloud.soupclown.com',
   'dbname' => 'Unfounded2622',
@@ -49,4 +52,6 @@ $CONFIG = array (
   'installed' => true,
   'config_preset' => 7,
   'defaultapp' => '',
+  'loglevel' => 2,
+  'maintenance' => false,
 );
