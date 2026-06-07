@@ -43,6 +43,7 @@
       jdk25_headless
       jekyll
       tutanota-desktop
+      fastfetch
     ];
   };
 
