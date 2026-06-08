@@ -44,6 +44,7 @@
       jekyll
       tutanota-desktop
       fastfetch
+      nextcloud-client
     ];
   };
 
