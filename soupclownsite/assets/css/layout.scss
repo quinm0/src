@@ -3,6 +3,12 @@ body {
   background-image:  url("../img/6-pink.gif");
 }
 
+nav {
+  a {
+    margin: 0px 5px;
+  }
+}
+
 .current {
   color: green;
 }
