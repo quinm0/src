@@ -404,13 +404,15 @@ services:
       - app
     container_name: nextcloud
     image: nextcloud
-    user: 700:700
     ports:
       - 5836:80
+    user: 700:700
     volumes:
       - ${PATH_ETC}/nextcloud/etc:/var/www/html
       - ./bin/nextcloud:/var/www/html/config
       - /storage/nextcloud-data:/var/www/html/data
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
     environment:
       - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
       - MYSQL_DATABASE=${NEXTCLOUD_DB_NAME}
@@ -421,6 +423,9 @@ services:
     depends_on:
       - nextcloudRedis
       - nextcloudDb
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    command: /bin/bash
     restart: unless-stopped
 
   harp_frpc_docker:

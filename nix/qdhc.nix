@@ -102,4 +102,26 @@
   users.users.qmoran.packages = with pkgs; [ nvtopPackages.nvidia ];
   hardware.nvidia-container-toolkit.enable = true;
   virtualisation.docker.daemon.settings.features.cdi = true;
+
+  # Thank you this post https://help.nextcloud.com/t/nextcloud-docker-container-best-way-to-run-cron-job/157734/3
+  systemd.timers."nextcloud-cron" = {
+    wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "5m";
+        OnUnitActiveSec = "5m";
+        Unit = "nextcloud-cron.service";
+      };
+  };
+
+  systemd.services."nextcloud-cron" = {
+    script = ''
+      set -eu
+      ${pkgs.docker}/bin/docker exec -u 700 nextcloud php /var/www/html/cron.php
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
+  };
+
 }

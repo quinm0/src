@@ -54,4 +54,20 @@ $CONFIG = array (
   'defaultapp' => '',
   'loglevel' => 2,
   'maintenance' => false,
+  'enabledPreviewProviders' => 
+  array (
+    0 => 'OC\\Preview\\PNG',
+    1 => 'OC\\Preview\\JPEG',
+    2 => 'OC\\Preview\\GIF',
+    3 => 'OC\\Preview\\BMP',
+    4 => 'OC\\Preview\\XBitmap',
+    5 => 'OC\\Preview\\Krita',
+    6 => 'OC\\Preview\\WebP',
+    7 => 'OC\\Preview\\MarkDown',
+    8 => 'OC\\Preview\\TXT',
+    9 => 'OC\\Preview\\OpenDocument',
+  ),
+  'app_install_overwrite' => 
+  array (
+  ),
 );
