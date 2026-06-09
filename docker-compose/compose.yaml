@@ -423,9 +423,6 @@ services:
     depends_on:
       - nextcloudRedis
       - nextcloudDb
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
-    command: /bin/bash
     restart: unless-stopped
 
   harp_frpc_docker:
