@@ -26,7 +26,7 @@ cloud.soupclown.com {
   redir /.well-known/carddav /remote.php/dav 301
   redir /.well-known/caldav /remote.php/dav 301
 
-  reverse_proxy /exapps/* qmoran-desktop-1.tailc7e587.ts.net:8780 {
+  reverse_proxy /custom_apps/* qmoran-desktop-1.tailc7e587.ts.net:8780 {
     transport http {
         read_timeout 1800s
     }
