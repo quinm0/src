@@ -22,7 +22,11 @@
   users.groups = {
     soupclownservice = {
       gid = 700;
-      members = [ "qmoran" "soupclown" ];
+      members = [ 
+        "qmoran" 
+        "soupclown" 
+        "syncthing" 
+      ];
     };
     www-data = {
       members = [ "www-data" ];

@@ -10,6 +10,7 @@
       "docker" 
       "networkmanager"
       "dialout"
+      "syncthing"
     ];
     packages = with pkgs; [
       gh

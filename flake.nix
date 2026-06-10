@@ -44,6 +44,7 @@
             stylix.nixosModules.stylix
             ./nix/qdhc.nix
             ./nix/jf-server.nix
+            ./nix/syncthing.nix
           ];
         };
       };
