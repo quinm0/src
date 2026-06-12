@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, system, inputs, ... }:
 
 {
   # Base system things that all should know and love
@@ -41,4 +41,8 @@
     rclone
     mergerfs
   ];
+
+  systemd.settings.Manager = { 
+    DefaultLimitNOFILE = "8192:524288";
+  };
 }

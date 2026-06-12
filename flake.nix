@@ -6,21 +6,26 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
+    stylix.url = "github:nix-community/stylix/release-26.05";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix.url = "github:nix-community/stylix/release-26.05";
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ 
-    flake-parts, 
     nixos-hardware, 
+    nixpkgs,
     import-tree, 
+    flake-parts, 
     home-manager, 
     stylix,
-    nixpkgs, 
     ... 
   }:
     flake-parts.lib.mkFlake { inherit inputs; } {
