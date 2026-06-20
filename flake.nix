@@ -36,20 +36,19 @@
         nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import-tree ./nix/modules)
+            (import-tree ./nix/modules/shared)
             stylix.nixosModules.stylix
             nixos-hardware.nixosModules.framework-11th-gen-intel
-            ./nix/qlhc.nix
+            ./nix/hw/qlhc.nix
           ];
         };
         nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import-tree ./nix/modules)
+            (import-tree ./nix/modules/shared)
+            (import-tree ./nix/modules/services/enabled) # Server services
             stylix.nixosModules.stylix
-            ./nix/qdhc.nix
-            ./nix/jf-server.nix
-            ./nix/syncthing.nix
+            ./nix/hw/qdhc.nix
           ];
         };
       };
