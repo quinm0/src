@@ -14,6 +14,10 @@ git.soupclown.com {
   reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:4628
 }
 
+git.soupclown.com:8629 {
+  reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:8629
+}
+
 soupclown.com {
   reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:8075
 }
