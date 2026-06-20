@@ -26,6 +26,7 @@
         "qmoran" 
         "soupclown" 
         "syncthing" 
+        "gitea"
       ];
     };
     www-data = {
