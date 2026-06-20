@@ -40,7 +40,7 @@ Device verification. When you create a matrix account and sign into one of your 
 ### #3 E-Mail
 
   E-Mail, we all know it, we allllllll love it.
-There's quite a bit of things that go into email and to be honest I hardly understand it. But from whawt I do know it is not like the other two options in this post. E-Mail leaves such a big breadcrumb trail of personal information, from IP's, tracking information, potental 3rd party tracking pixels / scripts. There are so many different spots your information can get left when an email is finding it's way from one outbox to an inbox. 
+There's quite a bit of things that go into email and to be honest I hardly understand it. But from whawt I do know it is not like the other two options in this post. E-Mail leaves such a big breadcrumb trail of personal information, from IP's, tracking information, potential 3rd party tracking pixels / scripts. There are so many different spots your information can get left when an email is finding it's way from one outbox to an inbox. 
 
 But given all of this it still powers much of the internet. Almost every service or tool requires an email. For this I can only recommend two tools to keep yourself in-touch with the world wide web while also keeping your attack surfaes<sup>1</sup> limited. 
 
@@ -57,7 +57,7 @@ I use [Firefox Relay](https://relay.firefox.com) but there's other proxies out t
 
 ### Definitions
 `Attack Surface`<sup>1</sup>:
-A practice, peice of information or exposed data that could be mitigated to prevent threat actors from obtaining more robust data regarding your online footprint. 
+A practice, piece of information or exposed data that could be mitigated to prevent threat actors from obtaining more robust data regarding your online footprint. 
 
 
 `E2EE`<sup>2</sup>:
