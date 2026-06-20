@@ -49,10 +49,20 @@ UPDATE_SERVICE_STATE(){
     popd
 }
 
+UPDATE_SYSTEM_SERVICE_STATE(){
+    if [[ $1 == "down" ]]; then
+        sudo systemctl stop gitea syncthing
+    else
+        sudo systemctl start gitea syncthing
+    fi
+}
+
 # MAIN TASKS
 BACKUP(){
     UPDATE_SERVICE_STATE "down"
+    UPDATE_SYSTEM_SERVICE_STATE "down"
     sudo restic -r /storage/restic --tag soupclownetc backup /etc/soupclown 
+    UPDATE_SYSTEM_SERVICE_STATE "up"
     UPDATE_SERVICE_STATE "up"
 }
 

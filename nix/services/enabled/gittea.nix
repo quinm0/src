@@ -13,7 +13,7 @@
       service.DISABLE_REGISTRATION = true;
       log.LEVEL = "Trace";
       server = {
-        # DOMAIN = "";
+        DOMAIN = "git.soupclown.com";
         SSH_PORT = 8269;
         HTTP_PORT = 4628;
       };
@@ -21,11 +21,11 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /etc/soupclown/gitea 0770 gittea gittea"
-    "Z /etc/soupclown/gitea 0770 gittea gittea"
-    "d /storage/gitea/lfs 0770 gittea gittea"
-    "Z /storage/gitea/lfs 0770 gittea gittea"
-    "d /storage/gitea/repo 0770 gittea gittea"
-    "Z /storage/gitea/repo 0770 gittea gittea"
+    "d /etc/soupclown/gitea 0770 gittea soupclownservice"
+    "Z /etc/soupclown/gitea 0770 gittea soupclownservice"
+    "d /storage/gitea/lfs 0770 gittea soupclownservice"
+    "Z /storage/gitea/lfs 0770 gittea soupclownservice"
+    "d /storage/gitea/repo 0770 gittea soupclownservice"
+    "Z /storage/gitea/repo 0770 gittea soupclownservice"
   ];
 }
