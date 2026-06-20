@@ -6,6 +6,7 @@
         "matthewpi.caddyfile-support",
         "esbenp.prettier-vscode",
         "craigrbroughton.htmx-attributes",
-        "lordimmaculate.platformio-ide"
+        "lordimmaculate.platformio-ide",
+        "tekumara.typos-vscode"
     ]
 }
