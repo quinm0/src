@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<title>Soupclown {{page.title}}</title>
+		<meta charset="utf-8" />
+		<!-- <script src="./assets/js/tailesswind.js"></script> -->
+		<script src="/assets/js/jquery-4.0.0.min.js"></script>
+		<link rel="stylesheet" href="/assets/css/styles.css" />
+	</head>
+
+	<body class="layout combo-1">
+		<div class="header">
+			<h1>{{ page.header }}</h1>
+			<small>{{page.date | date_to_string: "ordinal", "US"}}</small>
+			{% include navigation.html %}
+		</div>
+		<div class="content">
+			<div></div>
+			<div>{{ content }}</div>
+			<div></div>
+		</div>
+	</body>
+</html>
