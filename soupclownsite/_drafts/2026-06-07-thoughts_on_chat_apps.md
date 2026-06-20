@@ -5,7 +5,7 @@ header: Some Thoughts on Chat Apps
 
 ## Foreword:
 
-_given my experience over the years with multiple different software and computer issues, people often approach with inquiries about which app/website is best for doing "X". Well in this post I'm going to talk about messaging applications and chat apps._
+_given my experience over the years with multiple different software and computer ~~issues~~ *experiences*, people often approach with inquiries about which app/website is best for doing "X". Well in this post I'm going to talk about messaging applications and chat apps._
 
 At the end of the day this conversation will yield different results for the _right_ answer. But when it comes to communications that we need to rely on for day-to-day operations, something that everyone is already using is usually what get's used the most.
 
@@ -39,26 +39,27 @@ Device verification. When you create a matrix account and sign into one of your 
 
 ### #3 E-Mail
 
-  E-Mail, we all know it, we allllllll love it.
-There's quite a bit of things that go into email and to be honest I hardly understand it. But from whawt I do know it is not like the other two options in this post. E-Mail leaves such a big breadcrumb trail of personal information, from IP's, tracking information, potential 3rd party tracking pixels / scripts. There are so many different spots your information can get left when an email is finding it's way from one outbox to an inbox. 
+E-Mail, we all know it, we allllllll love it.
+There's quite a bit of things that go into email and to be honest I hardly understand it. But from whawt I do know it is not like the other two options in this post. E-Mail leaves such a big breadcrumb trail of personal information, from IP's, tracking information, potential 3rd party tracking pixels / scripts. There are so many different spots your information can get left when an email is finding it's way from one outbox to an inbox.
 
-But given all of this it still powers much of the internet. Almost every service or tool requires an email. For this I can only recommend two tools to keep yourself in-touch with the world wide web while also keeping your attack surfaes<sup>1</sup> limited. 
+But given all of this it still powers much of the internet. Almost every service or tool requires an email. For this I can only recommend two tools to keep yourself in-touch with the world wide web while also keeping your attack surfaes<sup>1</sup> limited.
 
 #### [Tuta](https://tuta.com)
+
 Tuta is a cloud service provider centralized around Privacy and data sovergnty. Tuta is Open source, E2EE<sup>2</sup> and a bunch of other great things, I cannot recommend moving your email to this provider enough. Check out more of the fun security stuff [here](https://tuta.com/security)
 
 #### E-Mail Proxy service
-Another tool that I consider required these days is an email proxy service. For the un-initiated, it basically is like a PO box for your email. You can generate a bunch of random emails for your logins and different accounts to prevent reusing emails for all the different services and applications. 
 
-There's quite a few reasons why someone might want to proxy their email. You could use this in conjunction with email filters to more easily direct emails from specific services/people to folders. But the #1 reason I use an Email proxy is privacy. It allows me to abstract and block malicious services from sending me spam. If I unsubscribe from an email it doesn't ensure that I don't get spammed anymore. But if my proxy disables the randomly generated address, then the email will never find a destination to begin with, thus preventing spam. 
+Another tool that I consider required these days is an email proxy service. For the un-initiated, it basically is like a PO box for your email. You can generate a bunch of random emails for your logins and different accounts to prevent reusing emails for all the different services and applications.
+
+There's quite a few reasons why someone might want to proxy their email. You could use this in conjunction with email filters to more easily direct emails from specific services/people to folders. But the #1 reason I use an Email proxy is privacy. It allows me to abstract and block malicious services from sending me spam. If I unsubscribe from an email it doesn't ensure that I don't get spammed anymore. But if my proxy disables the randomly generated address, then the email will never find a destination to begin with, thus preventing spam.
 
 I use [Firefox Relay](https://relay.firefox.com) but there's other proxies out there, I'm sure you can find em :)
 
-
 ### Definitions
-`Attack Surface`<sup>1</sup>:
-A practice, piece of information or exposed data that could be mitigated to prevent threat actors from obtaining more robust data regarding your online footprint. 
 
+`Attack Surface`<sup>1</sup>:
+A practice, piece of information or exposed data that could be mitigated to prevent threat actors from obtaining more robust data regarding your online footprint.
 
 `E2EE`<sup>2</sup>:
-E2EE is an abbreviation for End to End Encryption. This is the practice of keeping data encrypted before and after storing it. This practice is not common in many applications, but it is critical for ensuring that any leaked data would be useless to threat actors. 
+E2EE is an abbreviation for End to End Encryption. This is the practice of keeping data encrypted before and after storing it. This practice is not common in many applications, but it is critical for ensuring that any leaked data would be useless to threat actors.
