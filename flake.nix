@@ -36,7 +36,7 @@
         nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import-tree ./nix/modules/shared)
+            (import-tree ./nix/shared)
             stylix.nixosModules.stylix
             nixos-hardware.nixosModules.framework-11th-gen-intel
             ./nix/hw/qlhc.nix
@@ -45,8 +45,8 @@
         nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import-tree ./nix/modules/shared)
-            (import-tree ./nix/modules/services/enabled) # Server services
+            (import-tree ./nix/shared)
+            (import-tree ./nix/services/enabled) # Server services
             stylix.nixosModules.stylix
             ./nix/hw/qdhc.nix
           ];
