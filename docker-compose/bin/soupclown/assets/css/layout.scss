@@ -1,49 +1,54 @@
-
 body {
-  background-image:  url("../img/6-pink.gif");
+	background-image: url('../img/6-pink.gif');
 }
 
 nav {
-  a {
-    margin: 0px 5px;
-  }
+	a {
+		margin: 0px 5px;
+	}
 }
 
 .current {
-  color: green;
+	color: green;
 }
 
 .layout {
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  color: var(--fg);
+	width: auto;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	color: var(--fg);
 }
 
-.header { 
-  grid-area: header;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  background: rgba($color: #FFE5FF, $alpha: 0.5);
-  padding: 1rem;
-  margin: 1rem 0.5rem;
+.header {
+	grid-area: header;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	background: rgba($color: #ffe5ff, $alpha: 0.6);
+	padding: 1rem;
+	margin: 1rem 0.5rem;
 }
 
-.leftSide { grid-area: leftSide; }
-.content { 
-  padding: 1rem 0.5rem;
-  display: flex;
-  margin: 1rem 0.5rem;
-  background: rgba($color: #FFE5FF, $alpha: 0.5);
+.leftSide {
+	grid-area: leftSide;
 }
-.rightSide { grid-area: rightSide; }
-.footer { grid-area: footer; }
+.content {
+	padding: 1rem 0.5rem;
+	display: flex;
+	margin: 1rem 0.5rem;
+	background: rgba($color: #ffe5ff, $alpha: 0.5);
+}
+.rightSide {
+	grid-area: rightSide;
+}
+.footer {
+	grid-area: footer;
+}
 .blinkie {
-  padding: 2rem 1rem;
+	padding: 2rem 1rem;
 }
 
 ul {
-  margin: 0;
+	margin: 0;
 }

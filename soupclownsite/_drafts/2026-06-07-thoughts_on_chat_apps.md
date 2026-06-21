@@ -5,7 +5,7 @@ header: Some Thoughts on Chat Apps
 
 ## Foreword:
 
-_given my experience over the years with multiple different software and computer ~~issues~~ *experiences*, people often approach with inquiries about which app/website is best for doing "X". Well in this post I'm going to talk about messaging applications and chat apps._
+given my trials over the years with multiple different software and computer ~~issues~~ _learning experiences_, people often approach with inquiries about which app/website might best for doing "X". Since I've gotten similar questions about similar topics from different crowds, I figure I'll put all my thoughts on the topic in one spot. So today this spot is for Quin talking about messaging applications and chat apps.
 
 At the end of the day this conversation will yield different results for the _right_ answer. But when it comes to communications that we need to rely on for day-to-day operations, something that everyone is already using is usually what get's used the most.
 
@@ -44,7 +44,9 @@ There's quite a bit of things that go into email and to be honest I hardly under
 
 But given all of this it still powers much of the internet. Almost every service or tool requires an email. For this I can only recommend two tools to keep yourself in-touch with the world wide web while also keeping your attack surfaes<sup>1</sup> limited.
 
-#### [Tuta](https://tuta.com)
+#### Tuta
+
+[https://tuta.com](https://tuta.com)
 
 Tuta is a cloud service provider centralized around Privacy and data sovergnty. Tuta is Open source, E2EE<sup>2</sup> and a bunch of other great things, I cannot recommend moving your email to this provider enough. Check out more of the fun security stuff [here](https://tuta.com/security)
 
