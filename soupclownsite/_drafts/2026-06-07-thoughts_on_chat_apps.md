@@ -2,18 +2,22 @@
 layout: post
 header: Some Thoughts on Chat Apps
 ---
+ 
+__Foreword__
 
-## Foreword:
+Given my trials over the years with multiple different software and computer ~~issues~~ _learning experiences_, people often approach with inquiries about which app/website might best for doing "X". Since I've gotten similar questions about similar topics from different crowds, I decided I'll put all my thoughts on the topic in one spot so I can accurately and consistently present information. 
 
-given my trials over the years with multiple different software and computer ~~issues~~ _learning experiences_, people often approach with inquiries about which app/website might best for doing "X". Since I've gotten similar questions about similar topics from different crowds, I figure I'll put all my thoughts on the topic in one spot. So today this spot is for Quin talking about messaging applications and chat apps.
+So for today this spot is for Quin talking about messaging applications and chat apps.
 
-At the end of the day this conversation will yield different results for the _right_ answer. But when it comes to communications that we need to rely on for day-to-day operations, something that everyone is already using is usually what get's used the most.
+# Thoughts Here!
 
-**BUT** when I think about the world and how we all live and operate together sometimes I think about how we communicate. And a lot of these "modern day" communication methods seem to not consider privacy, data ownership and sovereignty or other potential issues like company aqusitions and other small legal details that leave the common persons exposed to surveillance, hacking and data theft.
+Part of my reasoning behind this post is to inspire thought about the day-to-day tools we use. When it comes to communications we participate in during day-to-day proceedings, we already use a swiss army knife of apps and websites to share information. 
 
-If we were simply sending silly jokes and cat memes to eachother 24/7 then this might not be too much of a big deal. But we use these communication channels for Bank verification codes, making plans with friends and family, communication with lawyers and other private parties. Cloning SIM cards is a proven and common practice that malicious actors utilize to take over someones life with a simple phone number.
+I think about how a lot of these "modern day" communication methods seem to not consider privacy, data ownership and sovereignty or other potential issues like company aqusitions and other small legal details that leave the common persons exposed to surveillance, hacking and data theft.
 
-# Now What's Up:
+If we were simply sending silly jokes and cat memes to eachother 24/7 then this might not be too much of a big deal. But we use these communication channels for Bank verification codes, making plans with friends and family, communication with lawyers and other private parties. Information passed between two parties that trust eachother. But with man in the middle attacks like SIM Cloning or corporate surveillance, anyone can read your plans, your verification codes and your other personal direct messages. For example Cloning SIM cards is a proven and common practice that malicious actors utilize to take over someones life with a simple phone number. 
+
+
 
 Well tl;dr there's 3 realistic options when it comes to privacy/dataownership. Signal, Matrix and E-mail, though email doesn't have a lot going for it :/
 
