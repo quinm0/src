@@ -365,6 +365,7 @@ services:
       - '25565:25565'
     environment:
       - EULA=TRUE
+      - MOTD="Soupclown MC server!"
       - PUID=700
       - PGID=700
     volumes:
