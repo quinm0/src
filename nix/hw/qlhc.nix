@@ -12,6 +12,10 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" ];
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   boot.initrd.luks.devices."luks-ca82dbc3-42a8-4582-99b6-0b6d271dc897".device = "/dev/disk/by-uuid/ca82dbc3-42a8-4582-99b6-0b6d271dc897";
+  # Avoid touchpad click to tap (clickpad) bug. For more detail see:
+  # https://wiki.archlinux.org/title/Touchpad_Synaptics#Touchpad_does_not_work_after_resuming_from_hibernate/suspend
+  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+  
   # boot.initrd.kernelModules = [ ]; # Woah this might be helpful for those routers I have!
   # boot.extraModulePackages = [ ];
 
