@@ -11,17 +11,17 @@ So for today this spot is for Quin talking about messaging applications and chat
 
 # Thoughts Here!
 
-Part of my reasoning behind this post is to inspire thought about the day-to-day tools we use. At the end of the day there's only so much we can do to protect ourselves, but how often do you think about data security and do you ever think your messaging apps might be a risk? When it comes to the day-to-day communication proceedings, we already use a swiss army knife of apps and websites to share information. 
+Part of my reasoning behind this post is to inspire thought about the day-to-day tools we use. At the end of the day there's only so much we can do to protect ourselves, but how often do you think about data security and do you ever think your messaging apps might be a risk? When it comes to the day-to-day communication proceedings, most people already use a handful of apps and websites to share information.
 
 I've thought about how a lot of these "modern day" communication methods seem to not consider privacy, data ownership and sovereignty or other potential issues like company aqusitions and other small legal details that leave the common persons exposed to surveillance, hacking and data theft.
 
-If we were simply sending silly jokes and cat memes to eachother 24/7 then this might not be too much of a big deal. But we use these communication channels for Bank verification codes, making plans with friends and family, communication with lawyers and other private conversations one might have. Information passed between parties that trust eachother. But with man in the middle attacks like SIM Cloning or corporate surveillance, anyone can read your plans, your verification codes and your other personal direct messages. For example Cloning SIM cards is a proven and common practice that malicious actors can utilize to take over someones life with a simple phone number.
+If we were simply sending silly jokes and cat memes to eachother 24/7 then this might not be too much of a big deal. But we use these communication channels for Bank verification codes, making plans with friends and family, communication with lawyers and other private conversations one might have. Information passed between parties that trust eachother. But with man in the middle attacks<sup>3</sup> like SIM Cloning or corporate surveillance, anyone can read your plans, your verification codes and your other personal direct messages. For example Cloning SIM cards is a proven and common practice that malicious actors can utilize to take over someones life with a simple phone number.
  
 There's not much we can do about what everyone else uses, but these are the only few apps I use for communications that I trust in the big ole 2026.
 
 ### #1 Signal
 
-Signal is the best of the best when it comes to security and privacy. They have a proven history of not serving any data to the US Gov when served subpoena. The trick is that they collect 0 data, so even if they were hacked, all the e2ee and untracked data transports make it impossible for them to have any information on any of their users. [They also list all their interactions with the fed!](https://signal.org/bigbrother/)
+Signal is the best of the best when it comes to security and privacy. They have a proven history of not serving any data to the US Gov when served subpoena. The trick is that they collect 0 data, so even if they were hacked, all the e2ee messages you've sent and the lack of collected information makes it impossible for Signal to have any data on any of their users. [They also list all their interactions with the fed!](https://signal.org/bigbrother/)
 
 ### #2 Matrix
 
@@ -65,3 +65,4 @@ A practice, piece of information or exposed data that could be mitigated to prev
 E2EE is an abbreviation for End to End Encryption. This is the practice of keeping data encrypted before and after storing it. This practice is not common in many applications, but it is critical for ensuring that any leaked data would be useless to threat actors.
 
 `Man-In-The-Middle Attack`<sup>3</sup>:
+A type of hacking where the attacker situates themselves between your device and the service you're using. By doing this they can observe and in some cases manipulate your internet traffic. 
