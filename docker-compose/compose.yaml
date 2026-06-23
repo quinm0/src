@@ -124,6 +124,26 @@ services:
         required: true
     restart: unless-stopped
 
+  flaresolverr:
+    container_name: flaresolverr
+    profiles:
+      - download
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    network_mode: 'service:vpn'
+    environment:
+      - TZ=${TZ}
+      - LOG_LEVEL=info
+    depends_on:
+      vpn:
+        condition: service_started
+        restart: true
+        required: true
+      prowlarr:
+        condition: service_started
+        restart: true
+        required: true
+    restart: unless-stopped
+
   lidarr:
     profiles:
       - download
