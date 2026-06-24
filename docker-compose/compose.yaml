@@ -392,124 +392,18 @@ services:
       - ${PATH_ETC}/soupclownmc:/data
     restart: unless-stopped
 
-  #DONOTSTART
-  nextcloudDb:
+  grafana:
+    image: grafana/grafana-enterprise
     profiles:
-      - donotstart
-    container_name: nextcloud-db
-    image: mariadb:lts
-    user: 700:700
-    command: --transaction-isolation=READ-COMMITTED
-    volumes:
-      - ${PATH_ETC}/nextcloud/mariadb:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PASS}
-      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
-      - MYSQL_DATABASE=${NEXTCLOUD_DB_NAME}
-      - MYSQL_USER=${NEXTCLOUD_DB_USERNAME}
-    restart: unless-stopped
-
-  nextcloudRedis:
-    profiles:
-      - donotstart
-    container_name: nextcloud-redis
-    image: redis:alpine
-    user: 700:700
-    environment:
-      - PUID=700
-      - PGID=700
-    restart: unless-stopped
-
-  nextcloud:
-    profiles:
-      - donotstart
-    container_name: nextcloud
-    image: nextcloud
-    ports:
-      - 5836:80
-    user: 700:700
-    volumes:
-      - ${PATH_ETC}/nextcloud/etc:/var/www/html
-      - ./bin/nextcloud:/var/www/html/config
-      - /storage/nextcloud-data:/var/www/html/data
-      - /etc/passwd:/etc/passwd:ro
-      - /etc/group:/etc/group:ro
-    environment:
-      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
-      - MYSQL_DATABASE=${NEXTCLOUD_DB_NAME}
-      - MYSQL_USER=${NEXTCLOUD_DB_USERNAME}
-      - MYSQL_HOST=nextcloudDb
-      - PUID=700
-      - PGID=700
-    depends_on:
-      - nextcloudRedis
-      - nextcloudDb
-    restart: unless-stopped
-
-  harp_frpc_docker:
-    profiles:
-      - donotstart
-    cap_add:
-      - NET_ADMIN # Quin does not like these
-    container_name: harp_frpc_docker
-    image: ghcr.io/nextcloud/nextcloud-appapi-harp:release
-    volumes:
-      - ./bin/frpc.toml:/etc/frpc.toml
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - HP_FRP_DISABLE_TLS=true
-      - HP_SHARED_KEY=${NEXTCLOUD_HARP_FRPC_KEY}
-      - NC_INSTANCE_URL=https://cloud.soupclown.com
-    command: -c=/etc/frpc.toml
-    restart: unless-stopped
-
-  gitea:
-    profiles:
-      - donotstart
-    container_name: gitea
-    image: docker.gitea.com/gitea:1.26.1
+      - app
+    container_name: grafana
     user: 700:700
     ports:
-      - 3031:3000
-      - 8022:22
+      - '4783:3000'
     volumes:
-      - ${PATH_ETC}/gitea-data:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__NAME=gitea
-      - GITEA__database__USER=${GITEA_DB_USERNAME}
-      - GITEA__database__PASSWD=${GITEA_DB_PASSWORD}
-      - GITEA__database__HOST=giteadb:5432
-    restart: unless-stopped
-    depends_on:
-      - giteadb
-
-  #DONOTSTART
-  giteadb:
-    profiles:
-      - donotstart
-    container_name: gitea-postgres
-    image: docker.io/library/postgres:14
-    user: 1000:700
-    environment:
-      - POSTGRES_USER=${GITEA_DB_USERNAME}
-      - POSTGRES_PASSWORD=${GITEA_DB_PASSWORD}
-      - POSTGRES_DB=gitea
-    volumes:
-      - ${PATH_ETC}/gitea-postgres:/var/lib/postgresql/data
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - pg_isready
-      start_period: 20s
-      interval: 10s
+      - /etc/soupclown/grafana:/var/lib/grafana
     restart: unless-stopped
 
-  #DONOTSTART
   lidatube:
     container_name: lidatube
     profiles:
@@ -527,7 +421,3 @@ services:
     ports:
       - 5000:5000
     restart: unless-stopped
-
-volumes: # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive
-  nextcloud_aio_mastercontainer:
-    name: nextcloud_aio_mastercontainer
