@@ -45,6 +45,8 @@
       jekyll
       tutanota-desktop
       fastfetch
+      python3
+      esptool
     ];
   };
 
