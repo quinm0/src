@@ -62,14 +62,14 @@ ul {
   --fg-alt: var(--bg);
 }
 
-.post {
+.content {
   background-color: rgba(255, 255, 255, 0.7);
   transition-duration: 1s;
   transition-property: all;
 }
 
 @media (min-width: 1024px) {
-  .post {
+  .content {
     margin: auto 12rem;
     background-color: white;
   }

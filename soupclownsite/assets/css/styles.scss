@@ -25,14 +25,14 @@ $desktop-width: 1024px;
 	}
 }
 
-.post {
+.content {
 	background-color: rgba($color: #ffffff, $alpha: 0.7);
 	transition-duration: 1s;
 	transition-property: all;
 }
 
 @include desktop() {
-	.post {
+	.content {
 		margin: auto 12rem;
 		background-color: rgba($color: #ffffff, $alpha: 1);
 	}
