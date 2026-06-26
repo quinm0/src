@@ -5,6 +5,8 @@
   systemd.tmpfiles.rules = [
     "d /etc/SoupCloud 0770 syncthing users"
     "Z /etc/SoupCloud 0770 syncthing users"
+    "d /etc/syncthing-gui-password 0770 syncthing users"
+    "Z /etc/syncthing-gui-password 0770 syncthing users"
   ];
 
   services.syncthing = {
@@ -16,16 +18,19 @@
       gui.user = "qmoran";
       devices = {
         "desktop" = { id = "VV6CPFJ-CSKP3P5-N64WJ35-R66U24N-D6F4TGY-2VIOMLA-WIIORQQ-DULHNQT"; };
+        "laptop" = { id = "DAPDFIP-EOKS4S5-S6DFNOB-ECTZKRL-7NL3ON5-LIHIH5B-JOYHY4C-PDNMRAY"; };
         # "device2" = { id = "DEVICE-ID-GOES-HERE"; };
       };
       folders = {
         "SoupCloud" = {
           path = "/etc/SoupCloud";
-          devices = [ "desktop" ];
+          devices = [ "desktop" "laptop" ];
+          ignorePerms = false;
         };
         "Restic" = {
           path = "/storage/restic";
           devices = [ "desktop" ];
+          ignorePerms = false;
         };
         # "Example" = {
         #   path = "/home/myusername/Example";

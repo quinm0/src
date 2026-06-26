@@ -40,6 +40,7 @@
             stylix.nixosModules.stylix
             nixos-hardware.nixosModules.framework-11th-gen-intel
             ./nix/hw/qlhc.nix
+            ./nix/services/enabled/syncthing.nix # Enable single shared service manually
           ];
         };
         nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
