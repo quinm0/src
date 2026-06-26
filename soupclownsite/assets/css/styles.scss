@@ -3,6 +3,7 @@
 
 @use './layout';
 
+$phone-width: 400px;
 $tablet-width: 768px;
 $desktop-width: 1024px;
 
@@ -11,6 +12,11 @@ $desktop-width: 1024px;
 	--fg: color(display-p3 0.413 0.281 0.341);
 	--bg-alt: var(--fg);
 	--fg-alt: var(--bg);
+}
+@mixin phone {
+	@media (min-width: #{$phone-width}) and (max-width: #{$tablet-width - 1px}) {
+		@content;
+	}
 }
 
 @mixin tablet {
@@ -25,15 +31,27 @@ $desktop-width: 1024px;
 	}
 }
 
-.content {
-	background-color: rgba($color: #ffffff, $alpha: 0.7);
-	transition-duration: 1s;
-	transition-property: all;
-}
-
 @include desktop() {
 	.content {
 		margin: auto 12rem;
-		background-color: rgba($color: #ffffff, $alpha: 1);
+		background-color: rgba($color: #ffffff, $alpha: 0.7);
 	}
+}
+
+@include tablet(){
+	.content {
+		background-color: rgba($color: #ffffff, $alpha: 0.7);
+	}
+}
+
+@include phone(){
+	.content {
+		background-color: rgba($color: #ffffff, $alpha: 1);
+		font-size: 2rem;
+	}
+}
+
+.content {
+	transition-duration: 1s;
+	transition-property: all;
 }
