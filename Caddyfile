@@ -19,7 +19,7 @@ git.soupclown.com:8269 {
 }
 
 quin.soupclown.com {
-  redir https://soupclown.com/quin.html
+  redir https://soupclown.com/quin.html 301
 }
 
 soupclown.com {
