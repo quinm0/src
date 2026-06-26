@@ -17,6 +17,7 @@
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
 
   outputs = inputs@{ 
@@ -26,7 +27,7 @@
     flake-parts, 
     home-manager, 
     stylix,
-    ... 
+   ... 
   }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
@@ -41,6 +42,7 @@
             nixos-hardware.nixosModules.framework-11th-gen-intel
             ./nix/hw/qlhc.nix
             ./nix/services/enabled/syncthing.nix # Enable single shared service manually
+            ./nix/services/deployer.nix # Testing this
           ];
         };
         nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
@@ -50,18 +52,6 @@
             (import-tree ./nix/services/enabled) # Server services
             stylix.nixosModules.stylix
             ./nix/hw/qdhc.nix
-          ];
-        };
-      };
-      perSystem = { pkgs, ... }: {
-        devShells.espdev = pkgs.mkShell {
-          shellHook =
-            ''
-              echo "Codecell devshell"
-            '';
-          packages = with pkgs; [
-            esptool
-            clang-tools
           ];
         };
       };
