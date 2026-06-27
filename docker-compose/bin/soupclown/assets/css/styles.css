@@ -62,17 +62,26 @@ ul {
   --fg-alt: var(--bg);
 }
 
-.content {
-  background-color: rgba(255, 255, 255, 0.7);
-  transition-duration: 1s;
-  transition-property: all;
-}
-
 @media (min-width: 1024px) {
   .content {
     margin: auto 12rem;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.7);
   }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .content {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+}
+@media (min-width: 400px) and (max-width: 767px) {
+  .content {
+    background-color: white;
+    font-size: 2rem;
+  }
+}
+.content {
+  transition-duration: 1s;
+  transition-property: all;
 }
 
 /*# sourceMappingURL=styles.css.map */
