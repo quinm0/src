@@ -47,7 +47,7 @@ $desktop-width: 1024px;
 @include phone(){
 	.content {
 		background-color: rgba($color: #ffffff, $alpha: 1);
-		font-size: 2rem;
+		font-size: 1.4rem;
 	}
 }
 

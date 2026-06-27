@@ -76,7 +76,7 @@ ul {
 @media (min-width: 400px) and (max-width: 767px) {
   .content {
     background-color: white;
-    font-size: 2rem;
+    font-size: 1.4rem;
   }
 }
 .content {
