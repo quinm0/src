@@ -47,6 +47,8 @@
       fastfetch
       python3
       esptool
+      strawberry
+      termsonic
     ];
   };
 

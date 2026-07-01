@@ -29,17 +29,21 @@ services:
       - 8686:8686 # Lidarr
       - 6767:6767 # Bazarr
       - 3333:3333 # bitmagnet API and WebUI port
+      - 7474:7474 # Autobrr
+      # - 5055:5055 # seerr
+      - 8112:8112 # Deluge
+      - 6881:6881 # Deluge
+      # - 6881:6881/udp # Deluge
+      # - 58846:58846 #optional # Deluge
       - 3334:3334/tcp # bitmagnet BitTorrent ports
       - 3334:3334/udp # bitmagnet BitTorrent ports
-      # - 5055:5055       # seerr
-      - 7474:7474 # Autobrr
     restart: unless-stopped
 
   transmission:
     container_name: transmission
     profiles:
-      - download
-      # - donotstart
+      # - download
+      - donotstart
     image: lscr.io/linuxserver/transmission:latest
     user: 700:700
     network_mode: 'service:vpn'
@@ -281,6 +285,23 @@ services:
     volumes:
       - ${PATH_ETC}/aurral:/app/backend/data
       - /storage/aurral:/app/downloads
+    restart: unless-stopped
+
+  deluge:
+    container_name: deluge
+    profiles:
+      - download
+    image: lscr.io/linuxserver/deluge:latest
+    user: 700:700
+    network_mode: 'service:vpn'
+    environment:
+      - TZ=${TZ}
+      - PUID=700
+      - PGID=700
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - ${PATH_ETC}/deluge:/config
+      - /storage/transmission/downloads:/downloads
     restart: unless-stopped
 
   ### END DOWNLOAD
