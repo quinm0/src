@@ -42,8 +42,8 @@ services:
   transmission:
     container_name: transmission
     profiles:
-      # - download
-      - donotstart
+      - download
+      # - donotstart
     image: lscr.io/linuxserver/transmission:latest
     user: 700:700
     network_mode: 'service:vpn'
@@ -290,7 +290,7 @@ services:
   deluge:
     container_name: deluge
     profiles:
-      - download
+      - donotstart
     image: lscr.io/linuxserver/deluge:latest
     user: 700:700
     network_mode: 'service:vpn'
