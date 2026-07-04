@@ -42,7 +42,6 @@
             nixos-hardware.nixosModules.framework-11th-gen-intel
             ./nix/hw/qlhc.nix
             ./nix/services/enabled/syncthing.nix # Enable single shared service manually
-            ./nix/services/deployer.nix # Testing this
           ];
         };
         nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {

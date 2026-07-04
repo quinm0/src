@@ -49,6 +49,7 @@
       esptool
       strawberry
       termsonic
+      ladybird
     ];
   };
 
