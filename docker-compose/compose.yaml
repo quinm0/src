@@ -425,34 +425,6 @@ services:
       - /etc/soupclown/grafana:/var/lib/grafana
     restart: unless-stopped
 
-  nextcloud-aio-mastercontainer:
-    image: ghcr.io/nextcloud-releases/all-in-one:latest # This is the container image used. You can switch to ghcr.io/nextcloud-releases/all-in-one:beta if you want to help testing new releases. See https://github.com/nextcloud/all-in-one#how-to-switch-the-channel
-    profiles:
-      - app
-    container_name: nextcloud-aio-mastercontainer # This line is not allowed to be changed as otherwise AIO will not work correctly
-    user: 700:700
-    init: true
-    volumes:
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config # This line is not allowed to be changed as otherwise the built-in backup solution will not work
-      - /var/run/docker.sock:/var/run/docker.sock:ro # May be changed on macOS, Windows or docker rootless. See the applicable documentation. If adjusting, don't forget to also set 'WATCHTOWER_DOCKER_SOCKET_PATH'!
-      - /storage/nextcloudaio:/mnt/storage
-    network_mode: bridge # This adds the container to the same network as docker run would do. Comment this line and uncomment the line below and the networks section at the end of the file if you want to define a custom MTU size for the docker network
-    # networks: ["nextcloud-aio"]
-    ports:
-      - "80:80" # Can be removed when running behind a web server or reverse proxy (like Apache, Nginx, Caddy, Cloudflare Tunnel and else). See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md
-      - "8080:8080" # This is the AIO interface, served via https and self-signed certificate. See https://github.com/nextcloud/all-in-one#explanation-of-used-ports
-      - "8443:8443" # Can be removed when running behind a web server or reverse proxy (like Apache, Nginx, Caddy, Cloudflare Tunnel and else). See https://github.com/nextcloud/all-in-one/blob/main/reverse-proxy.md
-    environment:
-      # AIO_LOG_LEVEL: warn # Allows to globally adjust the log level of the included AIO components. Supported values: debug, info, warn, error. See https://github.com/nextcloud/all-in-one#how-to-adjust-the-log-level-for-aio-components
-      # NEXTCLOUD_DATADIR: /mnt/ncdata # Allows to set the host directory for Nextcloud's datadir. ⚠️⚠️⚠️ Warning: do not set or adjust this value after the initial Nextcloud installation is done! See https://github.com/nextcloud/all-in-one#how-to-change-the-default-location-of-nextclouds-datadir
-      NEXTCLOUD_MOUNT: /mnt/storage # Allows the Nextcloud container to access the chosen directory on the host. See https://github.com/nextcloud/all-in-one#how-to-allow-the-nextcloud-container-to-access-directories-on-the-host
-      # NEXTCLOUD_UPLOAD_LIMIT: 16G # Can be adjusted if you need more. See https://github.com/nextcloud/all-in-one#how-to-adjust-the-upload-limit-for-nextcloud
-      # NEXTCLOUD_MAX_TIME: 3600 # Can be adjusted if you need more. See https://github.com/nextcloud/all-in-one#how-to-adjust-the-max-execution-time-for-nextcloud
-      # NEXTCLOUD_MEMORY_LIMIT: 512M # Can be adjusted if you need more. See https://github.com/nextcloud/all-in-one#how-to-adjust-the-php-memory-limit-for-nextcloud
-      # NEXTCLOUD_TRUSTED_CACERTS_DIR: /path/to/my/cacerts # CA certificates in this directory will be trusted by the OS of the nextcloud container (Useful e.g. for LDAPS) See https://github.com/nextcloud/all-in-one#how-to-trust-user-defined-certification-authorities-ca
-      NEXTCLOUD_STARTUP_APPS: deck twofactor_totp tasks calendar contacts notes # Allows to modify the Nextcloud apps that are installed on starting AIO the first time. See https://github.com/nextcloud/all-in-one#how-to-change-the-nextcloud-apps-that-are-installed-on-the-first-startup
-    restart: unless-stopped
-
   ### DONOTSTART
   lidatube:
     container_name: lidatube
