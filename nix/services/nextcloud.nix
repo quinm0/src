@@ -4,7 +4,7 @@
   environment.etc."nextcloud-admin-pass".text = "sahldfkajfhldfhiu43h989phfre";
   
   services.nextcloud = {
-    enable = true;
+    enable = false;
     hostName = "qmoran-desktop-1";
     package = pkgs.nextcloud33;
     extraApps = {

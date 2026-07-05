@@ -2,7 +2,7 @@
 
 {
   imports = [ 
-    # ./installation-cd-graphical-gnome.nix
+    ./installation-cd-graphical-gnome.nix
     # ./installation-cd-minimal.nix
     ./channel.nix
   ];
