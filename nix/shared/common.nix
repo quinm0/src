@@ -12,6 +12,7 @@
   virtualisation.docker.enable = true; # Docker
   services.printing.enable = true; # CUPS
   services.tailscale.enable = true; # Tailscale
+  services.flatpak.enable = true; # Flatpak
 
   nix.settings.warn-dirty = false;
   nix.settings.experimental-features = [ 
