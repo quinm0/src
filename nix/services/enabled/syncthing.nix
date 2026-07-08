@@ -3,11 +3,18 @@
 {
 
   systemd.tmpfiles.rules = [
-    "d /etc/SoupCloud 0770 syncthing users"
+    "d /etc/SoupCloud 0770 syncthing users" # Soupcloud dir
+    "d /etc/syncthing-gui-password 0770 syncthing users" # Gui password file
+    "d /home/shared/.webfishingSaves 0770 syncthing users" # WebfishingSaveDir
+
+
     "Z /etc/SoupCloud 0770 syncthing users"
-    "d /etc/syncthing-gui-password 0770 syncthing users"
     "Z /etc/syncthing-gui-password 0770 syncthing users"
-  ];
+    "Z /home/shared/.webfishingSaves 0770 syncthing users"
+    
+    "L+ /home/qmoran/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
+    "L+ /home/dbowen/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
+    ];
 
   services.syncthing = {
     enable = true;
@@ -32,13 +39,12 @@
           devices = [ "desktop" ];
           ignorePerms = false;
         };
-        # "Example" = {
-        #   path = "/home/myusername/Example";
-        #   devices = [ "device1" ];
-        #   ignorePerms = false; # Enable file permission syncing
-        # };
+        "WebfishingSaves" = {
+          path = "/home/shared/.webfishingSaves";
+          devices = [ "desktop" "laptop" ];
+        };
       };
     };
   };
 
-}
+} 
