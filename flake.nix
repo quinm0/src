@@ -1,15 +1,22 @@
 {
   description = "Quins NixOS flake!";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.soopy.moe"
+    ];
+    extra-trusted-public-keys = [ "cache.soopy.moe-1:0RZVsQeR+GOh0VQI9rvnHz55nVXkFardDqfm4+afjPo=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     stylix.url = "github:nix-community/stylix/release-26.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -30,16 +37,18 @@
    ... 
   }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        home-manager.flakeModules.home-manager
-      ];
+      perSystem = { system, ... }: {
+        formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      };
+
       flake = {
         nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             (import-tree ./nix/shared)
-            stylix.nixosModules.stylix
             nixos-hardware.nixosModules.framework-11th-gen-intel
+            home-manager.nixosModules.home-manager
+            stylix.nixosModules.stylix
             ./nix/hw/qlhc.nix
             ./nix/services/enabled/syncthing.nix # Enable single shared service manually
           ];
@@ -49,9 +58,23 @@
           modules = [
             (import-tree ./nix/shared)
             (import-tree ./nix/services/enabled) # Server services
+            home-manager.nixosModules.home-manager
             stylix.nixosModules.stylix
             ./nix/hw/qdhc.nix
           ];
+        };
+        nixosConfigurations.d-lap = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            (import-tree ./nix/shared)
+            nixos-hardware.nixosModules.apple-t2
+            home-manager.nixosModules.home-manager
+            stylix.nixosModules.stylix
+            ./nix/hw/dlhc.nix
+            ./nix/hw/substituter.nix # Need this for some t2 support(?)
+            ./nix/services/enabled/syncthing.nix # Enable single shared service manually
+          ];
+
         };
       };
       systems = [

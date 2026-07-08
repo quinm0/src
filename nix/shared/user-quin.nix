@@ -1,6 +1,29 @@
 { config, pkgs, ... }:
 
 {
+
+  home-manager.users.qmoran = {
+    home.stateVersion = "26.05";
+    home.username = "qmoran";
+    home.homeDirectory = "/home/qmoran";
+    
+    programs.git = {
+      enable = true;
+      settings = {
+        user.name = "quinm0";
+        user.email = "jolly2633@tutamail.com";
+      };
+    };
+
+    programs.bash = {
+      enable = true;
+      shellAliases = {
+        btw = "echo i use nixos, btw";
+      };
+    };
+  }; 
+
+
   # My user for now
   users.users.qmoran = {
     isNormalUser = true;

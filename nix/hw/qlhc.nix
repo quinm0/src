@@ -5,6 +5,7 @@
   imports =[ 
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+  system.stateVersion = "25.11";
 
   networking.hostName = "qmoran-laptop";
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

@@ -14,18 +14,18 @@
     variant = "";
   };
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    image = pkgs.fetchurl {
-      url = "https://getwallpapers.com/wallpaper/full/1/4/3/523784.jpg";
-      hash = "sha256-S/6kgloXiIYI0NblT6YVXfqELApbdHGsuYe6S4JoQwQ=";
-    };
-    fonts = {
-      serif = {
-        package = pkgs.google-fonts;
-        name = "Play-Regular";
-      };
-    };
-  };
+  # stylix = {
+  #   enable = true;
+  #   base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+  #   image = pkgs.fetchurl {
+  #     url = "https://getwallpapers.com/wallpaper/full/1/4/3/523784.jpg";
+  #     hash = "sha256-S/6kgloXiIYI0NblT6YVXfqELApbdHGsuYe6S4JoQwQ=";
+  #   };
+  #   fonts = {
+  #     serif = {
+  #       package = pkgs.google-fonts;
+  #       name = "Play-Regular";
+  #     };
+  #   };
+  # };
 }

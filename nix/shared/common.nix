@@ -2,7 +2,6 @@
 
 {
   # Base system things that all should know and love
-  system.stateVersion = "25.11";
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -23,6 +22,12 @@
   nixpkgs.config.permittedInsecurePackages = [
     "python3.12-ecdsa-0.19.1" # I'm sure this is fine (just don't use python for anything important like usual)
   ];
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+  };
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";

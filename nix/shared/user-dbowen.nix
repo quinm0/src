@@ -1,37 +1,39 @@
 { config, pkgs, ... }:
 
 {
+  home-manager.users.dbowen = {
+    home.stateVersion = "26.05";
+    home.username = "dbowen";
+    home.homeDirectory = "/home/dbowen";
+    
+    programs.git.enable = true;
+    programs.bash = {
+      enable = true;
+      shellAliases = {
+        btw = "echo i use nixos, btw";
+      };
+    };
+  }; 
+
   # My user for now
   users.users.dbowen = {
     isNormalUser = true;
     description = "darby";
     extraGroups = [ 
-      "wheel" 
+      "wheel"
       "networkmanager"
       "dialout"
       "syncthing"
     ];
     packages = with pkgs; [
-      signal-desktop
-      element-desktop
-      vivaldi
+      tree
+      chromium
+      vscodium-fhs
       libreoffice-qt-fresh
-      lutris
-      gparted
+      trash-cli
       gimp
-      usbutils
-      jellyfin-desktop
-      renpy
+      lutris
       wine
-      vlc
-      restic
-      prismlauncher
-      jdk25_headless
-      jekyll
-      python3
-      strawberry
-      termsonic
-      ladybird
     ];
   };
 
