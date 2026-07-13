@@ -346,12 +346,9 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
 
-  ### END INFRA
-
-  ### START APP
   soupclownsite:
     profiles:
-      - app
+      - infra
     container_name: soupclownsite
     image: nginx:alpine
     ports:
@@ -360,6 +357,8 @@ services:
       - ./bin/soupclown:/usr/share/nginx/html
     command: ['nginx', '-g', 'daemon off;']
     restart: unless-stopped
+
+  # END INFRA / START APP
 
   navidrome:
     profiles:

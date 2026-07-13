@@ -37,10 +37,6 @@
    ... 
   }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      perSystem = { system, ... }: {
-        formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-      };
-
       flake = {
         nixosConfigurations.qmoran-laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";

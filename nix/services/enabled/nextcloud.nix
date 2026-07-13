@@ -7,7 +7,7 @@
     enable = false;
     hostName = "qmoran-desktop-1";
     package = pkgs.nextcloud33;
-    datadr = "/storage/nextcloud";
+    datadir = "/storage/nextcloud";
     extraApps = {
       inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks;
     };
