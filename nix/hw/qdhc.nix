@@ -42,14 +42,14 @@
       options = ["noatime" "nodiratime"];
     };
 
-  # New disks not ready yet
-  # fileSystems."/mnt/disks/mergedfs/disk3" =
-  #   { 
-  #     device = "/dev/disk/by-uuid/b5156e14-91b7-4047-8bb3-d258b87d1cfd";
-  #     fsType = "ext4";
-  #     options = ["noatime" "nodiratime"];
-  #   };
+  fileSystems."/mnt/disks/mergedfs/disk3" =
+    { 
+      device = "/dev/disk/by-uuid/b5156e14-91b7-4047-8bb3-d258b87d1cfd";
+      fsType = "ext4";
+      options = ["noatime" "nodiratime"];
+    };
   
+  # not ready for parity yet
   # fileSystems."/mnt/disks/parity1" =
   #   { 
   #     device = "/dev/disk/by-uuid/9ade4c8b-d721-4455-8c0d-a628a4684461";
