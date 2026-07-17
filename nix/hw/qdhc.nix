@@ -28,26 +28,42 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  fileSystems."/mnt/disks/disk1" =
+  fileSystems."/mnt/disks/mergedfs/disk1" =
     { 
       device = "/dev/disk/by-uuid/fa20e116-e04e-4f3e-bf5a-c2e2c1fad610";
       fsType = "ext4";
       options = ["noatime" "nodiratime"];
     };
 
-  fileSystems."/mnt/disks/disk2" =
+  fileSystems."/mnt/disks/mergedfs/disk2" =
     { 
       device = "/dev/disk/by-uuid/887500d5-1d4d-4080-84e3-5ef424c9f310";
       fsType = "ext4";
       options = ["noatime" "nodiratime"];
     };
 
+  # New disks not ready yet
+  # fileSystems."/mnt/disks/mergedfs/disk3" =
+  #   { 
+  #     device = "/dev/disk/by-uuid/b5156e14-91b7-4047-8bb3-d258b87d1cfd";
+  #     fsType = "ext4";
+  #     options = ["noatime" "nodiratime"];
+  #   };
+  
+  # fileSystems."/mnt/disks/parity1" =
+  #   { 
+  #     device = "/dev/disk/by-uuid/9ade4c8b-d721-4455-8c0d-a628a4684461";
+  #     fsType = "ext4";
+  #     options = ["noatime" "nodiratime"];
+  #   };
+  
+
   fileSystems."/storage" = {
     fsType = "fuse.mergerfs";
-    device = "/mnt/disks/*";
+    device = "/mnt/disks/mergedfs/*";
     options = [
       "use_ino" 
-      "cache.files=off" 
+      "cache.files=off"
       "dropcacheonclose=true" 
       "category.create=mfs"
       "minfreespace=10G"
