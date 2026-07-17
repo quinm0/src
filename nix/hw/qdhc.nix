@@ -44,7 +44,7 @@
 
   fileSystems."/mnt/disks/mergedfs/disk3" =
     { 
-      device = "/dev/disk/by-uuid/b5156e14-91b7-4047-8bb3-d258b87d1cfd";
+      device = "/dev/disk/by-uuid/4eaf7630-2f45-444f-a3a3-fe0209641fee";
       fsType = "ext4";
       options = ["noatime" "nodiratime"];
     };
