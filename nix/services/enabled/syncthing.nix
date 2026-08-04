@@ -3,15 +3,17 @@
 {
 
   systemd.tmpfiles.rules = [
+    # Create 
     "d /etc/SoupCloud 0770 syncthing users" # Soupcloud dir
     "d /etc/syncthing-gui-password 0770 syncthing users" # Gui password file
     "d /home/shared/.webfishingSaves 0770 syncthing users" # WebfishingSaveDir
 
-
+    # Set perms
     "Z /etc/SoupCloud 0770 syncthing users"
     "Z /etc/syncthing-gui-password 0770 syncthing users"
     "Z /home/shared/.webfishingSaves 0770 syncthing users"
     
+    # Symlinks
     "L+ /home/qmoran/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
     "L+ /home/dbowen/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
     ];
@@ -26,17 +28,12 @@
       devices = {
         "desktop" = { id = "VV6CPFJ-CSKP3P5-N64WJ35-R66U24N-D6F4TGY-2VIOMLA-WIIORQQ-DULHNQT"; };
         "laptop" = { id = "DAPDFIP-EOKS4S5-S6DFNOB-ECTZKRL-7NL3ON5-LIHIH5B-JOYHY4C-PDNMRAY"; };
-        # "device2" = { id = "DEVICE-ID-GOES-HERE"; };
+        "d-lap" = { id = "IQ4ZEQO-DMY3HYR-4AW3FSC-BHRIXK6-YGUFRBG-ABVUHSF-LHQTNZZ-LRQYGAL"; };
       };
       folders = {
         "SoupCloud" = {
           path = "/etc/SoupCloud";
           devices = [ "desktop" "laptop" ];
-          ignorePerms = false;
-        };
-        "Restic" = {
-          path = "/storage/restic";
-          devices = [ "desktop" ];
           ignorePerms = false;
         };
         "WebfishingSaves" = {

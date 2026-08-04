@@ -379,6 +379,7 @@ services:
   metube:
     profiles:
       - app
+      - lap
     image: ghcr.io/alexta69/metube
     user: 700:700
     container_name: metube
@@ -396,6 +397,7 @@ services:
   soupclownmc:
     profiles:
       - app
+      - lap
     image: itzg/minecraft-server:latest
     container_name: soupclownmc
     user: 700:700

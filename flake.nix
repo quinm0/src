@@ -42,23 +42,23 @@
           system = "x86_64-linux";
           modules = [
             (import-tree ./nix/shared)
+            (import-tree ./nix/services/enabled)
             nixos-hardware.nixosModules.framework-11th-gen-intel
             home-manager.nixosModules.home-manager
             stylix.nixosModules.stylix
             ./nix/hw/qlhc.nix
-            ./nix/services/enabled/syncthing.nix # Enable single shared service manually
           ];
         };
-        nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            (import-tree ./nix/shared)
-            (import-tree ./nix/services/enabled) # Server services
-            home-manager.nixosModules.home-manager
-            stylix.nixosModules.stylix
-            ./nix/hw/qdhc.nix
-          ];
-        };
+        # nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   modules = [
+        #     (import-tree ./nix/shared)
+        #     (import-tree ./nix/services/enabled) # Server services
+        #     home-manager.nixosModules.home-manager
+        #     stylix.nixosModules.stylix
+        #     ./nix/hw/qdhc.nix
+        #   ];
+        # };
         nixosConfigurations.d-lap = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
