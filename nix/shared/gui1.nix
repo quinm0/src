@@ -13,14 +13,14 @@
     layout = "us";
     variant = "";
   };
-  programs.ssh = {
-    startAgent = true;
-    enableAskPassword = true;
-  };
+  # programs.ssh = {
+  #   startAgent = true;
+  #   enableAskPassword = true;
+  # };
 
-  environment.variables = {
-    SSH_ASKPASS_REQUIRE = "prefer";
-  };
+  # environment.variables = {
+  #   SSH_ASKPASS_REQUIRE = "prefer";
+  # };
 
 
   # stylix = {
