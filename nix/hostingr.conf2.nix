@@ -12,10 +12,6 @@
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
-  # boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
   # networking.hostName = "nixos"; # Define your hostname.
@@ -43,6 +39,5 @@
   # accidentally delete configuration.nix.
   system.copySystemConfiguration = true;
 
-  system.stateVersion = "26.05"; # Did you read the comment?
-
+  system.stateVersion = "26.05"; # I read the comment :3
 }

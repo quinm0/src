@@ -51,4 +51,6 @@
   systemd.settings.Manager = { 
     DefaultLimitNOFILE = "8192:524288";
   };
+  boot.cleanTmpDir = true;
+  nix.settings.auto-optimise-store = true;
 }

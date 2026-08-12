@@ -16,7 +16,7 @@
     # Symlinks
     "L+ /home/qmoran/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
     "L+ /home/dbowen/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
-    ];
+  ];
 
   services.syncthing = {
     enable = true;
