@@ -51,7 +51,6 @@
       neovim
       gimp
       kicad-small
-      rpi-imager
       vscodium-fhs
       ansible
       usbutils
@@ -60,7 +59,6 @@
       jellyfin-desktop
       renpy
       wine
-      beets
       vlc
       restic
       prismlauncher
@@ -70,9 +68,7 @@
       fastfetch
       python3
       esptool
-      strawberry
       termsonic
-      ladybird
     ];
   };
 

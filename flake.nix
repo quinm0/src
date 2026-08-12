@@ -42,7 +42,6 @@
           system = "x86_64-linux";
           modules = [
             (import-tree ./nix/shared)
-            (import-tree ./nix/services/enabled)
             nixos-hardware.nixosModules.framework-11th-gen-intel
             home-manager.nixosModules.home-manager
             stylix.nixosModules.stylix
@@ -68,7 +67,6 @@
             stylix.nixosModules.stylix
             ./nix/hw/dlhc.nix
             ./nix/hw/substituter.nix # Need this for some t2 support(?)
-            ./nix/services/enabled/syncthing.nix # Enable single shared service manually
           ];
 
         };
