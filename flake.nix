@@ -48,16 +48,7 @@
             ./nix/hw/qlhc.nix
           ];
         };
-        # nixosConfigurations.qmoran-desktop = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   modules = [
-        #     (import-tree ./nix/shared)
-        #     (import-tree ./nix/services/enabled) # Server services
-        #     home-manager.nixosModules.home-manager
-        #     stylix.nixosModules.stylix
-        #     ./nix/hw/qdhc.nix
-        #   ];
-        # };
+
         nixosConfigurations.d-lap = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

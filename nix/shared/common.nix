@@ -51,6 +51,15 @@
   systemd.settings.Manager = { 
     DefaultLimitNOFILE = "8192:524288";
   };
+
+  # Automatic cleanups
   boot.tmp.cleanOnBoot = true;
+  nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.options = "--delete-older-than 10d";
   nix.settings.auto-optimise-store = true;
+
+  # Automatic updating
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.dates = "weekly";
 }
