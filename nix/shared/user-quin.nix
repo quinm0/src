@@ -6,31 +6,6 @@
     home.stateVersion = "26.05";
     home.username = "qmoran";
     home.homeDirectory = "/home/qmoran";
-
-    home.packages = with pkgs; [ 
-      gh
-      btop
-      ctop
-      signal-desktop
-      lazygit
-      element-desktop
-      vivaldi
-      libreoffice-qt-fresh
-      trash-cli
-      # lutris
-      gparted
-      kitty
-      neovim
-      gimp
-      kicad-small
-      vscodium-fhs
-      usbutils
-      vlc
-      restic
-      prismlauncher
-      jdk25_headless
-      fastfetch
-    ];
     
     programs.git = {
       enable = true;
@@ -58,6 +33,40 @@
       "networkmanager"
       "dialout"
       "syncthing"
+    ];
+    packages = with pkgs; [
+      gh
+      btop
+      ctop
+      signal-desktop
+      lazygit
+      element-desktop
+      vivaldi
+      libreoffice-qt-fresh
+      trash-cli
+      # lutris
+      gparted
+      kitty
+      neovim
+      gimp
+      kicad-small
+      vscodium-fhs
+      # ansible
+      usbutils
+      python313Packages.nomadnet
+      screen
+      jellyfin-desktop
+      renpy
+      # wine
+      vlc
+      restic
+      prismlauncher
+      jdk25_headless
+      jekyll
+      fastfetch
+      python3
+      esptool
+      termsonic
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
