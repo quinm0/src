@@ -2,12 +2,39 @@
 
 {
 
-  home-manager.useUserPackages = true;
   home-manager.users.qmoran = {
     home.stateVersion = "26.05";
     home.username = "qmoran";
     home.homeDirectory = "/home/qmoran";
-    home.packages = with pkgs; [
+    
+    programs.git = {
+      enable = true;
+      settings = {
+        user.name = "quinm0";
+        user.email = "jolly2633@tutamail.com";
+      };
+    };
+
+    programs.bash = {
+      enable = true;
+      shellAliases = {
+        btw = "echo i use nixos, btw";
+      };
+    };
+  }; 
+
+  # My user for now
+  users.users.qmoran = {
+    isNormalUser = true;
+    description = "quin";
+    extraGroups = [ 
+      "wheel" 
+      "docker" 
+      "networkmanager"
+      "dialout"
+      "syncthing"
+    ];
+    packages = with pkgs; [
       gh
       btop
       ctop
@@ -41,37 +68,6 @@
       esptool
       termsonic
     ];
-    
-    programs.git = {
-      enable = true;
-      settings = {
-        user.name = "quinm0";
-        user.email = "jolly2633@tutamail.com";
-      };
-    };
-
-    programs.bash = {
-      enable = true;
-      shellAliases = {
-        btw = "echo i use nixos, btw";
-      };
-    };
-    
-    programs.home-manager.enable = true;
-  };
-
-  # My user for now
-  users.users.qmoran = {
-    isNormalUser = true;
-    description = "quin";
-    extraGroups = [ 
-      "wheel" 
-      "docker" 
-      "networkmanager"
-      "dialout"
-      "syncthing"
-    ];
-    
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
     ];
