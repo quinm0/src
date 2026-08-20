@@ -73,7 +73,7 @@
           modules = [
             ({ config, pkgs, lib, nixos-raspberrypi, disko, ... }: {
               imports = with nixos-raspberrypi.nixosModules; [
-                # Hardware configuration
+                ./nix/hw/pi4hc.nix
                 ./nix/shared/common.nix
                 ./nix/shared/user-quin.nix
                 home-manager.nixosModules.home-manager
@@ -82,7 +82,6 @@
                 raspberry-pi-4.bluetooth
               ];
             })
-            ./nix/hw/pi4hc.nix
             {
               boot.tmp.useTmpfs = true;
             }
