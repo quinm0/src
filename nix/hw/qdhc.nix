@@ -7,6 +7,7 @@
   system.stateVersion = "25.11";
   
   networking.hostName = "qmoran-desktop";
+  networking.networkmanager.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

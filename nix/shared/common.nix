@@ -5,13 +5,11 @@
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
-  # networking.networkmanager.enable = true;
 
   #Services
   virtualisation.docker.enable = true; # Docker
   services.printing.enable = true; # CUPS
   services.tailscale.enable = true; # Tailscale
-  # services.flatpak.enable = true; # Flatpak
 
   nix.settings.warn-dirty = false;
   nix.settings.experimental-features = [ 
