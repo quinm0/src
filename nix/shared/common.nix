@@ -50,7 +50,6 @@
     DefaultLimitNOFILE = "8192:524288";
   };
 
-  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Allow passwordless sudo from nixos user
   security.sudo = {
