@@ -56,7 +56,9 @@
         btw = "echo i use nixos, btw";
       };
     };
-  }; 
+    
+    programs.home-manager.enable = true;
+  };
 
   # My user for now
   users.users.qmoran = {
