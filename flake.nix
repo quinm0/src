@@ -71,17 +71,14 @@
         nixosConfigurations.rpi4 = nixos-raspberrypi.lib.nixosSystem {
           specialArgs = inputs;
           modules = [
-            ({ config, pkgs, lib, nixos-raspberrypi, disko, ... }: {
-              imports = with nixos-raspberrypi.nixosModules; [
-                ./nix/hw/pi4hc.nix
-                ./nix/shared/common.nix
-                ./nix/shared/user-quin.nix
-                home-manager.nixosModules.home-manager
-                raspberry-pi-4.base
-                raspberry-pi-4.display-vc4
-                raspberry-pi-4.bluetooth
-              ];
-            })
+            ./nix/hw/pi4hc.nix
+            ./nix/shared/common.nix
+            ./nix/shared/user-quin.nix
+            home-manager.nixosModules.home-manager
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.display-vc4
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.bluetooth
+
             {
               boot.tmp.useTmpfs = true;
             }
