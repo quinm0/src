@@ -84,6 +84,38 @@
 
   environment.systemPackages = with pkgs; [
     tree
+    gh
+    btop
+    ctop
+    signal-desktop
+    lazygit
+    element-desktop
+    vivaldi
+    libreoffice-qt-fresh
+    trash-cli
+    # lutris
+    gparted
+    kitty
+    neovim
+    gimp
+    kicad-small
+    vscodium-fhs
+    # ansible
+    usbutils
+    python313Packages.nomadnet
+    screen
+    jellyfin-desktop
+    renpy
+    # wine
+    vlc
+    restic
+    prismlauncher
+    jdk25_headless
+    jekyll
+    fastfetch
+    python3
+    esptool
+    termsonic
   ];
 
   system.nixos.tags = let
