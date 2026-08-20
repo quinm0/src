@@ -23,7 +23,6 @@
     };
   }; 
 
-
   # My user for now
   users.users.qmoran = {
     isNormalUser = true;
@@ -35,47 +34,50 @@
       "dialout"
       "syncthing"
     ];
-    packages = with pkgs; [
-      gh
-      btop
-      ctop
-      signal-desktop
-      lazygit
-      element-desktop
-      vivaldi
-      libreoffice-qt-fresh
-      trash-cli
-      lutris
-      gparted
-      kitty
-      neovim
-      gimp
-      kicad-small
-      vscodium-fhs
-      ansible
-      usbutils
-      python313Packages.nomadnet
-      screen
-      jellyfin-desktop
-      renpy
-      wine
-      vlc
-      restic
-      prismlauncher
-      jdk25_headless
-      jekyll
-      tutanota-desktop
-      fastfetch
-      python3
-      esptool
-      termsonic
+    # packages = with pkgs; [
+    #   gh
+    #   btop
+    #   ctop
+    #   signal-desktop
+    #   lazygit
+    #   element-desktop
+    #   vivaldi
+    #   libreoffice-qt-fresh
+    #   trash-cli
+    #   lutris
+    #   gparted
+    #   kitty
+    #   neovim
+    #   gimp
+    #   kicad-small
+    #   vscodium-fhs
+    #   ansible
+    #   usbutils
+    #   python313Packages.nomadnet
+    #   screen
+    #   jellyfin-desktop
+    #   renpy
+    #   wine
+    #   vlc
+    #   restic
+    #   prismlauncher
+    #   jdk25_headless
+    #   jekyll
+    #   tutanota-desktop
+    #   fastfetch
+    #   python3
+    #   esptool
+    #   termsonic
+    # ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
     ];
   };
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
+  # programs.steam = {
+  #   enable = true;
+  #   remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+  #   dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  #   localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  # };
 }
