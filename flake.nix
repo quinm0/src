@@ -80,6 +80,8 @@
             ./nix/hw/pi4hc.nix
             ./nix/shared/common.nix
             ./nix/shared/user-quin.nix
+            ./nix/shared/user-service.nix
+            ./nix/shared/syncthing.nix
             home-manager.nixosModules.home-manager
             nixos-raspberrypi.nixosModules.raspberry-pi-4.base
             nixos-raspberrypi.nixosModules.raspberry-pi-4.display-vc4
