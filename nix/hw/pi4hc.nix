@@ -57,7 +57,6 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
-
   # We run sshd by default. Login is only possible after adding a
   # password via "passwd" or by adding a ssh key to ~/.ssh/authorized_keys.
   # The latter one is particular useful if keys are manually added to
@@ -73,9 +72,7 @@
 
   # This is mostly portions of safe network configuration defaults that
   # nixos-images and srvos provide
-
   networking.useNetworkd = true;
-  
 
   # This comment was lifted from `srvos`
   # Do not take down the network for too long when upgrading,
@@ -101,7 +98,6 @@
     };
   };
 
-
   services.udev.extraRules = ''
     # Ignore partitions with "Required Partition" GPT partition attribute
     # On our RPis this is firmware (/boot/firmware) partition
@@ -109,42 +105,6 @@
       ENV{ID_PART_ENTRY_FLAGS}=="0x1", \
       ENV{UDISKS_IGNORE}="1"
   '';
-
-  environment.systemPackages = with pkgs; [
-    tree
-    gh
-    btop
-    ctop
-    signal-desktop
-    lazygit
-    element-desktop
-    vivaldi
-    libreoffice-qt-fresh
-    trash-cli
-    # lutris
-    gparted
-    kitty
-    neovim
-    gimp
-    kicad-small
-    vscodium-fhs
-    # ansible
-    usbutils
-    python313Packages.nomadnet
-    screen
-    jellyfin-desktop
-    renpy
-    # wine
-    vlc
-    restic
-    prismlauncher
-    jdk25_headless
-    jekyll
-    fastfetch
-    python3
-    esptool
-    termsonic
-  ];
 
   system.nixos.tags = let
     cfg = config.boot.loader.raspberry-pi;
