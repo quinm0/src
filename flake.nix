@@ -74,7 +74,7 @@
 
         };
 
-        nixosConfigurations.rpi4-pt1 = nixos-raspberrypi.lib.nixosSystem {
+        nixosConfigurations.pt1 = nixos-raspberrypi.lib.nixosSystem {
           specialArgs = inputs;
           modules = [
             ./nix/hw/pi4hc.nix

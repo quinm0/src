@@ -59,6 +59,13 @@
   # Don't require sudo/root to `reboot` or `poweroff`.
   security.polkit.enable = true;
 
+  # mdns
+  networking.firewall.allowedUDPPorts = [ 5353 ];
+  systemd.network.networks = {
+    "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
+    "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
+  };  
+
 
   # Automatic cleanups
   boot.tmp.cleanOnBoot = true;

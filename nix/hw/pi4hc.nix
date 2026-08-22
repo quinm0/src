@@ -8,6 +8,8 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  networking.hostName = "pt1";
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/1cef9c0f-157f-4eaf-a9bc-f36f315f1d5b";
       fsType = "btrfs";
@@ -53,7 +55,6 @@
     [ { device = "/dev/disk/by-uuid/980469a7-1435-4ad2-a133-cb885cca3bb9"; }
     ];
 
-  networking.hostName = "rpi4-pt1";
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
 
@@ -74,12 +75,7 @@
   # nixos-images and srvos provide
 
   networking.useNetworkd = true;
-  # mdns
-  networking.firewall.allowedUDPPorts = [ 5353 ];
-  systemd.network.networks = {
-    "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
-    "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
-  };
+  
 
   # This comment was lifted from `srvos`
   # Do not take down the network for too long when upgrading,
