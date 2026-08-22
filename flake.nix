@@ -30,6 +30,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixos-raspberrypi/nixpkgs";
+    };
+
   };
 
   outputs = inputs@{ 
@@ -40,6 +45,7 @@
     home-manager, 
     stylix,
     nixos-raspberrypi,
+    disko,
    ... 
   }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -68,7 +74,7 @@
 
         };
 
-        nixosConfigurations.rpi4 = nixos-raspberrypi.lib.nixosSystem {
+        nixosConfigurations.rpi4-pt1 = nixos-raspberrypi.lib.nixosSystem {
           specialArgs = inputs;
           modules = [
             ./nix/hw/pi4hc.nix
@@ -78,7 +84,11 @@
             nixos-raspberrypi.nixosModules.raspberry-pi-4.base
             nixos-raspberrypi.nixosModules.raspberry-pi-4.display-vc4
             nixos-raspberrypi.nixosModules.raspberry-pi-4.bluetooth
-
+            # Disk configuration
+            disko.nixosModules.disko
+            # WARNING: formatting disk with disko is DESTRUCTIVE, check if
+            # `disko.devices.disk.main.device` is set correctly!
+            # ./nix/disko-usb-btrfs.nix
             {
               boot.tmp.useTmpfs = true;
             }

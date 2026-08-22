@@ -1,25 +1,57 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix")];
   
   boot.initrd.availableKernelModules = [ "xhci_pci" "usb_storage" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
-      fsType = "ext4";
+    { device = "/dev/disk/by-uuid/1cef9c0f-157f-4eaf-a9bc-f36f315f1d5b";
+      fsType = "btrfs";
+      options = [ "subvol=rootfs" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/1cef9c0f-157f-4eaf-a9bc-f36f315f1d5b";
+      fsType = "btrfs";
+      options = [ "subvol=nix" ];
+    };
+
+  fileSystems."/var/log" =
+    { device = "/dev/disk/by-uuid/1cef9c0f-157f-4eaf-a9bc-f36f315f1d5b";
+      fsType = "btrfs";
+      options = [ "subvol=log" ];
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/1cef9c0f-157f-4eaf-a9bc-f36f315f1d5b";
+      fsType = "btrfs";
+      options = [ "subvol=home" ];
+    };
+
+  fileSystems."/.swapvol" =
+    { device = "/dev/disk/by-uuid/1cef9c0f-157f-4eaf-a9bc-f36f315f1d5b";
+      fsType = "btrfs";
+      options = [ "subvol=swap" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/E22C-AF9C";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
     };
 
   fileSystems."/boot/firmware" =
     { device = "systemd-1";
       fsType = "autofs";
     };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/980469a7-1435-4ad2-a133-cb885cca3bb9"; }
+    ];
 
   networking.hostName = "rpi4-pt1";
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
