@@ -8,6 +8,8 @@
   system.stateVersion = "25.11";
 
   networking.hostName = "qmoran-laptop";
+  networking.networkmanager.enable = true;
+  
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   boot.kernelModules = [ "kvm-intel" ];
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" ];
@@ -49,5 +51,7 @@
     enable = true;
     enable32Bit = true;
   };
+
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
 }

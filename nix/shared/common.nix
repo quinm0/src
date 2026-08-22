@@ -5,13 +5,11 @@
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
-  networking.networkmanager.enable = true;
 
   #Services
   virtualisation.docker.enable = true; # Docker
   services.printing.enable = true; # CUPS
   services.tailscale.enable = true; # Tailscale
-  services.flatpak.enable = true; # Flatpak
 
   nix.settings.warn-dirty = false;
   nix.settings.experimental-features = [ 
@@ -51,6 +49,23 @@
   systemd.settings.Manager = { 
     DefaultLimitNOFILE = "8192:524288";
   };
+
+
+  # Allow passwordless sudo from nixos user
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+  };
+  # Don't require sudo/root to `reboot` or `poweroff`.
+  security.polkit.enable = true;
+
+  # mdns
+  networking.firewall.allowedUDPPorts = [ 5353 ];
+  systemd.network.networks = {
+    "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
+    "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
+  };  
+
 
   # Automatic cleanups
   boot.tmp.cleanOnBoot = true;

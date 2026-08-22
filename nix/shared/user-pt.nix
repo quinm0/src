@@ -2,10 +2,10 @@
 
 {
 
-  home-manager.users.qmoran = {
+  home-manager.users.pt = {
     home.stateVersion = "26.05";
-    home.username = "qmoran";
-    home.homeDirectory = "/home/qmoran";
+    home.username = "pt";
+    home.homeDirectory = "/home/pt";
     
     programs.git = {
       enable = true;
@@ -24,9 +24,9 @@
   }; 
 
   # My user for now
-  users.users.qmoran = {
+  users.users.pt = {
     isNormalUser = true;
-    description = "quin";
+    description = "prototype";
     extraGroups = [ 
       "wheel" 
       "docker" 
@@ -41,26 +41,16 @@
       signal-desktop
       lazygit
       element-desktop
-      vivaldi
       libreoffice-qt-fresh
       trash-cli
-      lutris
       gparted
       kitty
       neovim
-      gimp
-      kicad-small
-      vscodium-fhs
-      ansible
       usbutils
       python313Packages.nomadnet
       screen
-      jellyfin-desktop
-      renpy
-      wine
       vlc
       restic
-      prismlauncher
       jdk25_headless
       jekyll
       fastfetch
@@ -73,10 +63,4 @@
     ];
   };
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
 }
