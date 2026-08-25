@@ -4,14 +4,15 @@
 
   systemd.tmpfiles.rules = [
     # Create 
-    "d /etc/SoupCloud 0770 syncthing users" # Soupcloud dir
-    "d /etc/syncthing-gui-password 0770 syncthing users" # Gui password file
-    "d /home/shared/.webfishingSaves 0770 syncthing users" # WebfishingSaveDir
+    "d /etc/SoupCloud 0770 soupclownservice users" # Soupcloud dir
+    "d /etc/syncthing-gui-password 0770 soupclownservice users" # Gui password file
+    "d /home/shared/.webfishingSaves 0770 soupclownservice users" # WebfishingSaveDir
 
     # Set perms
-    "Z /etc/SoupCloud 0770 syncthing users"
-    "Z /etc/syncthing-gui-password 0770 syncthing users"
-    "Z /home/shared/.webfishingSaves 0770 syncthing users"
+    "Z /etc/SoupCloud 0770 soupclownservice users"
+    "Z /etc/restic-soupclown 0770 soupclownservice root"
+    "Z /etc/syncthing-gui-password 0770 soupclownservice users"
+    "Z /home/shared/.webfishingSaves 0770 soupclownservice users"
     
     # Symlinks
     "L+ /home/qmoran/.local/share/Steam/steamapps/compatdata/3146520/pfx/drive_c/users/steamuser/AppData/Roaming/Godot/app_userdata/webfishing_2_newver/ /home/shared/.webfishingSaves"
@@ -23,6 +24,8 @@
     openDefaultPorts = false; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
     guiAddress = "0.0.0.0:8384"; # By default syncthing only listens to localhost
     guiPasswordFile = "/etc/syncthing-gui-password";
+    user = "soupclown";
+    group = "soupclownservice";
     settings = {
       gui.user = "qmoran";
       devices = {
@@ -42,9 +45,8 @@
           devices = [ "desktop" "laptop" "d-lap" ];
         };
         "Restic" = {
-          path = "/home/shared/.webfishingSaves";
+          path = "/etc/restic-soupclown";
           devices = [ "desktop" "laptop" "pt1" "d-lap" ];
-          ignorePerms = false;
         };
       };
     };

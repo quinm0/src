@@ -2,33 +2,33 @@
 
 {
 
+  # systemd.tmpfiles.rules = [
+  #   # Create 
+  #   "d /etc/restic-backup 0770 root root" # Soupcloud dir
+  #   "d /etc/secrets/secureRestic 0770 " # Encryption password file
 
-  systemd.tmpfiles.rules = [
-    # Create 
-    "d /etc/restic-backup 0770 syncthing users" # Soupcloud dir
-    "d /etc/secrets/secureRestic 0770 " # Encryption password file
-
-    # Set perms
-    "Z /etc/restic-backup 0770 syncthing users"
-    "Z /etc/secrets/secureRestic 0770 syncthing users"
-  ];
+  #   # Set perms
+  #   "Z /etc/restic-backup 0770 root root"
+  #   "Z /etc/secrets/secureRestic 0770 root root"
+  # ];
 
   config.services.restic.backups = {
     soupclownBackups = {
       initialize = true;
-      repositoryFile = "/etc/restic-soupclown";
+      repository = "/etc/restic-soupclown";
       passwordFile = "/etc/secrets/restic";
       environmentFile = "/etc/.soupclown.env";
       exclude = [
         "*/.cache"
       ];
       paths = [
-        "/"
+        "/etc/soupclown"
       ];
       checkOpts = [
         "--with-cache" # just to make checks faster
       ];
       extraBackupArgs = [
+        "--tag soupclown"
       ];
       extraOptions = [
       ];
