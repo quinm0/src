@@ -29,16 +29,22 @@
         "desktop" = { id = "VV6CPFJ-CSKP3P5-N64WJ35-R66U24N-D6F4TGY-2VIOMLA-WIIORQQ-DULHNQT"; };
         "laptop" = { id = "DAPDFIP-EOKS4S5-S6DFNOB-ECTZKRL-7NL3ON5-LIHIH5B-JOYHY4C-PDNMRAY"; };
         "d-lap" = { id = "IQ4ZEQO-DMY3HYR-4AW3FSC-BHRIXK6-YGUFRBG-ABVUHSF-LHQTNZZ-LRQYGAL"; };
+        "pt1" = { id = "OI2FTKW-EN2I3BX-5NUYRNY-W6Z2GD2-YXLZOBL-HS52VMU-T5RCSNA-ORFVXAW"; };
       };
       folders = {
         "SoupCloud" = {
           path = "/etc/SoupCloud";
-          devices = [ "desktop" "laptop" ];
+          devices = [ "desktop" "laptop" "pt1" "d-lap" ];
           ignorePerms = false;
         };
         "WebfishingSaves" = {
           path = "/home/shared/.webfishingSaves";
-          devices = [ "desktop" "laptop" ];
+          devices = [ "desktop" "laptop" "d-lap" ];
+        };
+        "Restic" = {
+          path = "/home/shared/.webfishingSaves";
+          devices = [ "desktop" "laptop" "pt1" "d-lap" ];
+          ignorePerms = false;
         };
       };
     };

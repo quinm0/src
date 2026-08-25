@@ -310,6 +310,7 @@ services:
   prometheus:
     profiles:
       - infra
+      - host-pt1
     container_name: prometheus
     image: prom/prometheus
     user: 700:700
@@ -349,7 +350,7 @@ services:
   soupclownsite:
     profiles:
       - infra
-      - lap
+      - host-pt1
     container_name: soupclownsite
     image: nginx:alpine
     ports:
@@ -398,7 +399,7 @@ services:
   soupclownmc:
     profiles:
       - app
-      - lap
+      - host-qmoran-laptop
     image: itzg/minecraft-server:latest
     container_name: soupclownmc
     user: 700:700
@@ -419,6 +420,7 @@ services:
     image: grafana/grafana-enterprise
     profiles:
       - app
+      - host-pt1
     container_name: grafana
     user: 700:700
     ports:
