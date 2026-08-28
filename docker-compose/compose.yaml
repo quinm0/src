@@ -327,12 +327,14 @@ services:
   meshchatx:
     profiles:
       - infra
+      - host-qmoran-laptop
+      - host-pt1
     container_name: meshchatx
     image: quad4io/meshchatx:latest
     privileged: true
     group_add:
       - 27 # Dialout group hehe
-    user: 1000:700
+    user: 700:700
     ports:
       - 8000:8000
       - 4242:4242

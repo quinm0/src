@@ -24,8 +24,6 @@
     openDefaultPorts = false; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
     guiAddress = "0.0.0.0:8384"; # By default syncthing only listens to localhost
     guiPasswordFile = "/etc/syncthing-gui-password";
-    user = "soupclown";
-    group = "soupclownservice";
     settings = {
       gui.user = "qmoran";
       devices = {
