@@ -4,9 +4,10 @@
   # This is your system configuration entry-point
   flake.nixosConfigurations.qmoran-laptop = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.nixosModules.soupclown-common
       self.nixosModules.qmoran-laptop-hw
       self.nixosModules.qmoran-laptop
+      self.nixosModules.soupclown-common
+      self.nixosModules.gui1
       self.nixosModules.soupclownHomeManager
       self.nixosModules.steam
     ];
