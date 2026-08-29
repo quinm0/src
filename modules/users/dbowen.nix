@@ -16,20 +16,19 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
       ];
     };
-  };
 
-  flake.homeModules.dbowen = { pkgs, ... }: {
-    home.stateVersion = "26.05";    
-    home.username = "dbowen";
-    home.homeDirectory = "/home/dbowen";
+    home-manager.users.dbowen = {
+      home.stateVersion = "26.05";    
+      home.username = "dbowen";
+      home.homeDirectory = "/home/dbowen";
 
-    programs.git.enable = true;
-    programs.bash = {
-      enable = true;
-      shellAliases = {
-        btw = "echo i use nixos, btw";
+      programs.git.enable = true;
+      programs.bash = {
+        enable = true;
+        shellAliases = {
+          btw = "echo i use nixos, btw";
+        };
       };
     };
   };
-
 }

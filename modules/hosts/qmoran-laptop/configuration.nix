@@ -5,11 +5,11 @@
   flake.nixosConfigurations.qmoran-laptop = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       self.nixosModules.qmoran-laptop
-      self.nixosModules.soupclown-common
-      self.nixosModules.gui1
-      self.nixosModules.soupclown-users
-      self.nixosModules.homeManager
       self.nixosModules.steam
+      self.nixosModules.homeManager
+      self.nixosModules.soupclown-common
+      self.nixosModules.soupclown-users
+      self.nixosModules.gui1
     ];
   };
 
