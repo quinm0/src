@@ -1,0 +1,63 @@
+{ config, pkgs, system, inputs, ... }:
+
+{
+  flake.nixosModules.soupclown-common = { config, lib, pkgs, modulesPath, ... } :{
+      # Base system things that all should know and love
+    nixpkgs.config.allowUnfree = true;
+    time.timeZone = "America/New_York";
+    i18n.defaultLocale = "en_US.UTF-8";
+
+    #Services
+    virtualisation.docker.enable = true; # Docker
+    services.printing.enable = true; # CUPS
+    services.tailscale.enable = true; # Tailscale
+
+    nix.settings.warn-dirty = false;
+    nix.settings.experimental-features = [ 
+      "nix-command"
+      "flakes" 
+    ];
+
+    i18n.extraLocaleSettings = {
+      LC_ADDRESS = "en_US.UTF-8";
+      LC_IDENTIFICATION = "en_US.UTF-8";
+      LC_MEASUREMENT = "en_US.UTF-8";
+      LC_MONETARY = "en_US.UTF-8";
+      LC_NAME = "en_US.UTF-8";
+      LC_NUMERIC = "en_US.UTF-8";
+      LC_PAPER = "en_US.UTF-8";
+      LC_TELEPHONE = "en_US.UTF-8";
+      LC_TIME = "en_US.UTF-8";
+    };
+
+    systemd.settings.Manager = { 
+      DefaultLimitNOFILE = "8192:524288";
+    };
+
+    # Allow passwordless sudo from nixos user
+    security.sudo = {
+      enable = true;
+      wheelNeedsPassword = false;
+    };
+    # Don't require sudo/root to `reboot` or `poweroff`.
+    security.polkit.enable = true;
+
+    # mdns
+    networking.firewall.allowedUDPPorts = [ 5353 ];
+    systemd.network.networks = {
+      "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
+      "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
+    };  
+
+    # Automatic cleanups
+    boot.tmp.cleanOnBoot = true;
+    nix.gc.automatic = true;
+    nix.gc.dates = "daily";
+    nix.gc.options = "--delete-older-than 10d";
+    nix.settings.auto-optimise-store = true;
+
+    # Automatic updating
+    system.autoUpgrade.enable = true;
+    system.autoUpgrade.dates = "weekly";
+  };
+}
