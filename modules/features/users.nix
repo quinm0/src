@@ -5,6 +5,7 @@
     imports = [
       self.nixosModules.user-quin
       self.nixosModules.user-dbowen
+      self.nixosModules.user-pt
     ];
   };
 }
