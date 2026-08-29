@@ -4,26 +4,16 @@
   # This is your system configuration entry-point
   flake.nixosConfigurations.d-lap = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.nixosModules.d-lap-hw
       self.nixosModules.d-lap
       self.nixosModules.soupclown-common
       self.nixosModules.gui1
-      self.nixosModules.soupclownHomeManager
+      self.nixosModules.soupclown-users
+      self.nixosModules.homeManager
       self.nixosModules.steam
     ];
   };
 
-  # This is your configuration.nix, a place where you configure your system
-  # You can place it in a separate file.
-  flake.nixosModules.d-lap = { pkgs, ... }: {
-    programs.fish.enable = true;
-
-    users.users = self.nixosModules.soupclown-users;
-
-    home-manager.users.qmoran = self.homeModules.qmoran;
-  };
-
-  flake.nixosModules.d-lap-hw = { config, lib, pkgs, modulesPath, ... } :{
+  flake.nixosModules.d-lap = { config, lib, pkgs, modulesPath, ... } :{
 
     imports =[ 
       (modulesPath + "/installer/scan/not-detected.nix")

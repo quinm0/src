@@ -1,9 +1,7 @@
 { self, pkgs, inputs, ... }: {
 
-  # This is your home.nix, your module where you configure home-manager
-  # It's imported both in standalone configuration above, and in your nixos configuration
-  flake.nixosModules.soupclown-users = { pkgs, ... }: {
-    qmoran = {
+  flake.nixosModules.user-dbowen = { pkgs, ... }: {
+    users.users.dbowen = {
       isNormalUser = true;
       shell = pkgs.fish;
       description = "quin";
@@ -18,6 +16,20 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
       ];
     };
-
   };
+
+  flake.homeModules.dbowen = { pkgs, ... }: {
+    home.stateVersion = "26.05";    
+    home.username = "dbowen";
+    home.homeDirectory = "/home/dbowen";
+
+    programs.git.enable = true;
+    programs.bash = {
+      enable = true;
+      shellAliases = {
+        btw = "echo i use nixos, btw";
+      };
+    };
+  };
+
 }

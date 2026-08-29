@@ -1,8 +1,24 @@
 { self, pkgs, inputs, ... }: {
 
-  # This is your home.nix, your module where you configure home-manager
-  # It's imported both in standalone configuration above, and in your nixos configuration
-  flake.homeModules.qmoran = { pkgs, ... }: {
+  flake.nixosModules.user-quin = { pkgs, ... }: {
+    users.users.qmoran = {
+      isNormalUser = true;
+      shell = pkgs.fish;
+      description = "quin";
+      extraGroups = [ 
+        "wheel" 
+        "docker" 
+        "networkmanager"
+        "dialout"
+        "syncthing"
+      ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
+      ];
+    };
+  };
+
+  flake.homeModules.user-qmoran-home = { pkgs, ... }: {
     home.stateVersion = "26.05";    
     home.username = "qmoran";
     home.homeDirectory = "/home/qmoran";
@@ -58,4 +74,5 @@
      ];
 
   };
+
 }

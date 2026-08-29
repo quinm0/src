@@ -12,6 +12,8 @@
     services.printing.enable = true; # CUPS
     services.tailscale.enable = true; # Tailscale
 
+    programs.fish.enable = true;
+
     nix.settings.warn-dirty = false;
     nix.settings.experimental-features = [ 
       "nix-command"
