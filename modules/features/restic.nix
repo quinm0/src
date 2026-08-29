@@ -12,7 +12,7 @@
   #   "Z /etc/secrets/secureRestic 0770 root root"
   # ];
 
-  flake.nixosModules.restic = {}: {
+  flake.nixosModules.restic = {
     config.services.restic.backups = {
       soupclownBackups = {
         initialize = true;

@@ -10,6 +10,7 @@
       self.nixosModules.soupclown-common
       self.nixosModules.soupclown-users
       self.nixosModules.gui1
+      self.nixosModules.restic
     ];
   };
 
