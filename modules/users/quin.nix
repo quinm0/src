@@ -3,7 +3,7 @@
   flake.nixosModules.user-quin = { pkgs, ... }: {
     users.users.qmoran = {
       isNormalUser = true;
-      shell = pkgs.fish;
+      shell = pkgs.zsh;
       description = "quin";
       extraGroups = [ 
         "wheel" 

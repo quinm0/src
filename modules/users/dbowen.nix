@@ -3,7 +3,7 @@
   flake.nixosModules.user-dbowen = { pkgs, ... }: {
     users.users.dbowen = {
       isNormalUser = true;
-      shell = pkgs.fish;
+      shell = pkgs.zsh;
       description = "quin";
       extraGroups = [ 
         "wheel" 

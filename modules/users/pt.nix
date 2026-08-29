@@ -27,6 +27,7 @@
     users.users.pt = {
       isNormalUser = true;
       description = "prototype";
+      shell = pkgs.zsh;
       extraGroups = [ 
         "wheel" 
         "docker" 
