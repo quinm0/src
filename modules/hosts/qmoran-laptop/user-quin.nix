@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ self, pkgs, inputs, ... }: {
 
-{
-
-  home-manager.users.qmoran = {
-    home.stateVersion = "26.05";
+  # This is your home.nix, your module where you configure home-manager
+  # It's imported both in standalone configuration above, and in your nixos configuration
+  flake.homeModules.qmoran = { pkgs, ... }: {
+    home.stateVersion = "26.05";    
     home.username = "qmoran";
     home.homeDirectory = "/home/qmoran";
     
@@ -21,20 +21,8 @@
         btw = "echo i use nixos, btw";
       };
     };
-  }; 
 
-  # My user for now
-  users.users.qmoran = {
-    isNormalUser = true;
-    description = "quin";
-    extraGroups = [ 
-      "wheel" 
-      "docker" 
-      "networkmanager"
-      "dialout"
-      "syncthing"
-    ];
-    packages = with pkgs; [
+    home.packages = with pkgs; [ 
       gh
       btop
       ctop
@@ -67,16 +55,7 @@
       python3
       esptool
       termsonic
-    ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
-    ];
-  };
+     ];
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 }

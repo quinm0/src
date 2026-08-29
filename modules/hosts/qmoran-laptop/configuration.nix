@@ -8,23 +8,31 @@
       self.nixosModules.qmoran-laptop-hw
       self.nixosModules.qmoran-laptop
       self.nixosModules.soupclownHomeManager
+      self.nixosModules.steam
     ];
   };
 
   # This is your configuration.nix, a place where you configure your system
   # You can place it in a separate file.
   flake.nixosModules.qmoran-laptop = { pkgs, ... }: {
-    environment.systemPackages = [
-      pkgs.vim
-      pkgs.firefox
-    ];
-
     programs.fish.enable = true;
 
     users.users.qmoran = {
       isNormalUser = true;
       shell = pkgs.fish;
+      description = "quin";
+      extraGroups = [ 
+        "wheel" 
+        "docker" 
+        "networkmanager"
+        "dialout"
+        "syncthing"
+      ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
+      ];
     };
+
     home-manager.users.qmoran = self.homeModules.qmoran;
   };
 
