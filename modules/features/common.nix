@@ -12,7 +12,20 @@
     services.printing.enable = true; # CUPS
     services.tailscale.enable = true; # Tailscale
 
-    programs.zsh.enable = true;
+    programs.zsh = {
+      enable = true;
+      shellAliases = {
+        btw = "echo i use nixos, btw";
+        cd = "z";
+      };
+      ohMyZsh = {
+        enable = true;
+        theme = "robbyrussell";
+        plugins = [
+          "z"
+        ];
+      };
+    };
 
     nix.settings.warn-dirty = false;
     nix.settings.experimental-features = [ 

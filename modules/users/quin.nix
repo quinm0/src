@@ -30,13 +30,6 @@
         };
       };
 
-      programs.bash = {
-        enable = true;
-        shellAliases = {
-          btw = "echo i use nixos, btw";
-        };
-      };
-
       home.packages = with pkgs; [ 
         gh
         btop
