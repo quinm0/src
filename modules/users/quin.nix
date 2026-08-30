@@ -11,6 +11,7 @@
         "networkmanager"
         "dialout"
         "syncthing"
+        "plugdev"
       ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAkhSg+CLjIYSZ+lTNkChYAP7uxpPrl1TvVPwCfYgSoa"
