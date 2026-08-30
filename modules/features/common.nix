@@ -14,6 +14,7 @@
 
     programs.zsh = {
       enable = true;
+      interactiveShellInit = "fastfetch";
       shellAliases = {
         btw = "echo i use nixos, btw";
         cd = "z";
