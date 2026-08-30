@@ -2,7 +2,7 @@
 
 {
   # This is your system configuration entry-point
-  flake.nixosConfigurations.substituters = { ... }:
+  flake.nixosModules.substituters = { ... }:
     let
       substituters = [ "https://cache.soopy.moe" ];
     in

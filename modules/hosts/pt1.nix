@@ -8,7 +8,7 @@
       self.nixosModules.pt1
       self.nixosModules.homeManager
       self.nixosModules.soupclown-common
-      self.nixosModules.soupclown-users
+      self.nixosModules.user-pt
     ];
   };
 
