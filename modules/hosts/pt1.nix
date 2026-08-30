@@ -4,6 +4,17 @@
   # This is your system configuration entry-point
   flake.nixosConfigurations.pt1 = inputs.nixpkgs.lib.nixosSystem {
     modules = [
+      nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+      nixos-raspberrypi.nixosModules.raspberry-pi-4.display-vc4
+      nixos-raspberrypi.nixosModules.raspberry-pi-4.bluetooth
+      # Disk configuration
+      disko.nixosModules.disko
+      # WARNING: formatting disk with disko is DESTRUCTIVE, check if
+      # `disko.devices.disk.main.device` is set correctly!
+      # ./nix/disko-usb-btrfs.nix
+      {
+        boot.tmp.useTmpfs = true;
+      }
       self.nixosModules.substituters
       self.nixosModules.pt1
       self.nixosModules.homeManager
