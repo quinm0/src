@@ -20,6 +20,7 @@
       self.nixosModules.homeManager
       self.nixosModules.soupclown-common
       self.nixosModules.user-pt
+      self.nixosModules.user-services
     ];
   };
 
