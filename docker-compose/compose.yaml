@@ -317,7 +317,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ${PATH_ETC}/prometheus:/prometheus
+      - /etc/soupclown/prometheus:/prometheus
       - ./bin/prometheus.yml:/etc/prometheus/prometheus.yml
     environment:
       - PUID=700
@@ -339,9 +339,9 @@ services:
       - 8000:8000
       - 4242:4242
     volumes:
-      - ${PATH_ETC}/meshchatx:/config
+      - /etc/soupclown/meshchatx:/config
     devices:
-      - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/serial/by-id/usb-1a86_USB_Single_Serial_54FC052298-if00:/dev/serial/by-id/usb-1a86_USB_Single_Serial_54FC052298-if00
     environment:
       - PUID=700
       - PGID=700
@@ -422,7 +422,6 @@ services:
     image: grafana/grafana-enterprise
     profiles:
       - app
-      - host-pt1
     container_name: grafana
     user: 700:700
     ports:
