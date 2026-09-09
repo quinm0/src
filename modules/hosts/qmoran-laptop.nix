@@ -22,6 +22,10 @@
     ];
     system.stateVersion = "25.11";
 
+    environment.systemPackages = [
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
+
     networking.hostName = "qmoran-laptop";
     networking.networkmanager.enable = true;
     
