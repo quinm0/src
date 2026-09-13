@@ -4,7 +4,7 @@
     users.users.dbowen = {
       isNormalUser = true;
       shell = pkgs.zsh;
-      description = "quin";
+      description = "dbowen";
       extraGroups = [ 
         "wheel" 
         "docker" 
