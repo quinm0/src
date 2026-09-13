@@ -12,6 +12,7 @@
       self.nixosModules.gui1
       self.nixosModules.restic
       self.nixosModules.pcpanel
+      self.nixosModules.peergos-server
     ];
   };
 

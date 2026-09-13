@@ -25,3 +25,7 @@ quin.soupclown.com {
 soupclown.com {
   reverse_proxy qmoran-desktop-1.tailc7e587.ts.net:8075
 }
+
+peergos.soupclown.com {
+  reverse_proxy qmoran-laptop.tailc7e587.ts.net:7777
+}
