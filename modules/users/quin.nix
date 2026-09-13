@@ -64,7 +64,6 @@
         python3
         esptool
         termsonic
-        peergos
       ];
     };
   };

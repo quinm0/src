@@ -2,6 +2,11 @@
 
   # This is your module that imports and configures home-manager
   flake.nixosModules.peergos-server = { pkgs, ... }: {
+
+    environment.systemPackages = with pkgs; [
+      peergos
+    ];
+
     systemd.services.daemon-peergos = {
       enable = true;
       after = [ "network.target" ];
@@ -9,7 +14,7 @@
       description = "Peergos Server";
       serviceConfig = {
         Type = "simple";
-        ExecStart = "peergos daemon -listen-host tailscale0 -public-domain peergos.soupclown.com";
+        ExecStart = "${pkgs.peergos}/bin/peergos daemon -public-domain peergos.soupclown.com";
       };
     };
   };
